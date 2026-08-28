@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<title>Python Learn — cahier d'exercices</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FBF7EE; --paper-card:#FFFDF8; --rule:#C6D4E8; --margin-rule:#D4756B;
+  --ink:#1F2A44; --ink-soft:#5E6E8C; --ink-faint:#94A1B8; --line:#DCD5C6;
+  --ok:#2E6F5E; --ok-bg:#E4F0EA; --bad:#A8443C; --bad-bg:#F7E7E4;
+  --warn:#8A6A1F; --warn-bg:#F6EEDA;
+  --screen:#16202E; --screen-ink:#E6EDF3; --screen-line:#2C3A4E; --rule-h:32px;
+}
+html[data-theme="dark"]{
+  --paper:#12171F; --paper-card:#1A212B; --rule:#26313F; --margin-rule:#7C4640;
+  --ink:#E8EAEE; --ink-soft:#A3AEC0; --ink-faint:#6C7889; --line:#2C3542;
+  --ok:#6BC3A5; --ok-bg:#1B302A; --bad:#E08880; --bad-bg:#33201E;
+  --warn:#D8B458; --warn-bg:#2C2618;
+  --screen:#0C1219; --screen-ink:#DCE5EF; --screen-line:#232F3E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+html{background-color:var(--paper)}
+body{font-family:"Atkinson Hyperlegible",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  color:var(--ink);background-color:var(--paper);
+  background-image:repeating-linear-gradient(to bottom,transparent 0 calc(var(--rule-h) - 1px),var(--rule) calc(var(--rule-h) - 1px) var(--rule-h));
+  background-position:0 96px;font-size:16px;line-height:var(--rule-h);-webkit-text-size-adjust:100%}
+.wrap{max-width:840px;margin:0 auto;padding:0 20px 80px;position:relative}
+h1,h2,h3,h4{font-family:"Bricolage Grotesque",Georgia,serif;font-weight:700;letter-spacing:-.01em;margin:0}
+button{font:inherit;cursor:pointer;border-radius:6px;border:1px solid var(--ink);background:var(--paper-card);color:var(--ink);padding:8px 16px;line-height:1.4}
+button:hover{background:var(--ink);color:var(--paper)}
+button:focus-visible{outline:2px solid var(--margin-rule);outline-offset:2px}
+button:disabled{opacity:.4;cursor:not-allowed}
+button.primary{background:var(--ink);color:var(--paper)}
+button.primary:hover{opacity:.85}
+button.ghost{border-color:var(--line);color:var(--ink-soft)}
+button.nudge{border-color:var(--margin-rule);color:var(--margin-rule);animation:glow 1.6s ease-in-out infinite}
+@keyframes glow{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 0 4px rgba(212,117,107,.18)}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+.hidden{display:none !important}
+code{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:.88em;background:var(--paper-card);padding:1px 5px;border-radius:4px;border:1px solid var(--line)}
+.topbar{display:flex;align-items:center;gap:12px;padding:16px 0;flex-wrap:wrap}
+.brand{font-family:"Bricolage Grotesque",serif;font-weight:700;font-size:19px;letter-spacing:-.02em}
+.brand span{color:var(--margin-rule)}
+.spacer{flex:1 1 0;min-width:0}
+.status{min-width:0}
+#statusTxt{min-width:0;white-space:nowrap}
+@media(max-width:560px){#statusTxt{white-space:normal}}
+@media(max-width:560px){.topbar{gap:8px;padding:12px 0}.brand{font-size:17px;flex:1 1 auto}.spacer{display:none}.status{order:5;flex:1 1 100%;justify-content:center;font-size:12.5px}.wrap{padding:0 16px 60px}}
+.mini{font-size:13px;color:var(--ink-soft);line-height:1.45}
+select{font:inherit;font-size:13px;padding:6px 8px;border:1px solid var(--line);border-radius:6px;background:var(--paper-card);color:var(--ink)}
+.status{display:inline-flex;align-items:center;gap:7px;font-size:13px;color:var(--ink-soft);border:1px solid var(--line);border-radius:99px;padding:4px 12px;background:var(--paper-card);line-height:1.4}
+.dot{width:7px;height:7px;border-radius:99px;background:var(--ink-faint);flex:none}
+.dot.load{background:var(--margin-rule);animation:pulse 1.1s infinite}
+.dot.ready{background:var(--ok)} .dot.fail{background:var(--bad)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.hero{padding:56px 0 40px;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(34px,8vw,58px);line-height:1.02;margin-bottom:20px}
+.hero h1 em{font-style:normal;color:var(--margin-rule)}
+.hero p{max-width:48ch;color:var(--ink-soft);margin:0 0 28px}
+.namerow{display:flex;gap:10px;flex-wrap:wrap;max-width:440px}
+.namerow button{flex:0 0 auto;white-space:nowrap}
+input[type=text]{font:inherit;flex:1;min-width:180px;padding:10px 14px;border:1px solid var(--line);border-radius:6px;background:var(--paper-card);color:var(--ink)}
+input[type=text]:focus{outline:2px solid var(--margin-rule);outline-offset:1px}
+.score{display:flex;gap:28px;padding:20px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.score div b{font-family:"Bricolage Grotesque",serif;font-size:26px;display:block;line-height:1.2}
+.score div span{font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);line-height:1.4}
+.chapter{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--line);text-align:left;width:100%;border-radius:0;background:none;border-left:0;border-right:0;border-top:0}
+.chapter:hover{background:var(--paper-card);color:var(--ink)}
+.numeral{font-family:"Bricolage Grotesque",serif;font-size:15px;color:var(--margin-rule);letter-spacing:.06em;padding-top:4px;min-width:34px;flex:none}
+.chapter h3{font-size:20px;margin-bottom:2px}
+.bar{height:3px;background:var(--line);border-radius:99px;margin-top:10px;max-width:210px}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:99px}
+.exhead{padding:20px 0 12px;border-bottom:1px solid var(--line)}
+.crumbs{font-size:13px;color:var(--ink-faint);letter-spacing:.04em;line-height:1.4}
+.exhead h2{font-size:25px;margin:6px 0 8px}
+.exhead p{margin:0;color:var(--ink-soft)}
+.tags{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tag{font-size:12px;letter-spacing:.05em;text-transform:uppercase;border:1px solid var(--line);border-radius:99px;padding:3px 11px;color:var(--ink-soft);line-height:1.6}
+.tag.done{border-color:var(--ok);color:var(--ok)}
+.tag.kind{border-color:var(--margin-rule);color:var(--margin-rule)}
+.panel{background:var(--paper-card);border:1px solid var(--line);border-radius:10px;margin-top:20px;overflow:hidden}
+.panel > .ph{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--line);font-size:12px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);line-height:1.6}
+.editor{background:var(--screen)}
+.editor .ph{border-bottom-color:var(--screen-line);color:#8A9AAE}
+textarea{width:100%;display:block;border:0;resize:vertical;min-height:200px;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:14px;line-height:1.65;
+  padding:16px;background:var(--screen);color:var(--screen-ink);tab-size:4}
+textarea:focus{outline:2px solid var(--margin-rule);outline-offset:-2px}
+pre{margin:0;padding:14px 16px;white-space:pre-wrap;word-break:break-word;
+  font-family:"JetBrains Mono",ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;line-height:1.6;color:var(--ink)}
+pre.empty{color:var(--ink-faint)}
+pre.dark{background:var(--screen);color:var(--screen-ink)}
+.actions{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.card{margin-top:16px;border-radius:10px;padding:14px 16px;border:1px solid;line-height:1.55}
+.card.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.card.bad{background:var(--bad-bg);border-color:var(--bad);color:var(--bad)}
+.card.warn{background:var(--warn-bg);border-color:var(--warn);color:var(--warn)}
+.card b{display:block;font-family:"Bricolage Grotesque",serif;margin-bottom:4px;font-size:17px}
+.card .sub{margin-top:10px;padding-top:10px;border-top:1px solid currentColor;opacity:.9;font-size:14.5px}
+.card code{background:rgba(127,127,127,.14);border-color:transparent;color:inherit}
+.errline{font-family:"JetBrains Mono",monospace;font-size:13px;background:rgba(127,127,127,.12);border-radius:6px;padding:8px 12px;margin-top:10px;white-space:pre-wrap;line-height:1.5}
+.diff{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+.diff > div{background:var(--paper-card);border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.diff h4{margin:0;font:inherit;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);padding:8px 12px;border-bottom:1px solid var(--line)}
+.diff pre{font-size:12.5px;padding:10px 12px;color:var(--ink)}
+.diff mark{background:rgba(212,117,107,.32);color:inherit;border-radius:3px}
+@media(max-width:560px){.diff{grid-template-columns:1fr}}
+.hint{margin-top:16px;border-left:3px solid var(--margin-rule);padding:2px 0 2px 16px;color:var(--ink-soft)}
+.navrow{display:flex;justify-content:space-between;gap:10px;margin-top:32px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
+.note{font-size:13px;color:var(--ink-faint);line-height:1.5;margin-top:26px;border-top:1px dashed var(--line);padding-top:14px}
+/* quiz */
+.opt{display:block;width:100%;text-align:left;margin-top:10px;border-color:var(--line);padding:12px 16px;
+  font-family:"JetBrains Mono",monospace;font-size:13.5px;white-space:pre-wrap;line-height:1.5}
+.opt:hover{background:var(--paper);color:var(--ink);border-color:var(--ink)}
+.opt.picked-bad{border-color:var(--bad);background:var(--bad-bg);color:var(--bad)}
+.opt.picked-ok{border-color:var(--ok);background:var(--ok-bg);color:var(--ok)}
+.opt.reveal{border-color:var(--ok);color:var(--ok)}
+/* reorder */
+.rowline{display:flex;align-items:stretch;gap:8px;margin-top:8px}
+.rowline pre{flex:1;background:var(--screen);color:var(--screen-ink);border-radius:6px;padding:10px 14px;font-size:13.5px}
+.rowline .mv{display:flex;flex-direction:column;gap:4px}
+.rowline .mv button{padding:2px 10px;font-size:12px;line-height:1.5;border-color:var(--line);color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <noscript><div class="card bad" style="margin-top:16px"><b>JavaScript est désactivé</b>
+  Cette application a besoin de JavaScript. Active-le dans les réglages du navigateur.</div></noscript>
+
+  <div id="nojs" class="card bad" style="margin-top:16px">
+    <b>Le JavaScript ne s'exécute pas ici</b>
+    Si ce message est encore là après quelques secondes, c'est que cette fenêtre
+    empêche la page de fonctionner. Ce n'est pas un défaut du fichier.
+    <div class="sub">Télécharge <code>PythonLearn_v3.html</code> et ouvre-le dans
+    Safari, Chrome ou Firefox — ou mets-le en ligne.</div>
+  </div>
+
+  <div id="blocker"></div>
+
+  <div class="topbar">
+    <div class="brand">Python <span>Learn</span></div>
+    <div class="spacer"></div>
+    <div class="status"><i class="dot load" id="dot"></i><span id="statusTxt">Chargement…</span></div>
+    <select id="lang" aria-label="Langue"><option value="fr">Français</option><option value="en">English</option></select>
+    <button class="ghost" id="themeBtn" aria-label="Thème">☾</button>
+  </div>
+
+  <section id="welcome">
+    <div class="hero">
+      <h1 data-t="heroA">Écris du vrai<br><em data-t="heroB">Python</em>.</h1>
+      <p data-t="heroP"></p>
+      <div class="namerow">
+        <input type="text" id="nameInput" maxlength="24" placeholder="Ton prénom">
+        <button class="primary" id="startBtn" data-t="start"></button>
+      </div>
+      <div id="nameWarn"></div>
+    </div>
+    <p class="note" data-t="welcomeNote"></p>
+  </section>
+
+  <section id="dash" class="hidden">
+    <div class="score">
+      <div><b id="sPoints">0</b><span data-t="pts"></span></div>
+      <div><b id="sDone">0</b><span data-t="solved"></span></div>
+      <div><b id="sPct">0%</b><span data-t="progress"></span></div>
+    </div>
+    <div id="chapters"></div>
+    <div class="navrow">
+      <button class="ghost" id="resetBtn" data-t="resetAll"></button>
+      <button class="ghost" id="logoutBtn" data-t="logout"></button>
+    </div>
+    <p class="note" id="storeNote"></p>
+  </section>
+
+  <section id="ex" class="hidden">
+    <div class="exhead">
+      <div class="crumbs" id="crumbs"></div>
+      <h2 id="exTitle"></h2>
+      <p id="exDesc"></p>
+      <div class="tags">
+        <span class="tag kind" id="tagKind"></span>
+        <span class="tag" id="tagDiff"></span>
+        <span class="tag done hidden" id="tagDone"></span>
+      </div>
+    </div>
+
+    <div id="body"></div>
+    <div id="feedback"></div>
+    <div id="hintBox" class="hint hidden"></div>
+
+    <div class="navrow">
+      <button class="ghost" id="backBtn" data-t="back"></button>
+      <div style="display:flex;gap:10px">
+        <button class="ghost" id="prevBtn" data-t="prev"></button>
+        <button id="nextBtn" data-t="next"></button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/pyodide/v314.0.5/full/pyodide.js"></script>
+<script>
+"use strict";
+(function(){var b=document.getElementById("nojs");if(b)b.remove();})();
+
+/* ==========================================================
+   1. CONTENU
+   Les chaînes du code Python restent en anglais dans les deux
+   langues, pour que la sortie attendue soit identique.
+   kind: "code" (écrire) | "quiz" (prédire) | "order" (remettre en ordre)
+   ========================================================== */
+const COURSES = [
+{ id:1, num:"I", title:{fr:"Variables",en:"Variables"}, desc:{fr:"Stocker une valeur et lui donner un nom",en:"Store a value and give it a name"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Lis le programme dans ta tête avant de répondre. Ne l'exécute pas.",en:"Read the program in your head before answering."},
+   code:'x = 5\nx = x + 3\nprint(x)', answer:1,
+   options:[
+    {txt:'5', why:{fr:"C'était la valeur de départ, mais la ligne 2 l'a remplacée. Une variable ne garde que sa dernière valeur.",en:"That was the starting value, but line 2 replaced it. A variable only keeps its latest value."}},
+    {txt:'8', why:{fr:"La ligne 2 lit x (5), ajoute 3, et range le résultat dans x.",en:"Line 2 reads x (5), adds 3, and stores the result back in x."}},
+    {txt:'53', why:{fr:"Ce serait le cas si x et 3 étaient du texte. Ici ce sont des nombres, donc + additionne.",en:"That would happen if x and 3 were text. Here they are numbers, so + adds."}},
+    {txt:'Erreur', why:{fr:"C'est autorisé : une variable peut se recalculer à partir d'elle-même.",en:"This is allowed: a variable can be recomputed from itself."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Une première variable",en:"A first variable"},
+   desc:{fr:"Crée une variable age qui vaut 15, puis affiche-la.",en:"Create a variable age equal to 15, then print it."},
+   hint:{fr:"On écrit <code>age = 15</code> puis <code>print(age)</code>.",en:"Write <code>age = 15</code> then <code>print(age)</code>."},
+   sol:'age = 15\nprint(age)', out:'15' },
+
+ { kind:"code", diff:"easy", title:{fr:"Trois types",en:"Three types"},
+   desc:{fr:'Crée x = 5, y = 3.14, z = "hello", puis affiche les trois avec print(x, y, z).',en:'Create x = 5, y = 3.14, z = "hello", then print all three with print(x, y, z).'},
+   hint:{fr:"<code>print</code> peut recevoir plusieurs valeurs séparées par des virgules.",en:"<code>print</code> can take several values separated by commas."},
+   sol:'x = 5\ny = 3.14\nz = "hello"\nprint(x, y, z)', out:'5 3.14 hello' },
+
+ { kind:"code", diff:"medium", title:{fr:"Changer une valeur",en:"Change a value"},
+   desc:{fr:"Crée score = 0 et affiche-le. Puis mets score à 100 et affiche-le à nouveau.",en:"Create score = 0 and print it. Then set score to 100 and print it again."},
+   hint:{fr:"Une variable peut être réaffectée : <code>score = 100</code> écrase l'ancienne valeur.",en:"A variable can be reassigned: <code>score = 100</code> overwrites the old value."},
+   sol:'score = 0\nprint(score)\nscore = 100\nprint(score)', out:'0\n100' },
+
+ { kind:"code", diff:"medium", title:{fr:"Connaître le type",en:"Check the type"},
+   desc:{fr:'Affiche le type de 5, puis de 3.14, puis de "hello", avec la fonction type().',en:'Print the type of 5, then 3.14, then "hello", using type().'},
+   hint:{fr:"<code>print(type(5))</code> affiche la classe de la valeur.",en:"<code>print(type(5))</code> prints the class of the value."},
+   sol:'print(type(5))\nprint(type(3.14))\nprint(type("hello"))', out:"<class 'int'>\n<class 'float'>\n<class 'str'>" },
+
+ { kind:"code", diff:"hard", title:{fr:"Fiche d'identité",en:"Identity card"},
+   desc:{fr:'Crée name = "Alice" et age = 16. Affiche "Name: Alice" puis "Age: 16".',en:'Create name = "Alice" and age = 16. Print "Name: Alice" then "Age: 16".'},
+   hint:{fr:'<code>print("Name:", name)</code> — la virgule ajoute une espace automatiquement.',en:'<code>print("Name:", name)</code> — the comma adds a space automatically.'},
+   sol:'name = "Alice"\nage = 16\nprint("Name:", name)\nprint("Age:", age)', out:'Name: Alice\nAge: 16' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ces lignes affichent 16, mais elles sont mélangées. Remets-les dans le bon ordre.",en:"These lines print 16, but they are shuffled. Put them back in order."},
+   hint:{fr:"Une variable doit exister avant qu'on puisse la lire ou la modifier.",en:"A variable must exist before it can be read or changed."},
+   lines:['age = 15','age = age + 1','print(age)'], out:'16' }
+]},
+
+{ id:2, num:"II", title:{fr:"Afficher et demander",en:"Print and input"}, desc:{fr:"Parler à l'utilisateur avec print() et input()",en:"Talk to the user with print() and input()"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Attention à la mise en page de la sortie.",en:"Watch the layout of the output."},
+   code:'print("Hello")\nprint("World")', answer:1,
+   options:[
+    {txt:'Hello World', why:{fr:"Ce serait le cas avec un seul print : print(\"Hello\", \"World\").",en:"That would need a single print: print(\"Hello\", \"World\")."}},
+    {txt:'Hello\nWorld', why:{fr:"Chaque print termine par un passage à la ligne. Deux print donnent deux lignes.",en:"Each print ends with a line break. Two prints give two lines."}},
+    {txt:'HelloWorld', why:{fr:"Il faudrait print(\"Hello\", end=\"\") pour supprimer le passage à la ligne.",en:"You would need print(\"Hello\", end=\"\") to remove the line break."}},
+    {txt:'"Hello"\n"World"', why:{fr:"Les guillemets délimitent le texte dans le code ; ils ne sont pas affichés.",en:"Quotes delimit text in the code; they are not printed."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Bonjour",en:"Hello"},
+   desc:{fr:'Affiche exactement le mot Hello.',en:'Print exactly the word Hello.'},
+   hint:{fr:'Le texte va entre guillemets : <code>print("Hello")</code>.',en:'Text goes in quotes: <code>print("Hello")</code>.'},
+   sol:'print("Hello")', out:'Hello' },
+
+ { kind:"code", diff:"easy", title:{fr:"Trois lignes",en:"Three lines"},
+   desc:{fr:'Affiche Line 1, Line 2 et Line 3, chacune sur sa propre ligne.',en:'Print Line 1, Line 2 and Line 3, each on its own line.'},
+   hint:{fr:"Chaque <code>print</code> passe automatiquement à la ligne suivante.",en:"Each <code>print</code> moves to the next line automatically."},
+   sol:'print("Line 1")\nprint("Line 2")\nprint("Line 3")', out:'Line 1\nLine 2\nLine 3' },
+
+ { kind:"code", diff:"medium", title:{fr:"Texte et variable",en:"Text and variable"},
+   desc:{fr:'Crée name = "Alice" puis affiche Hello Alice en utilisant la variable.',en:'Create name = "Alice" then print Hello Alice using the variable.'},
+   hint:{fr:'<code>print("Hello", name)</code> — sans guillemets autour de name.',en:'<code>print("Hello", name)</code> — no quotes around name.'},
+   sol:'name = "Alice"\nprint("Hello", name)', out:'Hello Alice' },
+
+ { kind:"code", diff:"medium", title:{fr:"Demander le prénom",en:"Ask for a name"}, inputs:["Alice"],
+   desc:{fr:'Demande le prénom avec input("Name? ") puis affiche Hi suivi du prénom.',en:'Ask for a name with input("Name? ") then print Hi followed by the name.'},
+   hint:{fr:"<code>input()</code> renvoie ce que l'utilisateur tape. Range-le dans une variable.",en:"<code>input()</code> returns what the user types. Store it in a variable."},
+   sol:'name = input("Name? ")\nprint("Hi", name)', out:'Name? Alice\nHi Alice' },
+
+ { kind:"code", diff:"hard", title:{fr:"Petit questionnaire",en:"Small questionnaire"}, inputs:["Alice","16"],
+   desc:{fr:'Demande Name? puis Age?, et affiche ensuite : Name: Alice Age: 16',en:'Ask Name? then Age?, then print: Name: Alice Age: 16'},
+   hint:{fr:"Deux <code>input()</code>, puis un seul <code>print</code> avec quatre morceaux.",en:"Two <code>input()</code> calls, then a single <code>print</code> with four pieces."},
+   sol:'name = input("Name? ")\nage = input("Age? ")\nprint("Name:", name, "Age:", age)', out:'Name? Alice\nAge? 16\nName: Alice Age: 16' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : Alice Martin",en:"This program must print: Alice Martin"},
+   hint:{fr:"Les deux variables doivent exister avant le print.",en:"Both variables must exist before the print."},
+   lines:['first = "Alice"','last = "Martin"','print(first, last)'], out:'Alice Martin' }
+]},
+
+{ id:3, num:"III", title:{fr:"Conditions",en:"Conditions"}, desc:{fr:"Choisir selon la situation : if, elif, else",en:"Choose depending on the situation: if, elif, else"}, ex:[
+
+ { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Suis les conditions une par une, de haut en bas.",en:"Follow the conditions one by one, top to bottom."},
+   code:'x = 3\nif x > 10:\n    print("A")\nelif x > 1:\n    print("B")\nelse:\n    print("C")', answer:1,
+   options:[
+    {txt:'A', why:{fr:"3 n'est pas supérieur à 10, donc cette branche est ignorée.",en:"3 is not greater than 10, so this branch is skipped."}},
+    {txt:'B', why:{fr:"La première condition est fausse, la deuxième est vraie : on s'arrête là.",en:"The first condition is false, the second is true: it stops there."}},
+    {txt:'C', why:{fr:"else ne s'exécute que si toutes les conditions précédentes sont fausses.",en:"else only runs when every previous condition is false."}},
+    {txt:'B\nC', why:{fr:"Dans une chaîne if/elif/else, une seule branche s'exécute.",en:"In an if/elif/else chain, only one branch runs."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Grand ou petit",en:"Big or small"},
+   desc:{fr:'Avec x = 10 : si x est supérieur à 5, affiche Big, sinon affiche Small.',en:'With x = 10: if x is greater than 5, print Big, otherwise Small.'},
+   hint:{fr:"N'oublie pas les deux-points et les 4 espaces d'indentation.",en:"Don't forget the colon and the 4-space indentation."},
+   sol:'x = 10\nif x > 5:\n    print("Big")\nelse:\n    print("Small")', out:'Big' },
+
+ { kind:"code", diff:"easy", title:{fr:"Majeur ou mineur",en:"Adult or minor"},
+   desc:{fr:'Avec age = 20 : affiche Adult si age est supérieur ou égal à 18, sinon Minor.',en:'With age = 20: print Adult if age is 18 or more, otherwise Minor.'},
+   hint:{fr:"L'opérateur « supérieur ou égal » s'écrit <code>&gt;=</code>.",en:'"Greater or equal" is written <code>&gt;=</code>.'},
+   sol:'age = 20\nif age >= 18:\n    print("Adult")\nelse:\n    print("Minor")', out:'Adult' },
+
+ { kind:"code", diff:"medium", title:{fr:"Trois cas",en:"Three cases"},
+   desc:{fr:'Avec grade = 14 : Excellent si 16 ou plus, Good si 10 ou plus, sinon Poor.',en:'With grade = 14: Excellent if 16 or more, Good if 10 or more, otherwise Poor.'},
+   hint:{fr:"<code>elif</code> teste une deuxième condition si la première est fausse.",en:"<code>elif</code> tests a second condition if the first is false."},
+   sol:'grade = 14\nif grade >= 16:\n    print("Excellent")\nelif grade >= 10:\n    print("Good")\nelse:\n    print("Poor")', out:'Good' },
+
+ { kind:"code", diff:"medium", title:{fr:"Deux conditions",en:"Two conditions"},
+   desc:{fr:'Avec age = 20 et has_license = True : affiche Drive si les deux sont vrais, sinon No.',en:'With age = 20 and has_license = True: print Drive if both are true, otherwise No.'},
+   hint:{fr:"<code>and</code> exige que les deux conditions soient vraies.",en:"<code>and</code> requires both conditions to be true."},
+   sol:'age = 20\nhas_license = True\nif age >= 18 and has_license:\n    print("Drive")\nelse:\n    print("No")', out:'Drive' },
+
+ { kind:"code", diff:"hard", title:{fr:"Pair ou impair",en:"Even or odd"},
+   desc:{fr:'Avec n = 7 : affiche Even si n est pair, sinon Odd.',en:'With n = 7: print Even if n is even, otherwise Odd.'},
+   hint:{fr:"<code>n % 2</code> donne le reste de la division par 2. Il vaut 0 si n est pair.",en:"<code>n % 2</code> gives the remainder of dividing by 2. It is 0 when n is even."},
+   sol:'n = 7\nif n % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")', out:'Odd' },
+
+ { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : Adult — attention aux lignes décalées.",en:"This program must print: Adult — mind the indented lines."},
+   hint:{fr:"Une ligne décalée appartient toujours au bloc juste au-dessus d'elle.",en:"An indented line always belongs to the block right above it."},
+   lines:['age = 20','if age >= 18:','    print("Adult")','else:','    print("Minor")'], out:'Adult' }
+]},
+
+{ id:4, num:"IV", title:{fr:"Boucles",en:"Loops"}, desc:{fr:"Répéter sans réécrire : for et while",en:"Repeat without rewriting: for and while"}, ex:[
+
+ { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Compte bien les tours de boucle.",en:"Count the loop passes carefully."},
+   code:'for i in range(3):\n    print(i)', answer:1,
+   options:[
+    {txt:'1\n2\n3', why:{fr:"range commence à 0, pas à 1.",en:"range starts at 0, not 1."}},
+    {txt:'0\n1\n2', why:{fr:"range(3) donne 3 valeurs en partant de 0 : 0, 1, 2.",en:"range(3) gives 3 values starting at 0: 0, 1, 2."}},
+    {txt:'0\n1\n2\n3', why:{fr:"range(3) s'arrête AVANT 3. Le 3 n'est jamais atteint.",en:"range(3) stops BEFORE 3. The 3 is never reached."}},
+    {txt:'3', why:{fr:"La boucle affiche i à chaque tour, pas le nombre de tours.",en:"The loop prints i on each pass, not the number of passes."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Compter de 1 à 5",en:"Count 1 to 5"},
+   desc:{fr:'Affiche les nombres de 1 à 5, un par ligne.',en:'Print the numbers 1 to 5, one per line.'},
+   hint:{fr:"<code>range(1, 6)</code> s'arrête avant 6.",en:"<code>range(1, 6)</code> stops before 6."},
+   sol:'for i in range(1, 6):\n    print(i)', out:'1\n2\n3\n4\n5' },
+
+ { kind:"code", diff:"easy", title:{fr:"Table de 3",en:"Times table of 3"},
+   desc:{fr:'Affiche la table de 3 de 1 à 10, au format : 3 x 1 = 3',en:'Print the 3 times table from 1 to 10, formatted as: 3 x 1 = 3'},
+   hint:{fr:'<code>print("3 x", i, "=", 3 * i)</code>',en:'<code>print("3 x", i, "=", 3 * i)</code>'},
+   sol:'for i in range(1, 11):\n    print("3 x", i, "=", 3 * i)',
+   out:'3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 x 10 = 30' },
+
+ { kind:"code", diff:"medium", title:{fr:"Boucle while",en:"While loop"},
+   desc:{fr:'Affiche 1 à 5 avec une boucle while (pas de for).',en:'Print 1 to 5 using a while loop (no for).'},
+   hint:{fr:"Il faut augmenter i à l'intérieur de la boucle, sinon elle ne s'arrête jamais.",en:"You must increase i inside the loop, otherwise it never stops."},
+   sol:'i = 1\nwhile i <= 5:\n    print(i)\n    i = i + 1', out:'1\n2\n3\n4\n5' },
+
+ { kind:"code", diff:"medium", title:{fr:"Somme de 1 à 10",en:"Sum 1 to 10"},
+   desc:{fr:"Calcule la somme des nombres de 1 à 10 et affiche seulement le résultat.",en:"Add up the numbers from 1 to 10 and print only the result."},
+   hint:{fr:"Crée <code>total = 0</code> avant la boucle, puis ajoute i à chaque tour.",en:"Create <code>total = 0</code> before the loop, then add i on each pass."},
+   sol:'total = 0\nfor i in range(1, 11):\n    total = total + i\nprint(total)', out:'55' },
+
+ { kind:"code", diff:"hard", title:{fr:"Carré d'étoiles",en:"Square of stars"},
+   desc:{fr:'Affiche un carré de 3 lignes sur 3 étoiles.',en:'Print a square of 3 rows of 3 stars.'},
+   hint:{fr:'<code>print("*", end="")</code> reste sur la même ligne. Un <code>print()</code> vide passe à la ligne.',en:'<code>print("*", end="")</code> stays on the same line. An empty <code>print()</code> starts a new line.'},
+   sol:'for i in range(3):\n    for j in range(3):\n        print("*", end="")\n    print()', out:'***\n***\n***' },
+
+ { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : 6",en:"This program must print: 6"},
+   hint:{fr:"L'accumulateur doit valoir 0 avant la boucle, et on l'affiche après.",en:"The accumulator must be 0 before the loop, and printed after."},
+   lines:['total = 0','for n in [1, 2, 3]:','    total = total + n','print(total)'], out:'6' }
+]},
+
+{ id:5, num:"V", title:{fr:"Listes",en:"Lists"}, desc:{fr:"Ranger plusieurs valeurs dans une seule variable",en:"Keep several values in one variable"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Fais attention à la façon dont Python numérote les éléments.",en:"Watch how Python numbers the elements."},
+   code:'fruits = ["a", "b", "c"]\nprint(fruits[1])', answer:1,
+   options:[
+    {txt:'a', why:{fr:"a est en position 0. La numérotation commence à 0, pas à 1.",en:"a is at position 0. Numbering starts at 0, not 1."}},
+    {txt:'b', why:{fr:"Position 0 = a, position 1 = b. On demande bien le deuxième élément.",en:"Position 0 = a, position 1 = b. We are asking for the second element."}},
+    {txt:'c', why:{fr:"c est en position 2, la dernière.",en:"c is at position 2, the last one."}},
+    {txt:'["b"]', why:{fr:"Les crochets simples renvoient l'élément lui-même, pas une liste.",en:"Single brackets return the element itself, not a list."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Créer une liste",en:"Create a list"},
+   desc:{fr:'Crée une liste fruits contenant "apple", "banana", "orange" et affiche la liste entière.',en:'Create a list fruits containing "apple", "banana", "orange" and print the whole list.'},
+   hint:{fr:"Une liste s'écrit entre crochets, valeurs séparées par des virgules.",en:"A list is written in square brackets, values separated by commas."},
+   sol:'fruits = ["apple", "banana", "orange"]\nprint(fruits)', out:"['apple', 'banana', 'orange']" },
+
+ { kind:"code", diff:"easy", title:{fr:"Accéder à un élément",en:"Access an element"},
+   desc:{fr:'Avec la même liste fruits, affiche le premier élément, puis le troisième.',en:'With the same fruits list, print the first element, then the third.'},
+   hint:{fr:"La numérotation commence à 0 : le premier est <code>fruits[0]</code>.",en:"Numbering starts at 0: the first one is <code>fruits[0]</code>."},
+   sol:'fruits = ["apple", "banana", "orange"]\nprint(fruits[0])\nprint(fruits[2])', out:'apple\norange' },
+
+ { kind:"code", diff:"medium", title:{fr:"Parcourir une liste",en:"Loop over a list"},
+   desc:{fr:'Affiche chaque fruit de la liste sur sa propre ligne.',en:'Print each fruit of the list on its own line.'},
+   hint:{fr:"<code>for fruit in fruits:</code> prend les éléments un par un.",en:"<code>for fruit in fruits:</code> takes the elements one by one."},
+   sol:'fruits = ["apple", "banana", "orange"]\nfor fruit in fruits:\n    print(fruit)', out:'apple\nbanana\norange' },
+
+ { kind:"code", diff:"medium", title:{fr:"Ajouter un élément",en:"Add an element"},
+   desc:{fr:'Crée nums = [1, 2, 3], ajoute 4, affiche la liste puis sa longueur.',en:'Create nums = [1, 2, 3], add 4, print the list then its length.'},
+   hint:{fr:"<code>nums.append(4)</code> ajoute à la fin ; <code>len(nums)</code> compte.",en:"<code>nums.append(4)</code> adds at the end; <code>len(nums)</code> counts."},
+   sol:'nums = [1, 2, 3]\nnums.append(4)\nprint(nums)\nprint(len(nums))', out:'[1, 2, 3, 4]\n4' },
+
+ { kind:"code", diff:"hard", title:{fr:"Longueur et somme",en:"Length and sum"},
+   desc:{fr:'Avec nums = [1, 2, 3, 4, 5], affiche la longueur puis la somme.',en:'With nums = [1, 2, 3, 4, 5], print the length then the sum.'},
+   hint:{fr:"<code>len()</code> et <code>sum()</code> travaillent directement sur la liste.",en:"<code>len()</code> and <code>sum()</code> work directly on the list."},
+   sol:'nums = [1, 2, 3, 4, 5]\nprint(len(nums))\nprint(sum(nums))', out:'5\n15' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : [3, 1, 5]",en:"This program must print: [3, 1, 5]"},
+   hint:{fr:"append modifie la liste ; il faut donc que la liste existe déjà.",en:"append changes the list, so the list must already exist."},
+   lines:['nums = [3, 1]','nums.append(5)','print(nums)'], out:'[3, 1, 5]' }
+]},
+
+{ id:6, num:"VI", title:{fr:"Fonctions",en:"Functions"}, desc:{fr:"Écrire une fois, réutiliser partout",en:"Write once, reuse everywhere"}, ex:[
+
+ { kind:"quiz", diff:"hard", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Piège classique. Regarde bien la dernière ligne.",en:"A classic trap. Look closely at the last line."},
+   code:'def double(n):\n    return n * 2\n\ndouble(4)', answer:2,
+   options:[
+    {txt:'8', why:{fr:"La fonction calcule bien 8, mais rien ne l'affiche. return renvoie la valeur à l'appelant, il ne l'imprime pas.",en:"The function does compute 8, but nothing prints it. return hands the value back, it does not print it."}},
+    {txt:'4', why:{fr:"4 est l'argument fourni, pas le résultat.",en:"4 is the argument given, not the result."}},
+    {txt:"Rien n'est affiché", why:{fr:"Exact. Il manque print autour de l'appel : print(double(4)).",en:"Correct. A print around the call is missing: print(double(4))."}},
+    {txt:'Erreur', why:{fr:"Le programme est valide, il ne produit simplement aucune sortie.",en:"The program is valid, it just produces no output."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Une fonction simple",en:"A simple function"},
+   desc:{fr:'Écris une fonction greet() qui affiche Hello, puis appelle-la.',en:'Write a function greet() that prints Hello, then call it.'},
+   hint:{fr:"Définir ne suffit pas : il faut aussi écrire <code>greet()</code> pour l'exécuter.",en:"Defining is not enough: you must also write <code>greet()</code> to run it."},
+   sol:'def greet():\n    print("Hello")\n\ngreet()', out:'Hello' },
+
+ { kind:"code", diff:"easy", title:{fr:"Avec un paramètre",en:"With a parameter"},
+   desc:{fr:'Écris greet(name) qui affiche Hello suivi du prénom, puis appelle-la avec "Alice".',en:'Write greet(name) printing Hello then the name, then call it with "Alice".'},
+   hint:{fr:"Le paramètre se met entre les parenthèses de la définition.",en:"The parameter goes inside the parentheses of the definition."},
+   sol:'def greet(name):\n    print("Hello", name)\n\ngreet("Alice")', out:'Hello Alice' },
+
+ { kind:"code", diff:"medium", title:{fr:"Renvoyer un résultat",en:"Return a result"},
+   desc:{fr:'Écris add(a, b) qui renvoie la somme, puis affiche add(3, 4).',en:'Write add(a, b) returning the sum, then print add(3, 4).'},
+   hint:{fr:"<code>return</code> renvoie la valeur ; c'est <code>print</code> qui l'affiche.",en:"<code>return</code> gives the value back; <code>print</code> displays it."},
+   sol:'def add(a, b):\n    return a + b\n\nprint(add(3, 4))', out:'7' },
+
+ { kind:"code", diff:"medium", title:{fr:"Vrai ou faux",en:"True or false"},
+   desc:{fr:'Écris is_even(n) qui renvoie True si n est pair. Affiche is_even(4) puis is_even(7).',en:'Write is_even(n) returning True when n is even. Print is_even(4) then is_even(7).'},
+   hint:{fr:"<code>return n % 2 == 0</code> renvoie directement True ou False.",en:"<code>return n % 2 == 0</code> returns True or False directly."},
+   sol:'def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))\nprint(is_even(7))', out:'True\nFalse' },
+
+ { kind:"code", diff:"hard", title:{fr:"Carré d'un nombre",en:"Square of a number"},
+   desc:{fr:'Écris square(n) qui renvoie n multiplié par lui-même. Affiche square(5) puis square(9).',en:'Write square(n) returning n times itself. Print square(5) then square(9).'},
+   hint:{fr:"<code>return n * n</code>",en:"<code>return n * n</code>"},
+   sol:'def square(n):\n    return n * n\n\nprint(square(5))\nprint(square(9))', out:'25\n81' },
+
+ { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : 5",en:"This program must print: 5"},
+   hint:{fr:"Une fonction doit être définie avant d'être appelée, et son corps est décalé.",en:"A function must be defined before it is called, and its body is indented."},
+   lines:['def add(a, b):','    return a + b','print(add(2, 3))'], out:'5' }
+]}
+];
+
+/* ==========================================================
+   2. TRADUCTIONS DE L'INTERFACE
+   ========================================================== */
+const T = {
+ fr:{ heroA:"Écris du vrai", heroB:"Python.",
+  heroP:"Ton code est vraiment exécuté par Python dans le navigateur. Quand une réponse est fausse, l'application t'explique pourquoi, en français, ligne par ligne.",
+  start:"Commencer",
+  welcomeNote:"Rien n'est envoyé sur Internet : Python tourne entièrement dans ton navigateur, et ta progression reste sur cet appareil.",
+  pts:"points", solved:"exercices réussis", progress:"progression",
+  resetAll:"Effacer ma progression", logout:"Changer de prénom",
+  expected:"Sortie attendue", yourCode:"Ton code", output:"Ce que ton programme affiche",
+  run:"Exécuter", check:"Vérifier", showHint:"Indice", hideHint:"Masquer l'indice", showSol:"Voir le corrigé",
+  back:"Retour aux chapitres", prev:"Précédent", next:"Suivant",
+  chapter:"Chapitre", easy:"facile", medium:"moyen", hard:"difficile", done:"réussi",
+  kCode:"écrire", kQuiz:"prédire", kOrder:"ordonner",
+  ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.", okPts:"+{n} points.",
+  err:"Python s'est arrêté sur une erreur.",
+  timeout:"Ton programme tourne trop longtemps.",
+  timeoutMsg:"C'est presque toujours une boucle qui ne s'arrête jamais. Vérifie que la variable testée par le <code>while</code> change bien à chaque tour.",
+  empty:"Écris d'abord un peu de code.",
+  loading:"Chargement de Python…", ready:"Python prêt", failed:"Python indisponible",
+  failedMsg:"Le moteur Python n'a pas pu se charger. Vérifie ta connexion Internet, puis recharge la page.",
+  wait:"Python finit de se charger…",
+  nameNeeded:"Entre ton prénom pour commencer.",
+  confirmReset:"Effacer tous les points et repartir de zéro ?",
+  noStore:"La sauvegarde est désactivée dans ce contexte : ta progression sera perdue en fermant l'onglet. Ouvre le fichier directement dans ton navigateur pour qu'elle soit conservée.",
+  blockedT:"Python ne peut pas démarrer ici",
+  blockedB:"Cette fenêtre n'autorise pas l'exécution de WebAssembly, dont Python a besoin. Les exercices <b>Prédire la sortie</b> fonctionnent quand même, avec leurs explications : tu peux commencer par eux. En revanche <b>Écrire</b> et <b>Ordonner</b> ont besoin de Python.",
+  blockedD:"Télécharge le fichier <code>PythonLearn_v3.html</code> et ouvre-le dans Safari, Chrome ou Firefox — ou mets-le en ligne. Tout fonctionnera normalement.",
+  waitingT:"Python est toujours en train de se charger",
+  waitingB:"Le moteur pèse environ 15 Mo et n'est téléchargé qu'une seule fois. Sur une connexion lente, 30 à 45 secondes sont normales. Tu peux commencer les exercices <b>Prédire la sortie</b> pendant ce temps : ils n'ont pas besoin de Python.",
+  detail:"Détail technique",
+  slowT:"Le chargement de Python a échoué",
+  slowB:"Le moteur n'a pas répondu dans le temps imparti. C'est souvent une connexion trop lente, ou un blocage du navigateur.",
+  slowD:"Recharge la page. Si le problème persiste, ouvre le fichier depuis un serveur local ou une adresse en ligne plutôt qu'en double-clic.",
+  simIn:"Réponses simulées :", yours:"Ton résultat", target:"Attendu", nothing:"(rien pour l'instant)",
+  atLine:"Ligne {n}", whatToDo:"Ce qu'il faut faire",
+  quizQ:"Que va afficher ce programme ?", quizWhy:"Pourquoi", quizGood:"La bonne réponse",
+  orderRun:"Vérifier l'ordre", orderCode:"Le programme, dans l'ordre actuel",
+  up:"Monter", down:"Descendre",
+  autoHint:"Un indice s'est ouvert pour t'aider.",
+  tryAgain:"Encore un essai, puis le corrigé sera à ta disposition.",
+  solOffer:"Tu as fait plusieurs essais. Tu peux ouvrir le corrigé, l'exécuter, et le comparer au tien.",
+  noOutput:"Ton programme n'affiche rien.",
+  noPrint:"Aucun <code>print()</code> dans ton code : rien ne peut apparaître à l'écran.",
+  defNoCall:"Tu as défini la fonction <code>{f}</code>, mais tu ne l'appelles jamais. Définir une fonction ne l'exécute pas : ajoute une ligne <code>{f}(…)</code>.",
+  caseOnly:"C'est presque ça : seules des majuscules/minuscules diffèrent. Python distingue <code>Hello</code> de <code>hello</code>.",
+  spaceOnly:"Les caractères sont bons, mais les espaces ne correspondent pas. Dans <code>print(\"a\", \"b\")</code> la virgule ajoute une espace ; <code>print(\"a\" + \"b\")</code> n'en ajoute pas.",
+  quotesShown:"Tes guillemets s'affichent à l'écran. Ils servent à délimiter le texte dans le code, ils ne doivent pas se retrouver dans la sortie.",
+  tooFew:"Tu affiches {a} ligne(s), il en faut {b}. Il manque probablement un <code>print</code>, ou une boucle ne tourne pas assez de fois.",
+  tooMany:"Tu affiches {a} ligne(s), il n'en faut que {b}. Un <code>print</code> est peut-être en trop, ou placé à l'intérieur d'une boucle alors qu'il devrait être après.",
+  oneLine:"Tout sort sur une seule ligne alors qu'il en faut plusieurs. Utilise un <code>print</code> par ligne, ou retire le <code>end=\"\"</code>.",
+  multiLine:"Ta sortie tient sur plusieurs lignes alors qu'une seule est attendue. Un seul <code>print</code> suffit, avec des virgules.",
+  firstDiff:"Première différence à la ligne {n}",
+  numDiff:"La valeur affichée n'est pas la bonne : tu obtiens {a}, on attend {b}. Le calcul ou les bornes de la boucle sont à revoir.",
+  generic:"La sortie ne correspond pas encore. Compare les deux colonnes : la partie surlignée est le premier endroit qui diffère."
+ },
+ en:{ heroA:"Write real", heroB:"Python.",
+  heroP:"Your code is really executed by Python in the browser. When an answer is wrong, the app explains why, line by line.",
+  start:"Start",
+  welcomeNote:"Nothing is sent over the Internet: Python runs entirely in your browser, and your progress stays on this device.",
+  pts:"points", solved:"exercises solved", progress:"progress",
+  resetAll:"Clear my progress", logout:"Change name",
+  expected:"Expected output", yourCode:"Your code", output:"What your program prints",
+  run:"Run", check:"Check", showHint:"Hint", hideHint:"Hide hint", showSol:"Show solution",
+  back:"Back to chapters", prev:"Previous", next:"Next",
+  chapter:"Chapter", easy:"easy", medium:"medium", hard:"hard", done:"solved",
+  kCode:"write", kQuiz:"predict", kOrder:"order",
+  ok:"That's exactly it.", okAgain:"Still correct — already counted.", okPts:"+{n} points.",
+  err:"Python stopped on an error.",
+  timeout:"Your program runs too long.",
+  timeoutMsg:"This is almost always a loop that never ends. Check that the variable tested by the <code>while</code> really changes on each pass.",
+  empty:"Write some code first.",
+  loading:"Loading Python…", ready:"Python ready", failed:"Python unavailable",
+  failedMsg:"The Python engine could not load. Check your Internet connection, then reload the page.",
+  wait:"Python is still loading…",
+  nameNeeded:"Enter your name to start.",
+  confirmReset:"Clear all points and start over?",
+  noStore:"Saving is disabled in this context: your progress will be lost when the tab closes. Open the file directly in your browser to keep it.",
+  blockedT:"Python cannot start here",
+  blockedB:"This window does not allow WebAssembly, which Python needs. The <b>Predict the output</b> exercises still work, explanations included: you can start with those. <b>Write</b> and <b>Order</b> do need Python.",
+  blockedD:"Download <code>PythonLearn_v3.html</code> and open it in Safari, Chrome or Firefox — or put it online. Everything will work normally.",
+  waitingT:"Python is still loading",
+  waitingB:"The engine is about 15 MB and is downloaded only once. On a slow connection, 30 to 45 seconds is normal. You can start the <b>Predict the output</b> exercises meanwhile: they don't need Python.",
+  detail:"Technical detail",
+  slowT:"Python failed to load",
+  slowB:"The engine did not respond in time. This is usually a slow connection, or a browser block.",
+  slowD:"Reload the page. If it persists, open the file from a local server or an online address rather than by double-click.",
+  simIn:"Simulated answers:", yours:"Your result", target:"Expected", nothing:"(nothing yet)",
+  atLine:"Line {n}", whatToDo:"What to do",
+  quizQ:"What will this program print?", quizWhy:"Why", quizGood:"The right answer",
+  orderRun:"Check the order", orderCode:"The program, in its current order",
+  up:"Up", down:"Down",
+  autoHint:"A hint has been opened to help you.",
+  tryAgain:"One more try, then the solution will be available.",
+  solOffer:"You've tried several times. You can open the solution, run it, and compare it with yours.",
+  noOutput:"Your program prints nothing.",
+  noPrint:"There is no <code>print()</code> in your code, so nothing can appear on screen.",
+  defNoCall:"You defined the function <code>{f}</code> but never call it. Defining a function does not run it: add a line <code>{f}(…)</code>.",
+  caseOnly:"Almost: only upper/lower case differs. Python treats <code>Hello</code> and <code>hello</code> as different.",
+  spaceOnly:"The characters are right but the spaces don't match. In <code>print(\"a\", \"b\")</code> the comma adds a space; <code>print(\"a\" + \"b\")</code> does not.",
+  quotesShown:"Your quotes appear on screen. They delimit text in the code; they should not end up in the output.",
+  tooFew:"You print {a} line(s), {b} are needed. A <code>print</code> is probably missing, or a loop doesn't run enough times.",
+  tooMany:"You print {a} line(s), only {b} are needed. One <code>print</code> may be extra, or placed inside a loop when it belongs after it.",
+  oneLine:"Everything comes out on one line but several are needed. Use one <code>print</code> per line, or remove the <code>end=\"\"</code>.",
+  multiLine:"Your output spans several lines but only one is expected. A single <code>print</code> with commas is enough.",
+  firstDiff:"First difference on line {n}",
+  numDiff:"The printed value is wrong: you get {a}, {b} is expected. Review the computation or the loop bounds.",
+  generic:"The output doesn't match yet. Compare the two columns: the highlighted part is the first place they differ."
+ }
+};
+
+/* ==========================================================
+   3. DICTIONNAIRE D'ERREURS PYTHON → EXPLICATION
+   Chaque entrée reçoit le résultat du regex et renvoie
+   { t: titre court, b: explication, d: quoi faire }
+   ========================================================== */
+const ERRORS = [
+{ re:/^SyntaxError: Missing parentheses in call to '(\w+)'/,
+  fr:m=>({t:"Il manque les parenthèses",
+    b:`En Python 3, <code>${m[1]}</code> est une fonction. On ne peut pas écrire <code>${m[1]} "texte"</code>.`,
+    d:`Écris <code>${m[1]}("texte")</code>, avec les parenthèses autour de ce que tu veux afficher.`}),
+  en:m=>({t:"Missing parentheses",
+    b:`In Python 3, <code>${m[1]}</code> is a function. You cannot write <code>${m[1]} "text"</code>.`,
+    d:`Write <code>${m[1]}("text")</code>, with parentheses around what you want to print.`})},
+
+{ re:/^SyntaxError: expected ':'/,
+  fr:()=>({t:"Il manque les deux-points",
+    b:"Les lignes qui ouvrent un bloc — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code> — se terminent toujours par <code>:</code>.",
+    d:"Ajoute <code>:</code> à la fin de cette ligne, puis décale la ligne suivante de 4 espaces."}),
+  en:()=>({t:"Missing colon",
+    b:"Lines that open a block — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code> — always end with <code>:</code>.",
+    d:"Add <code>:</code> at the end of this line, then indent the next line by 4 spaces."})},
+
+{ re:/^SyntaxError: '(.)' was never closed/,
+  fr:m=>({t:m[1]==="(" ? "Une parenthèse n'est jamais refermée" : "Un crochet n'est jamais refermé",
+    b:`Tu as ouvert <code>${m[1]}</code> quelque part, sans jamais écrire le signe fermant correspondant.`,
+    d:"Compte les signes ouvrants et fermants sur cette ligne : il doit y en avoir autant des deux côtés."}),
+  en:m=>({t:`A ${m[1]==="(" ? "parenthesis" : "bracket"} is never closed`,
+    b:`You opened <code>${m[1]}</code> somewhere without ever writing the matching closing sign.`,
+    d:"Count opening and closing signs on this line: there must be as many of each."})},
+
+{ re:/^SyntaxError: unterminated string literal/,
+  fr:()=>({t:"Un guillemet n'est jamais refermé",
+    b:"Un texte commence par un guillemet et doit se terminer par le même guillemet, sur la même ligne.",
+    d:'Vérifie que chaque <code>"</code> a bien son jumeau : <code>"Hello"</code>, pas <code>"Hello</code>.'}),
+  en:()=>({t:"A quote is never closed",
+    b:"Text starts with a quote and must end with the same quote, on the same line.",
+    d:'Check every <code>"</code> has its twin: <code>"Hello"</code>, not <code>"Hello</code>.'})},
+
+{ re:/^SyntaxError: invalid syntax\. Maybe you meant '=='/,
+  fr:()=>({t:"Confusion entre = et ==",
+    b:"<code>=</code> range une valeur dans une variable. <code>==</code> compare deux valeurs et répond vrai ou faux.",
+    d:"Dans un <code>if</code> ou un <code>while</code>, il faut <code>==</code> : <code>if x == 5:</code>"}),
+  en:()=>({t:"Confusing = and ==",
+    b:"<code>=</code> stores a value in a variable. <code>==</code> compares two values and answers true or false.",
+    d:"Inside an <code>if</code> or <code>while</code>, use <code>==</code>: <code>if x == 5:</code>"})},
+
+{ re:/^IndentationError: expected an indented block after '(\w+)' statement on line (\d+)/,
+  fr:m=>({t:"Il manque le décalage",
+    b:`Après <code>${m[1]}</code> et ses deux-points (ligne ${m[2]}), Python attend au moins une ligne décalée vers la droite. C'est ce décalage qui indique ce qui est « à l'intérieur ».`,
+    d:"Ajoute 4 espaces au début de la ligne suivante (la touche Tab les met pour toi)."}),
+  en:m=>({t:"Missing indentation",
+    b:`After <code>${m[1]}</code> and its colon (line ${m[2]}), Python expects at least one line shifted to the right. That shift is what marks the "inside".`,
+    d:"Add 4 spaces at the start of the next line (the Tab key inserts them for you)."})},
+
+{ re:/^IndentationError: unexpected indent/,
+  fr:()=>({t:"Décalage inattendu",
+    b:"Cette ligne est décalée vers la droite, mais aucune ligne au-dessus n'ouvre de bloc avec <code>:</code>.",
+    d:"Supprime les espaces en début de ligne, ou vérifie que la ligne précédente se termine bien par <code>:</code>."}),
+  en:()=>({t:"Unexpected indentation",
+    b:"This line is shifted right, but no line above it opens a block with <code>:</code>.",
+    d:"Remove the leading spaces, or check that the previous line really ends with <code>:</code>."})},
+
+{ re:/^IndentationError: unindent does not match/,
+  fr:()=>({t:"Décalages incohérents",
+    b:"Cette ligne revient vers la gauche, mais pas exactement au niveau d'un bloc existant.",
+    d:"Utilise toujours des multiples de 4 espaces : 0, 4, 8… et jamais de mélange avec des tabulations."}),
+  en:()=>({t:"Inconsistent indentation",
+    b:"This line moves back left, but not exactly to the level of an existing block.",
+    d:"Always use multiples of 4 spaces: 0, 4, 8… and never mix with tabs."})},
+
+{ re:/^TabError/,
+  fr:()=>({t:"Tabulations et espaces mélangés",
+    b:"Certaines lignes sont décalées avec des tabulations, d'autres avec des espaces. Visuellement c'est pareil, mais pas pour Python.",
+    d:"Efface les décalages et refais-les avec la touche Tab de l'éditeur, qui insère 4 espaces."}),
+  en:()=>({t:"Tabs and spaces mixed",
+    b:"Some lines are indented with tabs, others with spaces. It looks the same, but not to Python.",
+    d:"Clear the indentation and redo it with the editor's Tab key, which inserts 4 spaces."})},
+
+{ re:/^SyntaxError/,
+  fr:()=>({t:"Python n'arrive pas à lire cette ligne",
+    b:"Il y a une faute de grammaire quelque part : un signe en trop, un signe manquant, ou un mot mal orthographié.",
+    d:"Relis la ligne signalée et celle juste au-dessus. Vérifie les parenthèses, les guillemets, les virgules et les deux-points."}),
+  en:()=>({t:"Python cannot read this line",
+    b:"There is a grammar mistake somewhere: an extra sign, a missing sign, or a misspelled word.",
+    d:"Re-read the reported line and the one just above. Check parentheses, quotes, commas and colons."})},
+
+{ re:/^NameError: name '(\w+)' is not defined/,
+  fr:(m,ctx)=>({t:`Python ne connaît pas ${m[1]}`,
+    b:ctx.near ? `Ce nom n'existe pas. Tu as peut-être voulu écrire <code>${ctx.near}</code>.`
+               : `Ce nom n'a jamais été créé. Soit c'est une faute de frappe, soit c'est du texte auquel il manque des guillemets.`,
+    d:ctx.near ? `Corrige <code>${m[1]}</code> en <code>${ctx.near}</code>.`
+               : `Si <code>${m[1]}</code> devait être du texte, écris-le entre guillemets : <code>"${m[1]}"</code>. Sinon, crée d'abord la variable avant de l'utiliser.`}),
+  en:(m,ctx)=>({t:`Python does not know ${m[1]}`,
+    b:ctx.near ? `This name does not exist. You may have meant <code>${ctx.near}</code>.`
+               : `This name was never created. Either it is a typo, or it is text missing its quotes.`,
+    d:ctx.near ? `Change <code>${m[1]}</code> to <code>${ctx.near}</code>.`
+               : `If <code>${m[1]}</code> was meant as text, put it in quotes: <code>"${m[1]}"</code>. Otherwise create the variable before using it.`})},
+
+{ re:/^TypeError: can only concatenate str \(not "(\w+)"\) to str/,
+  fr:m=>({t:"On ne peut pas coller du texte et un nombre",
+    b:`Avec <code>+</code>, Python veut deux textes ou deux nombres. Ici il trouve du texte d'un côté et un ${m[1]==="int"?"nombre entier":"nombre"} de l'autre.`,
+    d:'Deux solutions : <code>print("age", 15)</code> avec une virgule, ou <code>"age " + str(15)</code> pour convertir le nombre en texte.'}),
+  en:m=>({t:"Cannot join text and a number",
+    b:`With <code>+</code>, Python wants two texts or two numbers. Here it finds text on one side and a ${m[1]==="int"?"whole number":"number"} on the other.`,
+    d:'Two options: <code>print("age", 15)</code> with a comma, or <code>"age " + str(15)</code> to convert the number to text.'})},
+
+{ re:/^TypeError: unsupported operand type\(s\) for \+: '(\w+)' and '(\w+)'/,
+  fr:m=>({t:"Addition impossible entre ces deux valeurs",
+    b:`Python essaie d'additionner un ${m[1]==="int"?"nombre":m[1]} et un ${m[2]==="str"?"texte":m[2]}. L'opération n'a pas de sens pour lui.`,
+    d:'Convertis explicitement : <code>str(nombre)</code> pour obtenir du texte, ou <code>int(texte)</code> pour obtenir un nombre.'}),
+  en:m=>({t:"Cannot add these two values",
+    b:`Python is adding a ${m[1]} and a ${m[2]}. That operation has no meaning for it.`,
+    d:'Convert explicitly: <code>str(number)</code> for text, or <code>int(text)</code> for a number.'})},
+
+{ re:/^TypeError: (\w+)\(\) takes 0 positional arguments but (\d+) w/,
+  fr:m=>({t:`${m[1]} n'attend aucune valeur`,
+    b:`Tu as défini <code>def ${m[1]}():</code> avec des parenthèses vides, mais tu l'appelles avec ${m[2]} valeur(s).`,
+    d:`Soit tu appelles <code>${m[1]}()</code> sans rien, soit tu ajoutes un paramètre dans la définition : <code>def ${m[1]}(x):</code>`}),
+  en:m=>({t:`${m[1]} takes no value`,
+    b:`You defined <code>def ${m[1]}():</code> with empty parentheses, but you call it with ${m[2]} value(s).`,
+    d:`Either call <code>${m[1]}()</code> with nothing, or add a parameter in the definition: <code>def ${m[1]}(x):</code>`})},
+
+{ re:/^TypeError: (\w+)\(\) missing (\d+) required positional argument/,
+  fr:m=>({t:`Il manque ${m[2]} valeur(s) à ${m[1]}`,
+    b:`La définition de <code>${m[1]}</code> attend des paramètres, mais l'appel ne fournit rien.`,
+    d:`Appelle la fonction en donnant les valeurs entre les parenthèses, par exemple <code>${m[1]}(3)</code>.`}),
+  en:m=>({t:`${m[1]} is missing ${m[2]} value(s)`,
+    b:`The definition of <code>${m[1]}</code> expects parameters, but the call provides none.`,
+    d:`Call it with the values inside the parentheses, for example <code>${m[1]}(3)</code>.`})},
+
+{ re:/^TypeError: '(\w+)' object is not callable/,
+  fr:m=>({t:"Ce nom n'est pas une fonction",
+    b:`Tu écris des parenthèses après un nom qui contient un ${m[1]==="int"?"nombre":m[1]}, pas une fonction.`,
+    d:"Retire les parenthèses, ou vérifie que tu n'as pas donné à une variable le même nom qu'une fonction."}),
+  en:m=>({t:"This name is not a function",
+    b:`You put parentheses after a name holding a ${m[1]}, not a function.`,
+    d:"Remove the parentheses, or check you didn't give a variable the same name as a function."})},
+
+{ re:/^TypeError: '(\w+)' object cannot be interpreted as an integer/,
+  fr:()=>({t:"Un nombre entier était attendu",
+    b:"<code>range()</code> travaille sur des nombres entiers. Tu lui as donné autre chose, probablement du texte.",
+    d:'Écris <code>range(3)</code> et non <code>range("3")</code>. Si la valeur vient de <code>input()</code>, convertis-la : <code>int(input(...))</code>.'}),
+  en:()=>({t:"A whole number was expected",
+    b:"<code>range()</code> works on whole numbers. You gave it something else, probably text.",
+    d:'Write <code>range(3)</code>, not <code>range("3")</code>. If the value comes from <code>input()</code>, convert it: <code>int(input(...))</code>.'})},
+
+{ re:/^IndexError: list index out of range/,
+  fr:()=>({t:"Cette position n'existe pas dans la liste",
+    b:"Les positions commencent à 0. Une liste de 3 éléments a donc les positions 0, 1 et 2 — la position 3 n'existe pas.",
+    d:"Le dernier élément est à la position <code>len(liste) - 1</code>. Tu peux aussi écrire <code>liste[-1]</code>."}),
+  en:()=>({t:"That position does not exist in the list",
+    b:"Positions start at 0. A list of 3 items has positions 0, 1 and 2 — position 3 does not exist.",
+    d:"The last item is at <code>len(list) - 1</code>. You can also write <code>list[-1]</code>."})},
+
+{ re:/^ValueError: invalid literal for int\(\) with base 10: '(.*)'/,
+  fr:m=>({t:"Ce texte ne peut pas devenir un nombre",
+    b:`<code>int()</code> ne sait convertir que du texte qui contient uniquement des chiffres. Ici il a reçu <code>${m[1]}</code>.`,
+    d:"Vérifie la valeur avant de la convertir, notamment si elle vient de <code>input()</code>."}),
+  en:m=>({t:"This text cannot become a number",
+    b:`<code>int()</code> only converts text made of digits. Here it received <code>${m[1]}</code>.`,
+    d:"Check the value before converting, especially if it comes from <code>input()</code>."})},
+
+{ re:/^AttributeError: '(\w+)' object has no attribute '(\w+)'/,
+  fr:m=>({t:`${m[2]} n'existe pas pour ce type`,
+    b:`Tu appelles <code>.${m[2]}()</code> sur ${m[1]==="list"?"une liste":"cet objet"}, mais cette action n'existe pas sous ce nom.`,
+    d:m[1]==="list"?"Pour ajouter un élément à une liste, c'est <code>.append()</code>.":"Vérifie l'orthographe du nom après le point."}),
+  en:m=>({t:`${m[2]} does not exist for this type`,
+    b:`You call <code>.${m[2]}()</code> on ${m[1]==="list"?"a list":"this object"}, but no such action exists under that name.`,
+    d:m[1]==="list"?"To add an item to a list, use <code>.append()</code>.":"Check the spelling of the name after the dot."})},
+
+{ re:/^ZeroDivisionError/,
+  fr:()=>({t:"Division par zéro",
+    b:"Diviser par 0 n'a pas de résultat en mathématiques, Python s'arrête donc.",
+    d:"Vérifie la valeur du diviseur avant la division, par exemple avec un <code>if</code>."}),
+  en:()=>({t:"Division by zero",
+    b:"Dividing by 0 has no result in mathematics, so Python stops.",
+    d:"Check the divisor before dividing, for example with an <code>if</code>."})}
+];
+
+const FALLBACK_ERR = {
+  fr:m=>({t:"Python s'est arrêté",
+    b:"L'erreur exacte est affichée ci-dessous. Le type d'erreur, avant les deux-points, indique la catégorie du problème.",
+    d:"Relis la ligne signalée. Si tu ne vois pas, ouvre l'indice puis le corrigé."}),
+  en:m=>({t:"Python stopped",
+    b:"The exact error is shown below. The error type, before the colon, tells you the category.",
+    d:"Re-read the reported line. If you're stuck, open the hint then the solution."})
+};
+
+/* ==========================================================
+   4. OUTILS
+   ========================================================== */
+function esc(s){return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function fmt(s,o){return String(s).replace(/\{(\w+)\}/g,(_,k)=>o[k]!==undefined?o[k]:"{"+k+"}");}
+function norm(s){
+  const L=String(s).replace(/\r\n?/g,"\n").split("\n").map(x=>x.replace(/[ \t]+$/,""));
+  while(L.length&&L[0]==="")L.shift();
+  while(L.length&&L[L.length-1]==="")L.pop();
+  return L.join("\n");
+}
+function lev(a,b){
+  const m=a.length,n=b.length;let p=Array.from({length:n+1},(_,i)=>i);
+  for(let i=1;i<=m;i++){let c=[i];
+    for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));
+    p=c;}
+  return p[n];
+}
+/* propose un nom proche parmi ceux écrits dans le code */
+function nearestName(bad,code){
+  const names=new Set();
+  const re=/[A-Za-z_]\w*/g;let m;
+  while((m=re.exec(code))) if(m[0]!==bad) names.add(m[0]);
+  ["print","input","range","len","sum","str","int","float","type","append","def","for","while","if","else","elif","return","True","False","and","or","not","in","end"].forEach(k=>names.delete(k));
+  let best=null,bd=99;
+  names.forEach(n=>{const d=lev(bad.toLowerCase(),n.toLowerCase());if(d<bd&&d<=2&&Math.abs(n.length-bad.length)<=2){bd=d;best=n;}});
+  return best;
+}
+
+/* ==========================================================
+   5. EXPLICATION D'UNE ERREUR PYTHON
+   ========================================================== */
+function explainError(err,line,code,lang){
+  const ctx={near:null};
+  const nm=/^NameError: name '(\w+)' is not defined/.exec(err);
+  if(nm) ctx.near=nearestName(nm[1],code);
+  for(const e of ERRORS){
+    const m=e.re.exec(err);
+    if(m) return Object.assign({line},e[lang](m,ctx));
+  }
+  return Object.assign({line},FALLBACK_ERR[lang]());
+}
+
+/* ==========================================================
+   6. DIAGNOSTIC D'UNE SORTIE QUI NE CORRESPOND PAS
+   Renvoie { msg, mark:[iGot,iWant] }
+   ========================================================== */
+function diagnose(got,want,code,lang){
+  const t=k=>T[lang][k];
+  const G=norm(got),W=norm(want);
+  const gl=G===""?[]:G.split("\n"),wl=W.split("\n");
+
+  if(G===""){
+    const def=/^\s*def\s+(\w+)\s*\(/m.exec(code);
+    if(def){
+      const calls=new RegExp("(^|[^\\w.])"+def[1]+"\\s*\\(","m");
+      const body=code.replace(/^\s*def\s+\w+\s*\([^)]*\)\s*:/m,"");
+      if(!calls.test(body)) return {msg:t("noOutput")+" "+fmt(t("defNoCall"),{f:def[1]})};
+    }
+    if(!/print\s*\(/.test(code)) return {msg:t("noOutput")+" "+t("noPrint")};
+    return {msg:t("noOutput")};
+  }
+  if(G.toLowerCase()===W.toLowerCase()) return {msg:t("caseOnly"),mark:true};
+  if(G.replace(/\s+/g,"")===W.replace(/\s+/g,"")){
+    if(gl.length===1&&wl.length>1) return {msg:t("oneLine"),mark:true};
+    if(gl.length>1&&wl.length===1) return {msg:t("multiLine"),mark:true};
+    return {msg:t("spaceOnly"),mark:true};
+  }
+  const unq=G.replace(/["']/g,"");
+  if(unq===W||unq.replace(/\s+/g,"")===W.replace(/\s+/g,"")) return {msg:t("quotesShown"),mark:true};
+
+  if(gl.length!==wl.length){
+    const key=gl.length<wl.length?"tooFew":"tooMany";
+    return {msg:fmt(t(key),{a:gl.length,b:wl.length}),mark:true};
+  }
+  if(gl.length===1&&/^-?\d+(\.\d+)?$/.test(gl[0])&&/^-?\d+(\.\d+)?$/.test(wl[0]))
+    return {msg:fmt(t("numDiff"),{a:gl[0],b:wl[0]}),mark:true};
+
+  let i=0;while(i<gl.length&&gl[i]===wl[i])i++;
+  return {msg:fmt(t("firstDiff"),{n:i+1})+" — "+t("generic"),mark:true};
+}
+
+/* surligne le premier caractère qui diffère, ligne par ligne */
+function markDiff(a,b){
+  const A=norm(a).split("\n"),B=norm(b).split("\n");
+  return A.map((line,i)=>{
+    const other=B[i];
+    if(other===undefined) return '<mark>'+esc(line||" ")+'</mark>';
+    if(line===other) return esc(line);
+    let j=0;while(j<line.length&&j<other.length&&line[j]===other[j])j++;
+    return esc(line.slice(0,j))+'<mark>'+esc(line.slice(j)||" ")+'</mark>';
+  }).join("\n");
+}
+
+/* ==========================================================
+   7. ÉTAT
+   ========================================================== */
+const KEY="pythonlearn.v3";
+let lang="fr", storageOK=true;
+let state={name:"",points:0,done:{}};
+let cur={c:0,e:0}, attempts=0, orderNow=null, quizPicked=-1;
+let pyodide=null, pyReady=false, pyFailed=false;
+const PTS={code:10,quiz:5,order:5};
+const totalEx=COURSES.reduce((n,c)=>n+c.ex.length,0);
+const doneCount=()=>Object.keys(state.done).length;
+const t=k=>T[lang][k];
+
+function save(){try{localStorage.setItem(KEY,JSON.stringify({lang,theme:document.documentElement.dataset.theme,state}));}
+  catch(e){storageOK=false;renderStoreNote();}}
+function load(){try{
+    const raw=localStorage.getItem(KEY);
+    if(raw){const d=JSON.parse(raw);
+      if(d.state)state=Object.assign(state,d.state);
+      if(d.lang)lang=d.lang;
+      if(d.theme)document.documentElement.dataset.theme=d.theme;}
+    localStorage.setItem(KEY+".p","1");localStorage.removeItem(KEY+".p");
+  }catch(e){storageOK=false;}
+  if(!document.documentElement.dataset.theme){
+    const dark=window.matchMedia&&window.matchMedia("(prefers-color-scheme: dark)").matches;
+    document.documentElement.dataset.theme=dark?"dark":"light";
+  }}
+
+/* ==========================================================
+   8. MOTEUR PYTHON
+   ========================================================== */
+const RUNNER=[
+"import io, sys, builtins, time, json, traceback",
+"",
+"def _pl_run(src, inputs_json):",
+"    inputs = json.loads(inputs_json)",
+"    buf = io.StringIO()",
+"    o, e, oi = sys.stdout, sys.stderr, builtins.input",
+"    pos = [0]",
+"    def fake_input(prompt=''):",
+"        v = inputs[pos[0]] if pos[0] < len(inputs) else ''",
+"        pos[0] += 1",
+"        print(str(prompt) + str(v))",
+"        return v",
+"    builtins.input = fake_input",
+"    sys.stdout = buf",
+"    sys.stderr = buf",
+"    deadline = time.time() + 5.0",
+"    def tracer(frame, event, arg):",
+"        if time.time() > deadline:",
+"            raise TimeoutError('pl_timeout')",
+"        return tracer",
+"    err = ''",
+"    line = 0",
+"    try:",
+"        sys.settrace(tracer)",
+"        exec(src, {'__name__': '__main__'})",
+"    except TimeoutError:",
+"        err = 'TIMEOUT'",
+"    except SyntaxError as ex:",
+"        err = type(ex).__name__ + ': ' + str(ex.msg)",
+"        line = ex.lineno or 0",
+"    except SystemExit:",
+"        pass",
+"    except BaseException as ex:",
+"        err = type(ex).__name__ + ': ' + str(ex)",
+"        for fr, ln in traceback.walk_tb(ex.__traceback__):",
+"            if fr.f_code.co_filename == '<string>':",
+"                line = ln",
+"    finally:",
+"        sys.settrace(None)",
+"        sys.stdout = o",
+"        sys.stderr = e",
+"        builtins.input = oi",
+"    return json.dumps({'out': buf.getvalue(), 'err': err, 'line': line})"
+].join("\n");
+
+function setStatus(k,m){document.getElementById("dot").className="dot "+k;document.getElementById("statusTxt").textContent=m;}
+function loadFallback(){return new Promise((res,rej)=>{
+  const s=document.createElement("script");
+  s.src="https://cdn.jsdelivr.net/pyodide/v0.26.4/full/pyodide.js";
+  s.onload=res;s.onerror=rej;document.head.appendChild(s);});}
+
+let failKind="", wasmWarned=false, bootStart=0, tick=null;
+/* Pyodide avale l'échec d'instanciation WebAssembly : il se contente
+   d'un console.warn puis reste suspendu pour toujours. On écoute donc
+   cet avertissement pour réagir immédiatement au lieu d'attendre. */
+const logLines=[];
+function grab(s){
+  if(!s) return;
+  s=String(s).slice(0,180);
+  if(logLines.length<8 && logLines.indexOf(s)<0) logLines.push(s);
+  if(/wasm instantiation failed/i.test(s)) wasmWarned=true;
+}
+(function(){
+  ["warn","error"].forEach(k=>{
+    const o=console[k];
+    console[k]=function(){
+      try{ grab(Array.prototype.map.call(arguments,x=>
+        typeof x==="string"?x:((x&&x.message)||String(x))).join(" ")); }catch(e){}
+      return o.apply(console,arguments);
+    };
+  });
+  window.addEventListener("error",e=>grab(e.message));
+  window.addEventListener("unhandledrejection",e=>grab((e.reason&&e.reason.message)||e.reason));
+})();
+function watchWasmFailure(){
+  return new Promise((_,rej)=>{
+    const iv=setInterval(()=>{ if(wasmWarned){clearInterval(iv);rej(new Error("wasm"));} },150);
+  });
+}
+function wasmOK(){
+  try{
+    if(typeof WebAssembly!=="object") return false;
+    new WebAssembly.Module(new Uint8Array([0,97,115,109,1,0,0,0]));
+    return true;
+  }catch(e){return false;}
+}
+function timeoutAfter(ms){return new Promise((_,rej)=>setTimeout(()=>rej(new Error("slow")),ms));}
+function startTick(){
+  bootStart=Date.now();
+  tick=setInterval(()=>{
+    const s=Math.round((Date.now()-bootStart)/1000);
+    setStatus("load",t("loading").replace(/…$/,"")+" — "+s+" s");
+    if(s===12||s===25||s===38) renderBlocker();
+  },1000);
+}
+function stopTick(){ if(tick){clearInterval(tick);tick=null;} }
+function techBox(){
+  return logLines.length?'<div class="errline">'+t("detail")+"\n"+logLines.map(esc).join("\n")+'</div>':"";
+}
+function renderBlocker(){
+  const el=document.getElementById("blocker");
+  if(pyReady){el.innerHTML="";return;}
+  if(pyFailed){
+    const k=failKind==="wasm"?"blocked":"slow";
+    el.innerHTML='<div class="card bad" style="margin-top:16px"><b>'+t(k+"T")+'</b>'+
+      t(k+"B")+techBox()+'<div class="sub">'+t(k+"D")+'</div></div>';
+    return;
+  }
+  if(bootStart&&Date.now()-bootStart>12000){
+    el.innerHTML='<div class="card warn" style="margin-top:16px"><b>'+t("waitingT")+'</b>'+
+      t("waitingB")+techBox()+'</div>';
+  }
+}
+async function bootPython(){
+  setStatus("load",t("loading"));
+  if(!wasmOK()){
+    pyFailed=true;failKind="wasm";setStatus("fail",t("failed"));renderBlocker();
+    if(!document.getElementById("ex").classList.contains("hidden")) render();
+    return;
+  }
+  startTick();
+  try{
+    if(typeof loadPyodide!=="function") await loadFallback();
+    pyodide=await Promise.race([loadPyodide(),watchWasmFailure(),timeoutAfter(45000)]);
+    pyodide.runPython(RUNNER);
+    pyReady=true;stopTick();setStatus("ready",t("ready"));
+  }catch(e){
+    stopTick();pyFailed=true;
+    failKind=(wasmWarned||e.message==="wasm")?"wasm":"slow";
+    setStatus("fail",t("failed"));
+  }
+  renderBlocker();
+  if(!document.getElementById("ex").classList.contains("hidden")) render();
+}
+function runPy(src,inputs){
+  return JSON.parse(pyodide.globals.get("_pl_run")(src,JSON.stringify(inputs||[])));
+}
+
+/* ==========================================================
+   9. RENDU
+   ========================================================== */
+function applyStatic(){
+  document.querySelectorAll("[data-t]").forEach(el=>el.textContent=t(el.dataset.t));
+  document.getElementById("nameInput").placeholder=lang==="fr"?"Ton prénom":"Your name";
+  document.documentElement.lang=lang;
+}
+function renderStoreNote(){document.getElementById("storeNote").textContent=storageOK?"":t("noStore");}
+function show(id){["welcome","dash","ex"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+
+function renderDash(){
+  document.getElementById("sPoints").textContent=state.points;
+  document.getElementById("sDone").textContent=doneCount();
+  document.getElementById("sPct").textContent=Math.round(doneCount()/totalEx*100)+"%";
+  const box=document.getElementById("chapters");box.innerHTML="";
+  COURSES.forEach((c,ci)=>{
+    const n=c.ex.filter((_,ei)=>state.done[c.id+"-"+ei]).length;
+    const b=document.createElement("button");b.className="chapter";
+    b.innerHTML='<span class="numeral">'+c.num+'</span><span style="flex:1"><h3></h3>'+
+      '<div class="mini"></div><div class="bar"><i style="width:'+(n/c.ex.length*100)+'%"></i></div></span>'+
+      '<span class="mini" style="flex:none">'+n+"/"+c.ex.length+"</span>";
+    b.querySelector("h3").textContent=c.title[lang];
+    b.querySelector(".mini").textContent=c.desc[lang];
+    b.onclick=()=>openEx(ci,0);
+    box.appendChild(b);
+  });
+  renderStoreNote();show("dash");
+}
+
+function shuffled(arr){
+  let a=arr.slice(),n=0;
+  do{ for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];} n++; }
+  while(a.join("\n")===arr.join("\n")&&n<10);
+  return a;
+}
+
+function openEx(ci,ei){
+  cur={c:ci,e:ei};attempts=0;quizPicked=-1;
+  const x=COURSES[ci].ex[ei];
+  orderNow = x.kind==="order" ? shuffled(x.lines) : null;
+  render();
+  show("ex");
+}
+
+function render(){
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e;
+  document.getElementById("crumbs").textContent=t("chapter")+" "+c.num+" · "+c.title[lang]+" · "+(cur.e+1)+"/"+c.ex.length;
+  document.getElementById("exTitle").textContent=x.title[lang];
+  document.getElementById("exDesc").textContent=x.desc[lang];
+  document.getElementById("tagKind").textContent=t(x.kind==="code"?"kCode":x.kind==="quiz"?"kQuiz":"kOrder");
+  document.getElementById("tagDiff").textContent=t(x.diff);
+  const dt=document.getElementById("tagDone");
+  dt.textContent=t("done");dt.classList.toggle("hidden",!state.done[id]);
+  document.getElementById("prevBtn").disabled=(cur.c===0&&cur.e===0);
+  document.getElementById("hintBox").classList.add("hidden");
+  document.getElementById("feedback").innerHTML="";
+  const B=document.getElementById("body");
+  if(x.kind==="code") B.innerHTML=viewCode(x);
+  else if(x.kind==="quiz") B.innerHTML=viewQuiz(x);
+  else B.innerHTML=viewOrder(x);
+  wire(x);
+}
+
+function viewCode(x){
+  let exp=esc(x.out);
+  if(x.inputs) exp+="\n\n— "+t("simIn")+" "+x.inputs.join(", ");
+  return '<div class="panel"><div class="ph">'+t("expected")+'</div><pre>'+exp+'</pre></div>'+
+   '<div class="panel editor"><div class="ph">'+t("yourCode")+'</div>'+
+   '<textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea></div>'+
+   '<div class="actions"><button id="runBtn">'+t("run")+'</button>'+
+   '<button class="primary" id="checkBtn">'+t("check")+'</button>'+
+   '<button class="ghost" id="hintBtn">'+t("showHint")+'</button>'+
+   '<button class="ghost" id="solBtn">'+t("showSol")+'</button></div>'+
+   '<div class="panel"><div class="ph">'+t("output")+'</div><pre id="out" class="empty">'+t("nothing")+'</pre></div>';
+}
+function viewQuiz(x){
+  let h='<div class="panel"><div class="ph">'+t("quizQ")+'</div><pre class="dark">'+esc(x.code)+'</pre></div><div id="opts">';
+  x.options.forEach((o,i)=>{h+='<button class="opt" data-i="'+i+'">'+esc(o.txt)+'</button>';});
+  return h+'</div>';
+}
+function viewOrder(x){
+  let h='<div class="panel"><div class="ph">'+t("expected")+'</div><pre>'+esc(x.out)+'</pre></div><div id="rows">';
+  orderNow.forEach((l,i)=>{
+    h+='<div class="rowline"><div class="mv">'+
+      '<button data-mv="up" data-i="'+i+'" aria-label="'+t("up")+'"'+(i===0?" disabled":"")+'>▲</button>'+
+      '<button data-mv="down" data-i="'+i+'" aria-label="'+t("down")+'"'+(i===orderNow.length-1?" disabled":"")+'>▼</button>'+
+      '</div><pre>'+esc(l||" ")+'</pre></div>';
+  });
+  return h+'</div><div class="actions"><button class="primary" id="checkBtn">'+t("orderRun")+'</button>'+
+   '<button class="ghost" id="hintBtn">'+t("showHint")+'</button></div>'+
+   '<div class="panel"><div class="ph">'+t("output")+'</div><pre id="out" class="empty">'+t("nothing")+'</pre></div>';
+}
+
+function wire(x){
+  const hb=document.getElementById("hintBtn");
+  if(hb) hb.onclick=()=>toggleHint();
+  const sb=document.getElementById("solBtn");
+  if(sb) sb.onclick=()=>{const c=document.getElementById("code");c.value=x.sol;c.focus();};
+  const rb=document.getElementById("runBtn");
+  if(rb){rb.onclick=doRun;rb.disabled=!pyReady;}
+  const cb=document.getElementById("checkBtn");
+  if(cb){cb.onclick=x.kind==="order"?checkOrder:doCheck;cb.disabled=!pyReady;}
+  const ta=document.getElementById("code");
+  if(ta) ta.addEventListener("keydown",editorKeys);
+  document.querySelectorAll("#opts .opt").forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.i));
+  document.querySelectorAll("#rows [data-mv]").forEach(b=>b.onclick=()=>moveRow(+b.dataset.i,b.dataset.mv==="up"?-1:1));
+  if(pyFailed) document.getElementById("feedback").innerHTML=card("bad",t("failed"),t("failedMsg"));
+}
+function toggleHint(force){
+  const h=document.getElementById("hintBox"),x=COURSES[cur.c].ex[cur.e];
+  h.innerHTML=x.hint[lang];
+  if(force) h.classList.remove("hidden"); else h.classList.toggle("hidden");
+  const b=document.getElementById("hintBtn");
+  if(b) b.textContent=h.classList.contains("hidden")?t("showHint"):t("hideHint");
+}
+function editorKeys(e){
+  const c=e.target;
+  if(e.key==="Tab"){e.preventDefault();
+    const s=c.selectionStart,en=c.selectionEnd;
+    c.value=c.value.slice(0,s)+"    "+c.value.slice(en);
+    c.selectionStart=c.selectionEnd=s+4;}
+  if(e.key==="Enter"){
+    const s=c.selectionStart,ls=c.value.lastIndexOf("\n",s-1)+1,line=c.value.slice(ls,s);
+    let pad=(line.match(/^[ ]*/)||[""])[0];
+    if(/:\s*$/.test(line))pad+="    ";
+    if(pad){e.preventDefault();
+      c.value=c.value.slice(0,s)+"\n"+pad+c.value.slice(c.selectionEnd);
+      c.selectionStart=c.selectionEnd=s+1+pad.length;}}
+}
+function moveRow(i,d){
+  const j=i+d;if(j<0||j>=orderNow.length)return;
+  [orderNow[i],orderNow[j]]=[orderNow[j],orderNow[i]];
+  const x=COURSES[cur.c].ex[cur.e];
+  document.getElementById("body").innerHTML=viewOrder(x);
+  wire(x);
+}
+
+/* ---------- feedback helpers ---------- */
+function card(kind,title,body,sub){
+  return '<div class="card '+kind+'"><b>'+title+'</b>'+body+
+    (sub?'<div class="sub">'+sub+'</div>':'')+'</div>';
+}
+function award(id,kind){
+  if(state.done[id]) return false;
+  state.done[id]=true;state.points+=PTS[kind];save();
+  document.getElementById("tagDone").classList.remove("hidden");
+  return true;
+}
+function showOut(res){
+  const p=document.getElementById("out");if(!p)return;
+  const txt=res.err==="TIMEOUT"?"⏱ "+t("timeout")
+    :res.err?(res.out+(res.out?"\n":"")+res.err)
+    :(res.out||t("nothing"));
+  p.textContent=txt;p.className=(res.out||res.err)?"":"empty";
+}
+function errCard(res,code){
+  if(res.err==="TIMEOUT") return card("bad",t("timeout"),t("timeoutMsg"));
+  const ex=explainError(res.err,res.line,code,lang);
+  const src=(code.split("\n")[ex.line-1]||"").replace(/^\s+/,"");
+  const loc=ex.line?'<div class="errline">'+fmt(t("atLine"),{n:ex.line})+(src?"   "+esc(src):"")+"\n"+esc(res.err)+'</div>':
+    '<div class="errline">'+esc(res.err)+'</div>';
+  return card("bad",ex.t,ex.b+loc,"<b style='display:inline;font-size:inherit'>"+t("whatToDo")+" — </b>"+ex.d);
+}
+function escalate(){
+  attempts++;
+  const x=COURSES[cur.c].ex[cur.e];
+  if(attempts===2&&x.hint){toggleHint(true);return card("warn",t("autoHint"),t("tryAgain"));}
+  if(attempts>=3&&x.kind==="code"){
+    const b=document.getElementById("solBtn");if(b)b.className="nudge";
+    return card("warn",t("showSol"),t("solOffer"));
+  }
+  return "";
+}
+
+/* ---------- exercice « écrire du code » ---------- */
+function doRun(){
+  const code=document.getElementById("code").value;
+  const F=document.getElementById("feedback");
+  if(!pyReady){F.innerHTML=card("warn",t("wait"),"");return null;}
+  if(!code.trim()){F.innerHTML=card("warn",t("empty"),"");return null;}
+  F.innerHTML="";
+  const res=runPy(code,COURSES[cur.c].ex[cur.e].inputs);
+  showOut(res);
+  if(res.err) F.innerHTML=errCard(res,code);
+  return res;
+}
+function doCheck(){
+  const code=document.getElementById("code").value;
+  const res=doRun();if(!res)return;
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  if(res.err){F.innerHTML=errCard(res,code)+escalate();return;}
+  if(norm(res.out)===norm(x.out)){
+    const fresh=award(id,"code");
+    F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.code}):"");
+    return;
+  }
+  const d=diagnose(res.out,x.out,code,lang);
+  F.innerHTML=card("bad",t("firstDiff").split(" ")[0]==="First"?"Not yet":"Pas encore",d.msg)+
+    '<div class="diff"><div><h4>'+t("yours")+'</h4><pre>'+markDiff(res.out,x.out)+'</pre></div>'+
+    '<div><h4>'+t("target")+'</h4><pre>'+esc(norm(x.out))+'</pre></div></div>'+escalate();
+}
+
+/* ---------- exercice « prédire la sortie » ---------- */
+function pickQuiz(i){
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  if(quizPicked>=0)return;
+  quizPicked=i;
+  const good=i===x.answer;
+  document.querySelectorAll("#opts .opt").forEach(b=>{
+    const k=+b.dataset.i;
+    if(k===i)b.className="opt "+(good?"picked-ok":"picked-bad");
+    else if(k===x.answer)b.className="opt reveal";
+    b.disabled=true;
+  });
+  let html;
+  if(good){
+    const fresh=award(id,"quiz");
+    html=card("ok",t("ok"),x.options[i].why[lang]+(fresh?" "+fmt(t("okPts"),{n:PTS.quiz}):""));
+  }else{
+    html=card("bad",t("quizWhy"),x.options[i].why[lang],
+      "<b style='display:inline;font-size:inherit'>"+t("quizGood")+" — </b>"+
+      "<code>"+esc(x.options[x.answer].txt.replace(/\n/g," ⏎ "))+"</code>. "+x.options[x.answer].why[lang]);
+  }
+  F.innerHTML=html;
+}
+
+/* ---------- exercice « remettre dans l'ordre » ---------- */
+function checkOrder(){
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  if(!pyReady){F.innerHTML=card("warn",t("wait"),"");return;}
+  const code=orderNow.join("\n");
+  const res=runPy(code,x.inputs);
+  showOut(res);
+  if(res.err){F.innerHTML=errCard(res,code)+escalate();return;}
+  if(norm(res.out)===norm(x.out)){
+    const fresh=award(id,"order");
+    F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.order}):"")+
+      '<div class="panel"><div class="ph">'+t("orderCode")+'</div><pre class="dark">'+esc(code)+'</pre></div>';
+    return;
+  }
+  const d=diagnose(res.out,x.out,code,lang);
+  F.innerHTML=card("bad",lang==="fr"?"Pas encore":"Not yet",d.msg)+
+    '<div class="diff"><div><h4>'+t("yours")+'</h4><pre>'+markDiff(res.out,x.out)+'</pre></div>'+
+    '<div><h4>'+t("target")+'</h4><pre>'+esc(norm(x.out))+'</pre></div></div>'+escalate();
+}
+
+/* ==========================================================
+   10. NAVIGATION ET ÉVÉNEMENTS
+   ========================================================== */
+function step(d){
+  let ci=cur.c,ei=cur.e+d;
+  while(ei<0){ci--;if(ci<0)return;ei+=COURSES[ci].ex.length;}
+  while(ei>=COURSES[ci].ex.length){ei-=COURSES[ci].ex.length;ci++;if(ci>=COURSES.length){renderDash();return;}}
+  openEx(ci,ei);
+}
+document.getElementById("startBtn").onclick=()=>{
+  const n=document.getElementById("nameInput").value.trim();
+  const w=document.getElementById("nameWarn");
+  if(!n){w.innerHTML=card("warn",t("nameNeeded"),"");return;}
+  w.innerHTML="";state.name=n;save();renderDash();
+};
+document.getElementById("nameInput").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("startBtn").click();});
+document.getElementById("backBtn").onclick=renderDash;
+document.getElementById("prevBtn").onclick=()=>step(-1);
+document.getElementById("nextBtn").onclick=()=>step(1);
+document.getElementById("resetBtn").onclick=()=>{
+  if(confirm(t("confirmReset"))){state.points=0;state.done={};save();renderDash();}};
+document.getElementById("logoutBtn").onclick=()=>{
+  state.name="";save();document.getElementById("nameInput").value="";show("welcome");};
+document.getElementById("lang").onchange=e=>{
+  lang=e.target.value;save();applyStatic();renderBlocker();
+  setStatus(pyReady?"ready":(pyFailed?"fail":"load"),pyReady?t("ready"):(pyFailed?t("failed"):t("loading")));
+  if(!document.getElementById("ex").classList.contains("hidden"))render();
+  else if(!document.getElementById("dash").classList.contains("hidden"))renderDash();
+};
+document.getElementById("themeBtn").onclick=()=>{
+  const d=document.documentElement.dataset.theme==="dark";
+  document.documentElement.dataset.theme=d?"light":"dark";
+  document.getElementById("themeBtn").textContent=d?"☾":"☀";save();};
+
+/* ==========================================================
+   11. DÉMARRAGE
+   ========================================================== */
+load();
+document.getElementById("lang").value=lang;
+document.getElementById("themeBtn").textContent=document.documentElement.dataset.theme==="dark"?"☀":"☾";
+applyStatic();renderStoreNote();
+if(state.name){document.getElementById("nameInput").value=state.name;renderDash();}else{show("welcome");}
+bootPython();
+</script>
+</body>
+</html>
