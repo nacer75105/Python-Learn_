@@ -111,6 +111,38 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
 .diff pre{font-size:12.5px;padding:10px 12px;color:var(--ink)}
 .diff mark{background:rgba(212,117,107,.32);color:inherit;border-radius:3px}
 @media(max-width:560px){.diff{grid-template-columns:1fr}}
+/* cours */
+.lead{font-size:17.5px;color:var(--ink);margin:18px 0 0}
+.blk{margin-top:18px;line-height:1.62}
+.blk b{font-weight:700}
+.diagram{background:var(--paper-card);border:1px solid var(--line);border-radius:10px;padding:18px 14px;margin-top:20px}
+.diagram svg text{font-family:"Atkinson Hyperlegible",sans-serif;font-size:13px;fill:var(--ink)}
+.diagram svg .mono{font-family:"JetBrains Mono",monospace}
+.diagram svg .soft{fill:var(--ink-soft);font-size:12.5px}
+.diagram svg .box{fill:var(--paper);stroke:var(--ink);stroke-width:1.6}
+.diagram svg .okbox{fill:var(--ok-bg);stroke:var(--ok);stroke-width:1.6}
+.diagram svg .accent{stroke:var(--margin-rule);fill:none;stroke-width:1.6}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:18px;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.duo > div:first-child{border-right:1px solid var(--line)}
+.duo h4{margin:0;font:inherit;font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--ink-faint);padding:8px 14px;border-bottom:1px solid var(--line);background:var(--paper-card)}
+.duo pre{font-size:13px;padding:12px 14px}
+.duo .cd{background:var(--screen)}.duo .cd pre{color:var(--screen-ink)}
+.duo .cd h4{background:var(--screen);border-bottom-color:var(--screen-line);color:#8A9AAE}
+@media(max-width:560px){.duo{grid-template-columns:1fr}.duo > div:first-child{border-right:0;border-bottom:1px solid var(--line)}}
+/* gouttière de numéros de ligne */
+.edit{display:flex;background:var(--screen);align-items:stretch}
+.gut{margin:0;padding:16px 8px 16px 12px;text-align:right;color:#5D6E85;user-select:none;
+  font-family:"JetBrains Mono",ui-monospace,monospace;font-size:14px;line-height:1.65;
+  overflow:hidden;flex:none;border-right:1px solid var(--screen-line);background:var(--screen)}
+.gut i{display:block;font-style:normal}
+.gut i.bad{color:var(--bad);font-weight:700}
+.edit textarea{padding-left:12px}
+.memoH{font-size:19px;margin:28px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.memo{display:grid;grid-template-columns:auto 1fr;gap:8px 20px;align-items:baseline}
+.memo > div:nth-child(odd) code{white-space:nowrap;font-size:13px}
+.memo > div:nth-child(even){color:var(--ink-soft);font-size:14.5px;line-height:1.5}
+@media(max-width:560px){.memo{grid-template-columns:1fr;gap:2px 0}
+  .memo > div:nth-child(even){margin-bottom:10px}}
 .hint{margin-top:16px;border-left:3px solid var(--margin-rule);padding:2px 0 2px 16px;color:var(--ink-soft)}
 .navrow{display:flex;justify-content:space-between;gap:10px;margin-top:32px;padding-top:20px;border-top:1px solid var(--line);flex-wrap:wrap}
 .note{font-size:13px;color:var(--ink-faint);line-height:1.5;margin-top:26px;border-top:1px dashed var(--line);padding-top:14px}
@@ -173,10 +205,16 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
     </div>
     <div id="chapters"></div>
     <div class="navrow">
+      <button id="memoBtn" data-t="memoBtn"></button>
       <button class="ghost" id="resetBtn" data-t="resetAll"></button>
       <button class="ghost" id="logoutBtn" data-t="logout"></button>
     </div>
     <p class="note" id="storeNote"></p>
+  </section>
+
+  <section id="memo" class="hidden">
+    <div id="memoBody"></div>
+    <div class="navrow"><button class="ghost" id="memoBack" data-t="back"></button><span></span></div>
   </section>
 
   <section id="ex" class="hidden">
@@ -473,6 +511,703 @@ const COURSES = [
 ];
 
 /* ==========================================================
+   SCHÉMAS — SVG générés, sans image externe, thème-compatibles.
+   Chaque fonction reçoit un tableau d'étiquettes traduites.
+   ========================================================== */
+function SVG(vb,inner){
+  return '<svg viewBox="'+vb+'" width="100%" preserveAspectRatio="xMidYMid meet" '+
+    'style="display:block;max-width:100%;height:auto" role="img">'+
+    '<defs><marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">'+
+    '<path d="M1 1L9 5L1 9" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round"/></marker></defs>'+
+    inner+'</svg>';
+}
+const DIAG = {
+/* L = [nom, valeur, "le nom (l'étiquette)", "la valeur (le contenu)", "range 15 dans age"] */
+varbox:L=>SVG("0 0 520 190",
+  '<text class="mono" x="60" y="100" font-size="19">'+L[0]+'</text>'+
+  '<text class="mono" x="128" y="100" font-size="19" fill="var(--margin-rule)">=</text>'+
+  '<rect class="box" x="168" y="66" width="130" height="52" rx="8"/>'+
+  '<text class="mono" x="233" y="100" font-size="19" text-anchor="middle">'+L[1]+'</text>'+
+  '<path class="accent" d="M78 112 L78 146" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="60" y="166">'+L[2]+'</text>'+
+  '<path class="accent" d="M233 60 L233 34" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="233" y="24" text-anchor="middle">'+L[3]+'</text>'+
+  '<text class="soft" x="330" y="100">'+L[4]+'</text>'),
+
+/* L = [Programme, Écran, Clavier, print(...), input(...)] */
+io:L=>SVG("0 0 520 200",
+  '<rect class="box" x="180" y="70" width="160" height="60" rx="8"/>'+
+  '<text x="260" y="106" text-anchor="middle" font-size="15">'+L[0]+'</text>'+
+  '<rect class="okbox" x="392" y="70" width="106" height="60" rx="8"/>'+
+  '<text x="445" y="106" text-anchor="middle" font-size="15">'+L[1]+'</text>'+
+  '<rect class="okbox" x="22" y="70" width="106" height="60" rx="8"/>'+
+  '<text x="75" y="106" text-anchor="middle" font-size="15">'+L[2]+'</text>'+
+  '<path class="accent" d="M344 100 L386 100" marker-end="url(#ar)"/>'+
+  '<text class="mono soft" x="365" y="82" text-anchor="middle">'+L[3]+'</text>'+
+  '<path class="accent" d="M134 100 L174 100" marker-end="url(#ar)"/>'+
+  '<text class="mono soft" x="154" y="82" text-anchor="middle">'+L[4]+'</text>'+
+  '<text class="soft" x="260" y="160" text-anchor="middle">'+L[5]+'</text>'),
+
+/* L = [condition, vrai, faux, bloc si vrai, bloc sinon, "une seule branche s'exécute"] */
+ifelse:L=>SVG("0 0 520 250",
+  '<path class="box" d="M260 20 L392 68 L260 116 L128 68 Z"/>'+
+  '<text class="mono" x="260" y="74" text-anchor="middle" font-size="14">'+L[0]+'</text>'+
+  '<path class="accent" d="M128 68 L74 68 L74 150" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="98" y="58" text-anchor="middle">'+L[1]+'</text>'+
+  '<path class="accent" d="M392 68 L446 68 L446 150" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="422" y="58" text-anchor="middle">'+L[2]+'</text>'+
+  '<rect class="okbox" x="10" y="156" width="128" height="50" rx="8"/>'+
+  '<text class="mono" x="74" y="186" text-anchor="middle" font-size="13">'+L[3]+'</text>'+
+  '<rect class="okbox" x="382" y="156" width="128" height="50" rx="8"/>'+
+  '<text class="mono" x="446" y="186" text-anchor="middle" font-size="13">'+L[4]+'</text>'+
+  '<text class="soft" x="260" y="190" text-anchor="middle">'+L[5]+'</text>'+
+  '<text class="soft" x="260" y="236" text-anchor="middle">'+L[6]+'</text>'),
+
+/* L = ["range(1, 6)", "s'arrête AVANT 6", "5 tours"] */
+rangeline:L=>SVG("0 0 520 150",
+  '<text class="mono" x="20" y="40" font-size="15">'+L[0]+'</text>'+
+  '<line x1="60" y1="86" x2="470" y2="86" stroke="var(--line)" stroke-width="2"/>'+
+  [0,1,2,3,4,5,6].map((n,i)=>{
+    const x=70+i*62, on=(n>=1&&n<=5);
+    return '<circle cx="'+x+'" cy="86" r="'+(on?11:9)+'" fill="'+(on?'var(--ok)':'none')+
+      '" stroke="'+(on?'var(--ok)':'var(--ink-faint)')+'" stroke-width="1.6"'+(on?'':' stroke-dasharray="3 3"')+'/>'+
+      '<text class="mono" x="'+x+'" y="122" text-anchor="middle" font-size="14" fill="'+
+      (on?'var(--ink)':'var(--ink-faint)')+'">'+n+'</text>';
+  }).join('')+
+  '<path class="accent" d="M442 56 L442 72" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="442" y="46" text-anchor="middle">'+L[1]+'</text>'+
+  '<text class="soft" x="180" y="46" text-anchor="middle">'+L[2]+'</text>'),
+
+/* L = [tester la condition, exécuter le bloc, modifier la variable, sinon: boucle infinie] */
+whileloop:L=>SVG("0 0 520 230",
+  '<rect class="box" x="176" y="14" width="168" height="46" rx="8"/>'+
+  '<text x="260" y="42" text-anchor="middle" font-size="14">'+L[0]+'</text>'+
+  '<rect class="box" x="330" y="92" width="168" height="46" rx="8"/>'+
+  '<text x="414" y="120" text-anchor="middle" font-size="14">'+L[1]+'</text>'+
+  '<rect class="box" x="22" y="92" width="168" height="46" rx="8"/>'+
+  '<text x="106" y="120" text-anchor="middle" font-size="14">'+L[2]+'</text>'+
+  '<path class="accent" d="M344 44 L414 44 L414 86" marker-end="url(#ar)"/>'+
+  '<path class="accent" d="M414 144 L414 174 L106 174 L106 144" marker-end="url(#ar)"/>'+
+  '<path class="accent" d="M106 88 L106 44 L170 44" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="260" y="216" text-anchor="middle">'+L[3]+'</text>'),
+
+/* L = [valeurs..., "les positions commencent à 0", "len = 3"] */
+listbox:L=>SVG("0 0 520 170",
+  '<text class="mono" x="20" y="36" font-size="15">'+L[0]+'</text>'+
+  [1,2,3].map((k,i)=>{
+    const x=70+i*130;
+    return '<rect class="box" x="'+x+'" y="58" width="118" height="50" rx="8"/>'+
+      '<text class="mono" x="'+(x+59)+'" y="90" text-anchor="middle" font-size="15">'+L[k]+'</text>'+
+      '<text class="mono" x="'+(x+59)+'" y="132" text-anchor="middle" font-size="14" fill="var(--margin-rule)">'+i+'</text>';
+  }).join('')+
+  '<text class="soft" x="260" y="158" text-anchor="middle">'+L[4]+'</text>'),
+
+/* L = [paramètre, fonction, return renvoie la valeur, print écrit à l'écran, écran] */
+machine:L=>SVG("0 0 520 210",
+  '<rect class="box" x="186" y="60" width="148" height="66" rx="10"/>'+
+  '<text class="mono" x="260" y="99" text-anchor="middle" font-size="15">'+L[1]+'</text>'+
+  '<path class="accent" d="M64 93 L180 93" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="120" y="76" text-anchor="middle">'+L[0]+'</text>'+
+  '<path class="accent" d="M340 93 L456 93" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="398" y="76" text-anchor="middle">'+L[2]+'</text>'+
+  '<rect class="okbox" x="186" y="150" width="148" height="44" rx="8"/>'+
+  '<text x="260" y="177" text-anchor="middle" font-size="14">'+L[4]+'</text>'+
+  '<path class="accent" d="M260 130 L260 144" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="352" y="142">'+L[3]+'</text>')
+};
+
+/* ==========================================================
+   COURS — un par chapitre, inséré en tête des exercices.
+   types de blocs : p (texte), d (schéma), c (code + résultat),
+   t (le piège classique), r (à retenir)
+   ========================================================== */
+const LESSONS = {
+1:{ title:{fr:"Cours — les variables",en:"Lesson — variables"},
+  desc:{fr:"Lis d'abord, tu écriras du code juste après.",en:"Read first, you will write code right after."},
+  blocks:[
+  {type:"p",fr:"Une variable est une <b>boîte avec une étiquette</b>. Tu ranges une valeur dedans, tu écris un nom dessus, et tu peux la retrouver plus tard en citant ce nom.",
+       en:"A variable is a <b>labelled box</b>. You put a value inside, write a name on it, and find it later by using that name."},
+  {type:"p",fr:"Le signe <code>=</code> ne veut pas dire « égal » en Python. Il veut dire <b>« range dans »</b>. On lit <code>age = 15</code> de droite à gauche : range 15 dans la boîte appelée age.",
+       en:"The <code>=</code> sign does not mean \"equals\" in Python. It means <b>\"store into\"</b>. Read <code>age = 15</code> right to left: store 15 into the box called age."},
+  {type:"d",id:"varbox",
+    fr:["age","15","le nom (l'étiquette)","la valeur (le contenu)","« range 15 dans age »"],
+    en:["age","15","the name (the label)","the value (the content)","\"store 15 into age\""]},
+  {type:"c",code:'age = 15\nprint(age)',out:'15'},
+  {type:"p",fr:"Une boîte ne contient qu'une chose à la fois. Si tu ranges une nouvelle valeur, l'ancienne est jetée — elle n'existe plus nulle part.",
+       en:"A box holds only one thing at a time. Storing a new value throws the old one away — it exists nowhere anymore."},
+  {type:"c",code:'score = 0\nprint(score)\nscore = 100\nprint(score)',out:'0\n100'},
+  {type:"p",fr:"Python distingue quatre types de valeurs de base : <code>int</code> les nombres entiers, <code>float</code> les nombres à virgule, <code>str</code> le texte (toujours entre guillemets), <code>bool</code> vrai ou faux. La fonction <code>type()</code> te dit lequel tu as.",
+       en:"Python has four basic value types: <code>int</code> whole numbers, <code>float</code> decimal numbers, <code>str</code> text (always in quotes), <code>bool</code> true or false. The <code>type()</code> function tells you which one you have."},
+  {type:"c",code:'print(type(15))\nprint(type(3.14))\nprint(type("15"))\nprint(type(True))',
+    out:"<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>"},
+  {type:"t",fr:"<code>\"15\"</code> avec des guillemets n'est pas le nombre 15, c'est le texte « 15 ». Sur du texte, <code>+</code> ne calcule pas : il colle. D'où le résultat ci-dessous, qui surprend tout le monde une fois.",
+       en:"<code>\"15\"</code> with quotes is not the number 15, it is the text \"15\". On text, <code>+</code> does not compute: it glues. Hence the result below, which surprises everyone once."},
+  {type:"c",code:'print(15 + 3)\nprint("15" + "3")',out:'18\n153'},
+  {type:"r",fr:"Un nom de variable s'écrit sans espace ni accent, en minuscules, et décrit ce qu'il contient : <code>age</code>, <code>total_points</code>, <code>nom_eleve</code>.",
+       en:"A variable name has no space and no accent, is lowercase, and describes what it holds: <code>age</code>, <code>total_points</code>, <code>student_name</code>."}
+]},
+
+2:{ title:{fr:"Cours — afficher et demander",en:"Lesson — print and input"},
+  desc:{fr:"Les deux seules portes entre ton programme et toi.",en:"The only two doors between your program and you."},
+  blocks:[
+  {type:"p",fr:"Un programme est enfermé : il ne voit rien et ne dit rien, sauf si tu lui en donnes le moyen. <code>print()</code> est sa bouche, <code>input()</code> est son oreille.",
+       en:"A program is sealed off: it sees nothing and says nothing unless you give it a way. <code>print()</code> is its mouth, <code>input()</code> is its ear."},
+  {type:"d",id:"io",
+    fr:["Ton programme","Écran","Clavier","print(...)","input(...)","Sans print, un calcul juste reste invisible."],
+    en:["Your program","Screen","Keyboard","print(...)","input(...)","Without print, a correct computation stays invisible."]},
+  {type:"p",fr:"<code>print</code> accepte plusieurs valeurs séparées par des virgules. <b>La virgule ajoute une espace</b>, le <code>+</code> n'en ajoute pas. C'est la source de la moitié des sorties « presque bonnes ».",
+       en:"<code>print</code> accepts several values separated by commas. <b>The comma adds a space</b>, the <code>+</code> does not. This causes half of all \"almost right\" outputs."},
+  {type:"c",code:'print("Bonjour", "Alice")\nprint("Bonjour" + "Alice")',out:'Bonjour Alice\nBonjourAlice'},
+  {type:"p",fr:"Chaque <code>print</code> termine par un passage à la ligne. Pour rester sur la même ligne, on ajoute <code>end=\"\"</code>.",
+       en:"Each <code>print</code> ends with a line break. To stay on the same line, add <code>end=\"\"</code>."},
+  {type:"c",code:'print("a")\nprint("b")\nprint("a", end="")\nprint("b")',out:'a\nb\nab'},
+  {type:"t",fr:"<code>input()</code> renvoie <b>toujours du texte</b>, même si l'utilisateur tape des chiffres. Pour calculer avec, il faut convertir avec <code>int()</code>. Sinon <code>+</code> colle au lieu d'additionner.",
+       en:"<code>input()</code> <b>always returns text</b>, even when the user types digits. To compute with it, convert using <code>int()</code>. Otherwise <code>+</code> glues instead of adding."},
+  {type:"c",code:'age = "15"\nprint(age + "1")\nprint(int(age) + 1)',out:'151\n16'},
+  {type:"r",fr:"Le texte affiché par <code>print</code> ne comporte jamais les guillemets. Ils servent uniquement, dans le code, à délimiter le texte.",
+       en:"Text printed by <code>print</code> never shows the quotes. They only delimit text inside the code."}
+]},
+
+3:{ title:{fr:"Cours — les conditions",en:"Lesson — conditions"},
+  desc:{fr:"Faire prendre une décision au programme.",en:"Letting the program make a decision."},
+  blocks:[
+  {type:"p",fr:"Une condition est un <b>aiguillage</b>. Python teste une question qui n'a que deux réponses possibles, vrai ou faux, et emprunte l'une des deux voies.",
+       en:"A condition is a <b>railway switch</b>. Python tests a question with only two possible answers, true or false, and takes one of the two tracks."},
+  {type:"d",id:"ifelse",
+    fr:["age >= 18","vrai","faux",'print("Adulte")','print("Mineur")',"","Une seule des deux branches s'exécute, jamais les deux."],
+    en:["age >= 18","true","false",'print("Adult")','print("Minor")',"","Only one branch runs, never both."]},
+  {type:"p",fr:"Deux règles d'écriture, non négociables. La ligne du <code>if</code> se termine par <b>deux-points</b>. Les lignes qui suivent, celles « à l'intérieur », sont <b>décalées de 4 espaces</b>. C'est ce décalage, et lui seul, qui dit à Python ce qui appartient à la condition.",
+       en:"Two non-negotiable writing rules. The <code>if</code> line ends with a <b>colon</b>. The lines that follow, the ones \"inside\", are <b>indented by 4 spaces</b>. That indentation alone tells Python what belongs to the condition."},
+  {type:"c",code:'age = 20\nif age >= 18:\n    print("Adulte")\n    print("Tu peux voter")\nprint("Fin")',
+    out:'Adulte\nTu peux voter\nFin'},
+  {type:"p",fr:"La dernière ligne n'est pas décalée : elle est <b>en dehors</b> de la condition, donc elle s'affiche dans tous les cas. Change <code>age</code> pour 10 et tu ne verras plus que « Fin ».",
+       en:"The last line is not indented: it is <b>outside</b> the condition, so it always shows. Change <code>age</code> to 10 and you will only see \"Fin\"."},
+  {type:"p",fr:"Pour comparer, on dispose de <code>==</code> égal, <code>!=</code> différent, <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code>. On combine avec <code>and</code> (les deux) et <code>or</code> (au moins une). Quand il y a plus de deux cas, on enchaîne avec <code>elif</code>.",
+       en:"To compare: <code>==</code> equal, <code>!=</code> different, <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code>. Combine with <code>and</code> (both) and <code>or</code> (at least one). For more than two cases, chain with <code>elif</code>."},
+  {type:"c",code:'note = 14\nif note >= 16:\n    print("Excellent")\nelif note >= 10:\n    print("Correct")\nelse:\n    print("A revoir")',
+    out:'Correct'},
+  {type:"t",fr:"<code>=</code> range une valeur, <code>==</code> compare. Dans un <code>if</code>, c'est toujours <code>==</code>. Écrire <code>if x = 5:</code> provoque une erreur — heureusement, car sinon la faute passerait inaperçue.",
+       en:"<code>=</code> stores, <code>==</code> compares. Inside an <code>if</code>, always <code>==</code>. Writing <code>if x = 5:</code> raises an error — fortunately, otherwise the mistake would go unnoticed."},
+  {type:"r",fr:"Dans une chaîne <code>if / elif / else</code>, Python s'arrête à la première condition vraie. Les suivantes ne sont même pas testées.",
+       en:"In an <code>if / elif / else</code> chain, Python stops at the first true condition. The others are not even tested."}
+]},
+
+4:{ title:{fr:"Cours — les boucles",en:"Lesson — loops"},
+  desc:{fr:"Répéter sans jamais réécrire.",en:"Repeating without ever rewriting."},
+  blocks:[
+  {type:"p",fr:"Écrire dix fois la même ligne est une faute de débutant. Une boucle exécute un bloc plusieurs fois, en changeant une valeur à chaque tour.",
+       en:"Writing the same line ten times is a beginner's mistake. A loop runs a block several times, changing one value on each pass."},
+  {type:"p",fr:"<code>for</code> sert quand on sait <b>combien</b> de tours. <code>range(1, 6)</code> produit les nombres à partir de 1 et <b>s'arrête avant 6</b>. C'est déroutant au début, mais c'est constant : la deuxième borne n'est jamais atteinte.",
+       en:"<code>for</code> is for when you know <b>how many</b> passes. <code>range(1, 6)</code> produces numbers from 1 and <b>stops before 6</b>. Confusing at first, but always consistent: the second bound is never reached."},
+  {type:"d",id:"rangeline",
+    fr:["range(1, 6)","s'arrête avant 6","5 tours de boucle"],
+    en:["range(1, 6)","stops before 6","5 loop passes"]},
+  {type:"c",code:'for i in range(1, 6):\n    print(i, "x 3 =", i * 3)',
+    out:'1 x 3 = 3\n2 x 3 = 6\n3 x 3 = 9\n4 x 3 = 12\n5 x 3 = 15'},
+  {type:"p",fr:"<code>while</code> sert quand on ne sait pas combien de tours, mais qu'on sait <b>quand s'arrêter</b>. Le cycle a trois temps, et le troisième est celui qu'on oublie.",
+       en:"<code>while</code> is for when you don't know how many passes, but know <b>when to stop</b>. The cycle has three steps, and the third is the forgotten one."},
+  {type:"d",id:"whileloop",
+    fr:["1. tester la condition","2. exécuter le bloc","3. modifier la variable","Sans l'étape 3, la condition reste vraie pour toujours."],
+    en:["1. test the condition","2. run the block","3. change the variable","Without step 3, the condition stays true forever."]},
+  {type:"c",code:'i = 1\nwhile i <= 3:\n    print(i)\n    i = i + 1\nprint("Fini")',out:'1\n2\n3\nFini'},
+  {type:"p",fr:"Un usage très courant : l'<b>accumulateur</b>. On crée une variable à 0 avant la boucle, on y ajoute quelque chose à chaque tour, et on l'affiche après.",
+       en:"A very common pattern: the <b>accumulator</b>. Create a variable at 0 before the loop, add to it on each pass, print it after."},
+  {type:"c",code:'total = 0\nfor n in range(1, 11):\n    total = total + n\nprint(total)',out:'55'},
+  {type:"t",fr:"Si tu oublies <code>i = i + 1</code>, la condition reste vraie indéfiniment et le programme ne s'arrête jamais. Dans cette application, une sécurité coupe au bout de 5 secondes et te le signale.",
+       en:"If you forget <code>i = i + 1</code>, the condition stays true forever and the program never ends. In this app, a safety cut-off stops it after 5 seconds and tells you."},
+  {type:"r",fr:"Le <code>print</code> placé <b>dans</b> la boucle s'exécute à chaque tour. Placé <b>après</b>, il ne s'exécute qu'une fois. Le décalage change tout.",
+       en:"A <code>print</code> <b>inside</b> the loop runs every pass. <b>After</b> it, it runs once. Indentation changes everything."}
+]},
+
+5:{ title:{fr:"Cours — les listes",en:"Lesson — lists"},
+  desc:{fr:"Ranger plusieurs valeurs sous un seul nom.",en:"Keeping several values under one name."},
+  blocks:[
+  {type:"p",fr:"Pour stocker trois fruits, on n'a pas besoin de trois variables. Une <b>liste</b> est une seule boîte contenant des cases numérotées, dans l'ordre.",
+       en:"To store three fruits you don't need three variables. A <b>list</b> is one box holding numbered slots, in order."},
+  {type:"d",id:"listbox",
+    fr:['fruits = ["pomme", "kiwi", "orange"]',"pomme","kiwi","orange","Les positions commencent à 0, jamais à 1."],
+    en:['fruits = ["apple", "kiwi", "orange"]',"apple","kiwi","orange","Positions start at 0, never at 1."]},
+  {type:"p",fr:"On accède à une case par sa position, entre crochets. La première est <code>[0]</code>. <code>len()</code> donne le nombre d'éléments.",
+       en:"You access a slot by its position, in square brackets. The first is <code>[0]</code>. <code>len()</code> gives the number of items."},
+  {type:"c",code:'fruits = ["pomme", "kiwi", "orange"]\nprint(fruits[0])\nprint(fruits[2])\nprint(len(fruits))',
+    out:'pomme\norange\n3'},
+  {type:"p",fr:"Une boucle <code>for</code> parcourt la liste sans qu'on ait à compter : elle prend les éléments un par un.",
+       en:"A <code>for</code> loop walks the list without counting: it takes the items one by one."},
+  {type:"c",code:'fruits = ["pomme", "kiwi", "orange"]\nfor f in fruits:\n    print("J\'aime", f)',
+    out:"J'aime pomme\nJ'aime kiwi\nJ'aime orange"},
+  {type:"p",fr:"Une liste peut grandir. <code>append()</code> ajoute à la fin, et modifie la liste sur place.",
+       en:"A list can grow. <code>append()</code> adds at the end and changes the list in place."},
+  {type:"c",code:'nombres = [3, 1]\nnombres.append(5)\nprint(nombres)\nprint(sum(nombres))',out:'[3, 1, 5]\n9'},
+  {type:"t",fr:"Une liste de 3 éléments a les positions 0, 1 et 2. La position 3 n'existe pas et provoque une erreur. Le dernier élément est à <code>len(liste) - 1</code>, ou plus simplement <code>liste[-1]</code>.",
+       en:"A list of 3 items has positions 0, 1 and 2. Position 3 does not exist and raises an error. The last item is at <code>len(list) - 1</code>, or more simply <code>list[-1]</code>."},
+  {type:"r",fr:"<code>print(fruits)</code> affiche la liste entière avec ses crochets et ses guillemets. <code>print(fruits[0])</code> affiche seulement le contenu d'une case.",
+       en:"<code>print(fruits)</code> shows the whole list with brackets and quotes. <code>print(fruits[0])</code> shows only the content of one slot."}
+]},
+
+6:{ title:{fr:"Cours — les fonctions",en:"Lesson — functions"},
+  desc:{fr:"Écrire une fois, réutiliser partout.",en:"Write once, reuse everywhere."},
+  blocks:[
+  {type:"p",fr:"Une fonction est une <b>machine</b> : on lui donne quelque chose à l'entrée, elle travaille, elle rend un résultat. Une fois construite, on l'utilise autant de fois qu'on veut sans réécrire son contenu.",
+       en:"A function is a <b>machine</b>: you feed it something, it works, it hands back a result. Once built, use it as often as you like without rewriting its content."},
+  {type:"d",id:"machine",
+    fr:["le paramètre entre","def carre(n):","return rend la valeur","print écrit à l'écran","Écran"],
+    en:["the parameter goes in","def square(n):","return hands the value back","print writes to the screen","Screen"]},
+  {type:"p",fr:"On la construit avec <code>def</code>, deux-points, et un bloc décalé. <b>Définir ne l'exécute pas.</b> Il faut ensuite l'appeler en écrivant son nom suivi de parenthèses.",
+       en:"You build it with <code>def</code>, a colon, and an indented block. <b>Defining does not run it.</b> You must then call it by writing its name followed by parentheses."},
+  {type:"c",code:'def bonjour(nom):\n    print("Salut", nom)\n\nbonjour("Alice")\nbonjour("Karim")',
+    out:'Salut Alice\nSalut Karim'},
+  {type:"p",fr:"Voici la distinction la plus importante du chapitre. <code>print</code> <b>écrit à l'écran</b> et ne rend rien. <code>return</code> <b>rend une valeur</b> à celui qui a appelé, et n'écrit rien. Ce ne sont pas deux façons de dire la même chose.",
+       en:"Here is the most important distinction of this chapter. <code>print</code> <b>writes to the screen</b> and returns nothing. <code>return</code> <b>hands a value back</b> to the caller and writes nothing. They are not two ways of saying the same thing."},
+  {type:"c",code:'def carre(n):\n    return n * n\n\ncarre(5)\nprint(carre(5))\nprint(carre(5) + 1)',out:'25\n26'},
+  {type:"p",fr:"La ligne <code>carre(5)</code> seule calcule bien 25… puis jette le résultat, car rien ne l'attrape. C'est pourquoi la sortie ne commence qu'à la ligne suivante. Avec <code>return</code>, le résultat est réutilisable dans un calcul : la dernière ligne le prouve.",
+       en:"The lone <code>carre(5)</code> line does compute 25… then throws it away, because nothing catches it. That is why the output only starts on the next line. With <code>return</code>, the result is reusable in a computation: the last line proves it."},
+  {type:"t",fr:"Une fonction qui affiche avec <code>print</code> au lieu de renvoyer avec <code>return</code> semble marcher — jusqu'au jour où tu veux réutiliser son résultat. Là, tu n'as rien entre les mains.",
+       en:"A function that prints instead of returning seems to work — until the day you want to reuse its result. Then you are holding nothing."},
+  {type:"r",fr:"Les paramètres sont des variables qui n'existent qu'à l'intérieur de la fonction. Le <code>n</code> de <code>carre(n)</code> ne connaît rien du reste du programme, et c'est une bonne chose.",
+       en:"Parameters are variables that exist only inside the function. The <code>n</code> in <code>carre(n)</code> knows nothing of the rest of the program, and that is a good thing."}
+]}
+};
+
+/* ==========================================================
+   SCHÉMAS SUPPLÉMENTAIRES
+   ========================================================== */
+/* L = [mot, "positions", "positions négatives", "mot[1:4] → « yth »"] */
+DIAG.strindex=L=>SVG("0 0 520 200",
+  '<text class="mono" x="20" y="30" font-size="15">'+L[0]+'</text>'+
+  "python".split("").map((ch,i)=>{
+    const x=52+i*68, sel=(i>=1&&i<=3);
+    return '<rect class="'+(sel?'okbox':'box')+'" x="'+x+'" y="52" width="58" height="52" rx="7"/>'+
+      '<text class="mono" x="'+(x+29)+'" y="86" text-anchor="middle" font-size="18">'+ch+'</text>'+
+      '<text class="mono" x="'+(x+29)+'" y="126" text-anchor="middle" font-size="14" fill="var(--margin-rule)">'+i+'</text>'+
+      '<text class="mono" x="'+(x+29)+'" y="150" text-anchor="middle" font-size="13" fill="var(--ink-faint)">'+(i-6)+'</text>';
+  }).join('')+
+  '<text class="soft" x="20" y="126">'+L[1]+'</text>'+
+  '<text class="soft" x="20" y="150">'+L[2]+'</text>'+
+  '<path class="accent" d="M120 174 L324 174"/>'+
+  '<text class="soft" x="222" y="194" text-anchor="middle">'+L[3]+'</text>'),
+
+/* L = [liste, "la valeur lue", "le meilleur jusqu'ici", "on ne remplace que si c'est plus grand"] */
+DIAG.maxscan=L=>SVG("0 0 520 210",
+  '<text class="mono" x="20" y="30" font-size="15">'+L[0]+'</text>'+
+  [3,17,8,12].map((v,i)=>{
+    const x=100+i*98;
+    return '<rect class="box" x="'+x+'" y="48" width="80" height="46" rx="7"/>'+
+      '<text class="mono" x="'+(x+40)+'" y="78" text-anchor="middle" font-size="17">'+v+'</text>'+
+      '<path class="accent" d="M'+(x+40)+' 100 L'+(x+40)+' 122" marker-end="url(#ar)"/>';
+  }).join('')+
+  [3,17,17,17].map((v,i)=>{
+    const x=100+i*98, chg=(i===1);
+    return '<rect class="'+(chg?'okbox':'box')+'" x="'+x+'" y="128" width="80" height="46" rx="7"/>'+
+      '<text class="mono" x="'+(x+40)+'" y="158" text-anchor="middle" font-size="17">'+v+'</text>';
+  }).join('')+
+  '<text class="soft" x="20" y="78">'+L[1]+'</text>'+
+  '<text class="soft" x="20" y="158">'+L[2]+'</text>'+
+  '<text class="soft" x="260" y="200" text-anchor="middle">'+L[3]+'</text>');
+
+/* ==========================================================
+   CHAPITRES VII ET VIII
+   ========================================================== */
+COURSES.push(
+{ id:7, num:"VII", title:{fr:"Le texte",en:"Text"},
+  desc:{fr:"Découper, transformer et parcourir des chaînes de caractères",en:"Slicing, transforming and walking through strings"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Les lettres d'un mot sont numérotées comme les cases d'une liste.",en:"The letters of a word are numbered like list slots."},
+   code:'mot = "Python"\nprint(mot[1])', answer:1,
+   options:[
+    {txt:'P', why:{fr:"P est en position 0. La numérotation d'une chaîne commence à 0, comme pour une liste.",en:"P is at position 0. String numbering starts at 0, like a list."}},
+    {txt:'y', why:{fr:"Position 0 = P, position 1 = y. C'est bien la deuxième lettre.",en:"Position 0 = P, position 1 = y. It is the second letter."}},
+    {txt:'t', why:{fr:"t est en position 2.",en:"t is at position 2."}},
+    {txt:'Erreur', why:{fr:"L'accès par position fonctionne sur une chaîne exactement comme sur une liste.",en:"Position access works on a string exactly as on a list."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Longueur d'un mot",en:"Length of a word"},
+   desc:{fr:'Crée mot = "ordinateur" et affiche le nombre de lettres.',en:'Create mot = "ordinateur" and print the number of letters.'},
+   hint:{fr:"<code>len()</code> compte les caractères d'une chaîne comme il compte les éléments d'une liste.",en:"<code>len()</code> counts characters of a string just as it counts list items."},
+   sol:'mot = "ordinateur"\nprint(len(mot))', out:'10' },
+
+ { kind:"code", diff:"easy", title:{fr:"Première et dernière lettre",en:"First and last letter"},
+   desc:{fr:'Avec mot = "python", affiche la première lettre puis la dernière.',en:'With mot = "python", print the first letter then the last.'},
+   hint:{fr:"La première est <code>mot[0]</code>. Pour la dernière, <code>mot[-1]</code> évite de compter.",en:"The first is <code>mot[0]</code>. For the last, <code>mot[-1]</code> saves you counting."},
+   sol:'mot = "python"\nprint(mot[0])\nprint(mot[-1])', out:'p\nn' },
+
+ { kind:"code", diff:"medium", title:{fr:"Majuscules",en:"Uppercase"},
+   desc:{fr:'Avec mot = "python", affiche le mot en majuscules, puis le mot d\'origine.',en:'With mot = "python", print the word in uppercase, then the original word.'},
+   hint:{fr:"<code>mot.upper()</code> renvoie une nouvelle chaîne ; <code>mot</code> n'est pas modifié.",en:"<code>mot.upper()</code> returns a new string; <code>mot</code> is unchanged."},
+   sol:'mot = "python"\nprint(mot.upper())\nprint(mot)', out:'PYTHON\npython' },
+
+ { kind:"code", diff:"medium", title:{fr:"Une phrase avec des variables",en:"A sentence with variables"},
+   desc:{fr:'Avec nom = "Alice" et age = 16, affiche : Alice a 16 ans',en:'With nom = "Alice" and age = 16, print: Alice a 16 ans'},
+   hint:{fr:'Un f-string s\'écrit <code>f"…"</code> et les variables se glissent entre accolades.',en:'An f-string is written <code>f"…"</code> and variables go inside braces.'},
+   sol:'nom = "Alice"\nage = 16\nprint(f"{nom} a {age} ans")', out:'Alice a 16 ans' },
+
+ { kind:"code", diff:"hard", title:{fr:"Compter une lettre",en:"Count a letter"},
+   desc:{fr:'Compte combien de fois la lettre o apparaît dans "ordinateur portable", et affiche ce nombre.',en:'Count how many times the letter o appears in "ordinateur portable", and print that number.'},
+   hint:{fr:"Un compteur à 0 avant la boucle, une boucle sur les lettres, un <code>if</code> à l'intérieur.",en:"A counter at 0 before the loop, a loop over the letters, an <code>if</code> inside."},
+   sol:'phrase = "ordinateur portable"\ncompteur = 0\nfor lettre in phrase:\n    if lettre == "o":\n        compteur = compteur + 1\nprint(compteur)', out:'2' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : PYTHON",en:"This program must print: PYTHON"},
+   hint:{fr:"<code>.upper()</code> ne modifie rien : il faut ranger son résultat quelque part.",en:"<code>.upper()</code> changes nothing: you must store its result somewhere."},
+   lines:['mot = "python"','mot = mot.upper()','print(mot)'], out:'PYTHON' }
+]},
+
+{ id:8, num:"VIII", title:{fr:"Algorithmes classiques",en:"Classic algorithms"},
+  desc:{fr:"Les cinq motifs qui reviennent partout : compter, cumuler, chercher le maximum, rechercher, atteindre un seuil",en:"The five patterns that come back everywhere: count, accumulate, find the maximum, search, reach a threshold"}, ex:[
+
+ { kind:"quiz", diff:"hard", title:{fr:"Cet algorithme a un défaut",en:"This algorithm has a flaw"},
+   desc:{fr:"Il cherche le maximum. Que va-t-il réellement afficher ?",en:"It looks for the maximum. What will it actually print?"},
+   code:'notes = [-3, -7, -1]\nmaxi = 0\nfor n in notes:\n    if n > maxi:\n        maxi = n\nprint(maxi)', answer:1,
+   options:[
+    {txt:'-1', why:{fr:"C'est bien le maximum de la liste, mais l'algorithme ne le trouve pas : aucun nombre négatif n'est supérieur à 0, donc maxi n'est jamais remplacé.",en:"That is indeed the maximum, but the algorithm never finds it: no negative number is greater than 0, so maxi is never replaced."}},
+    {txt:'0', why:{fr:"Exact — et c'est un bug. 0 n'appartient même pas à la liste. Il ne faut jamais initialiser maxi à 0, mais avec le premier élément : maxi = notes[0].",en:"Correct — and it is a bug. 0 is not even in the list. Never initialise maxi to 0; use the first element instead: maxi = notes[0]."}},
+    {txt:'-7', why:{fr:"-7 est le plus petit. La condition cherche les plus grands.",en:"-7 is the smallest. The condition looks for larger values."}},
+    {txt:'Erreur', why:{fr:"Le programme est valide. Il donne simplement une réponse fausse, ce qui est plus dangereux qu'une erreur.",en:"The program is valid. It simply gives a wrong answer, which is more dangerous than an error."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Compter",en:"Count"},
+   desc:{fr:'Dans nombres = [4, 7, 10, 3, 8], compte les nombres pairs et affiche le résultat.',en:'In nombres = [4, 7, 10, 3, 8], count the even numbers and print the result.'},
+   hint:{fr:"Compteur à 0, boucle sur la liste, <code>if n % 2 == 0:</code> à l'intérieur.",en:"Counter at 0, loop over the list, <code>if n % 2 == 0:</code> inside."},
+   sol:'nombres = [4, 7, 10, 3, 8]\ncompteur = 0\nfor n in nombres:\n    if n % 2 == 0:\n        compteur = compteur + 1\nprint(compteur)', out:'3' },
+
+ { kind:"code", diff:"medium", title:{fr:"La moyenne",en:"The average"},
+   desc:{fr:'Calcule et affiche la moyenne de notes = [12, 15, 9].',en:'Compute and print the average of notes = [12, 15, 9].'},
+   hint:{fr:"Cumule tout dans <code>total</code>, puis divise par <code>len(notes)</code>.",en:"Accumulate into <code>total</code>, then divide by <code>len(notes)</code>."},
+   sol:'notes = [12, 15, 9]\ntotal = 0\nfor n in notes:\n    total = total + n\nprint(total / len(notes))', out:'12.0' },
+
+ { kind:"code", diff:"medium", title:{fr:"Le maximum",en:"The maximum"},
+   desc:{fr:'Trouve le plus grand nombre de nombres = [3, 17, 8, 12] sans utiliser max(), et affiche-le.',en:'Find the largest number in nombres = [3, 17, 8, 12] without using max(), and print it.'},
+   hint:{fr:"Initialise avec le premier élément, jamais avec 0.",en:"Initialise with the first element, never with 0."},
+   sol:'nombres = [3, 17, 8, 12]\nmaxi = nombres[0]\nfor n in nombres:\n    if n > maxi:\n        maxi = n\nprint(maxi)', out:'17' },
+
+ { kind:"code", diff:"medium", title:{fr:"La recherche",en:"The search"},
+   desc:{fr:'Cherche si 17 se trouve dans nombres = [3, 17, 8] et affiche True ou False.',en:'Check whether 17 is in nombres = [3, 17, 8] and print True or False.'},
+   hint:{fr:"Un drapeau <code>trouve = False</code> avant la boucle, qui passe à <code>True</code> si on tombe dessus.",en:"A flag <code>trouve = False</code> before the loop, set to <code>True</code> when found."},
+   sol:'nombres = [3, 17, 8]\ntrouve = False\nfor n in nombres:\n    if n == 17:\n        trouve = True\nprint(trouve)', out:'True' },
+
+ { kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
+   desc:{fr:'Trouve le plus petit nombre n tel que 1 + 2 + … + n dépasse 50, et affiche ce n.',en:'Find the smallest n such that 1 + 2 + … + n exceeds 50, and print that n.'},
+   hint:{fr:"On ne sait pas combien de tours : c'est un <code>while</code>. On avance tant que le total ne dépasse pas 50.",en:"You don't know the number of passes: use a <code>while</code>. Keep going while the total does not exceed 50."},
+   sol:'total = 0\nn = 0\nwhile total <= 50:\n    n = n + 1\n    total = total + n\nprint(n)', out:'10' },
+
+ { kind:"order", diff:"hard", title:{fr:"Remets l'algorithme dans l'ordre",en:"Put the algorithm in order"},
+   desc:{fr:"Cet algorithme cherche le maximum. Il doit afficher : 17",en:"This algorithm finds the maximum. It must print: 17"},
+   hint:{fr:"Deux niveaux de décalage : le <code>if</code> est dans la boucle, et l'affectation est dans le <code>if</code>.",en:"Two indentation levels: the <code>if</code> is inside the loop, and the assignment is inside the <code>if</code>."},
+   lines:['nombres = [3, 17, 8]','maxi = nombres[0]','for n in nombres:','    if n > maxi:','        maxi = n','print(maxi)'], out:'17' }
+]});
+
+/* ==========================================================
+   COURS DES CHAPITRES VII ET VIII
+   ========================================================== */
+LESSONS[7]={ title:{fr:"Cours — le texte",en:"Lesson — text"},
+  desc:{fr:"Une chaîne de caractères est une suite de lettres numérotées.",en:"A string is a numbered sequence of letters."},
+  blocks:[
+  {type:"p",fr:"Un texte entre guillemets s'appelle une <b>chaîne de caractères</b>. Python la traite comme une suite de cases, exactement comme une liste : chaque lettre a une position, et la première est la position 0.",
+       en:"Text in quotes is called a <b>string</b>. Python treats it as a sequence of slots, exactly like a list: each letter has a position, and the first one is position 0."},
+  {type:"d",id:"strindex",
+    fr:['mot = "python"',"positions","positions depuis la fin",'mot[1:4] vaut « yth »'],
+    en:['mot = "python"',"positions","positions from the end",'mot[1:4] is "yth"']},
+  {type:"p",fr:"<code>len()</code> donne le nombre de lettres. <code>mot[0]</code> donne la première, et <code>mot[-1]</code> la dernière sans avoir à compter.",
+       en:"<code>len()</code> gives the number of letters. <code>mot[0]</code> gives the first, and <code>mot[-1]</code> the last without counting."},
+  {type:"c",code:'mot = "python"\nprint(len(mot))\nprint(mot[0])\nprint(mot[-1])',out:'6\np\nn'},
+  {type:"p",fr:"On peut prendre un <b>morceau</b> avec deux positions séparées par deux-points. Comme pour <code>range</code>, la deuxième borne n'est pas incluse : <code>mot[1:4]</code> prend les positions 1, 2 et 3.",
+       en:"You can take a <b>slice</b> with two positions separated by a colon. As with <code>range</code>, the second bound is excluded: <code>mot[1:4]</code> takes positions 1, 2 and 3."},
+  {type:"c",code:'mot = "python"\nprint(mot[1:4])\nprint(mot[:3])\nprint(mot[3:])',out:'yth\npyt\nhon'},
+  {type:"p",fr:"Des <b>méthodes</b> transforment le texte : <code>.upper()</code>, <code>.lower()</code>, <code>.replace()</code>. Elles s'écrivent après un point. Attention : elles ne modifient pas la chaîne, elles en <b>renvoient une nouvelle</b>.",
+       en:"<b>Methods</b> transform text: <code>.upper()</code>, <code>.lower()</code>, <code>.replace()</code>. They are written after a dot. Careful: they do not modify the string, they <b>return a new one</b>."},
+  {type:"c",code:'mot = "python"\nprint(mot.upper())\nprint(mot)\nmot = mot.upper()\nprint(mot)',out:'PYTHON\npython\nPYTHON'},
+  {type:"p",fr:"Pour mélanger texte et variables, le <b>f-string</b> est la façon moderne et la plus lisible. On met un <code>f</code> avant le guillemet, et les variables entre accolades.",
+       en:"To mix text and variables, the <b>f-string</b> is the modern and most readable way. Put an <code>f</code> before the quote, and variables in braces."},
+  {type:"c",code:'nom = "Alice"\nage = 16\nprint(f"{nom} a {age} ans")\nprint(f"Dans 5 ans elle aura {age + 5} ans")',
+    out:'Alice a 16 ans\nDans 5 ans elle aura 21 ans'},
+  {type:"t",fr:"Une chaîne ne se modifie jamais case par case. <code>mot[0] = \"P\"</code> provoque une erreur. Et <code>mot.upper()</code> tout seul ne sert à rien : sans <code>mot = mot.upper()</code> ou sans <code>print</code>, le résultat est jeté.",
+       en:"A string is never modified slot by slot. <code>mot[0] = \"P\"</code> raises an error. And <code>mot.upper()</code> alone is useless: without <code>mot = mot.upper()</code> or a <code>print</code>, the result is thrown away."},
+  {type:"r",fr:"<code>for lettre in mot:</code> parcourt les lettres une par une, exactement comme on parcourt une liste. C'est ce qui permet de compter une lettre ou de chercher un caractère.",
+       en:"<code>for lettre in mot:</code> walks the letters one by one, exactly like walking a list. That is how you count a letter or search for a character."}
+]};
+
+LESSONS[8]={ title:{fr:"Cours — les algorithmes classiques",en:"Lesson — classic algorithms"},
+  desc:{fr:"Cinq motifs qui, combinés, résolvent presque tout au lycée.",en:"Five patterns that, combined, solve almost everything at school level."},
+  blocks:[
+  {type:"p",fr:"Un <b>algorithme</b> n'est pas un programme qui marche sur un exemple : c'est une méthode qui marche sur <b>toutes</b> les données possibles. C'est cette exigence qui fait toute la difficulté, et tout l'intérêt.",
+       en:"An <b>algorithm</b> is not a program that works on one example: it is a method that works on <b>all</b> possible data. That requirement is the whole difficulty, and the whole point."},
+  {type:"p",fr:"<b>Motif 1 — le compteur.</b> Une variable à 0 avant la boucle, augmentée d'une unité chaque fois qu'une condition est vraie.",
+       en:"<b>Pattern 1 — the counter.</b> A variable at 0 before the loop, increased by one each time a condition holds."},
+  {type:"c",code:'nombres = [4, 7, 10, 3]\ncompteur = 0\nfor n in nombres:\n    if n % 2 == 0:\n        compteur = compteur + 1\nprint(compteur)',out:'2'},
+  {type:"p",fr:"<b>Motif 2 — l'accumulateur.</b> Même principe, mais on ajoute la valeur elle-même au lieu de 1. Divisé par <code>len()</code>, il donne la moyenne.",
+       en:"<b>Pattern 2 — the accumulator.</b> Same principle, but you add the value itself instead of 1. Divided by <code>len()</code>, it gives the average."},
+  {type:"c",code:'notes = [12, 15, 9]\ntotal = 0\nfor n in notes:\n    total = total + n\nprint(total)\nprint(total / len(notes))',out:'36\n12.0'},
+  {type:"p",fr:"<b>Motif 3 — le maximum.</b> On garde en mémoire le meilleur rencontré jusqu'ici, et on ne le remplace que si on trouve mieux.",
+       en:"<b>Pattern 3 — the maximum.</b> Keep the best seen so far, and replace it only when you find better."},
+  {type:"d",id:"maxscan",
+    fr:['nombres = [3, 17, 8, 12]',"la valeur lue","le meilleur jusqu'ici","On ne remplace que lorsqu'on trouve plus grand : une seule fois ici."],
+    en:['nombres = [3, 17, 8, 12]',"the value read","the best so far","Replacement happens only when something bigger appears: once here."]},
+  {type:"c",code:'nombres = [3, 17, 8, 12]\nmaxi = nombres[0]\nfor n in nombres:\n    if n > maxi:\n        maxi = n\nprint(maxi)',out:'17'},
+  {type:"p",fr:"<b>Motif 4 — la recherche.</b> Un <b>drapeau</b> booléen part à <code>False</code> et passe à <code>True</code> si on trouve ce qu'on cherche. À la fin, il répond à la question.",
+       en:"<b>Pattern 4 — the search.</b> A boolean <b>flag</b> starts at <code>False</code> and turns <code>True</code> if you find what you seek. At the end, it answers the question."},
+  {type:"c",code:'nombres = [3, 17, 8]\ntrouve = False\nfor n in nombres:\n    if n == 17:\n        trouve = True\nprint(trouve)',out:'True'},
+  {type:"p",fr:"<b>Motif 5 — le seuil.</b> Ici on ignore le nombre de tours : on avance tant qu'une limite n'est pas franchie. C'est le cas typique du <code>while</code>.",
+       en:"<b>Pattern 5 — the threshold.</b> Here you don't know the number of passes: keep going until a limit is crossed. This is the typical <code>while</code> case."},
+  {type:"c",code:'total = 0\nn = 0\nwhile total <= 20:\n    n = n + 1\n    total = total + n\nprint(n, total)',out:'6 21'},
+  {type:"t",fr:"Initialiser le maximum à 0 est l'erreur la plus fréquente. Avec une liste de nombres négatifs, l'algorithme répond 0 — une valeur qui n'est même pas dans la liste. Un programme qui ne plante pas mais répond faux est bien plus dangereux qu'un programme qui plante. Initialise toujours avec <code>liste[0]</code>.",
+       en:"Initialising the maximum to 0 is the most common mistake. With a list of negative numbers, the algorithm answers 0 — a value not even in the list. A program that does not crash but answers wrongly is far more dangerous than one that crashes. Always initialise with <code>liste[0]</code>."},
+  {type:"r",fr:"Reconnaître le motif est la moitié du travail. Compter, cumuler, garder le meilleur, lever un drapeau, avancer jusqu'à un seuil : presque tout exercice d'algorithmique de lycée est l'un de ces cinq, ou une combinaison de deux d'entre eux.",
+       en:"Recognising the pattern is half the work. Count, accumulate, keep the best, raise a flag, advance to a threshold: nearly every school algorithm exercise is one of these five, or a combination of two."}
+]};
+
+/* ==========================================================
+   SCHÉMAS SUPPLÉMENTAIRES 2
+   ========================================================== */
+/* L = [dict littéral, clé1, valeur1, clé2, valeur2, clé3, valeur3, "on cherche par clé, jamais par position"] */
+DIAG.dictbox=L=>SVG("0 0 520 190",
+  '<text class="mono" x="20" y="30" font-size="14">'+L[0]+'</text>'+
+  [1,3,5].map((k,i)=>{
+    const x=40+i*160;
+    return '<rect class="box" x="'+x+'" y="52" width="140" height="70" rx="8"/>'+
+      '<text class="mono" x="'+(x+70)+'" y="76" text-anchor="middle" font-size="13" fill="var(--margin-rule)">'+L[k]+'</text>'+
+      '<line x1="'+(x+14)+'" y1="86" x2="'+(x+126)+'" y2="86" stroke="var(--line)" stroke-width="1"/>'+
+      '<text class="mono" x="'+(x+70)+'" y="112" text-anchor="middle" font-size="15">'+L[k+1]+'</text>';
+  }).join('')+
+  '<text class="soft" x="260" y="160" text-anchor="middle">'+L[7]+'</text>');
+
+/* L = [bloc try, "pas d'erreur", "une erreur survient", "la suite continue", bloc except, "except ne s'exécute que si une erreur survient dans le try"] */
+DIAG.tryflow=L=>SVG("0 0 520 250",
+  '<path class="box" d="M260 20 L392 68 L260 116 L128 68 Z"/>'+
+  '<text class="mono" x="260" y="74" text-anchor="middle" font-size="12">'+L[0]+'</text>'+
+  '<path class="accent" d="M128 68 L74 68 L74 150" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="98" y="58" text-anchor="middle">'+L[1]+'</text>'+
+  '<path class="accent" d="M392 68 L446 68 L446 150" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="422" y="58" text-anchor="middle">'+L[2]+'</text>'+
+  '<rect class="okbox" x="10" y="156" width="128" height="50" rx="8"/>'+
+  '<text class="mono" x="74" y="186" text-anchor="middle" font-size="12">'+L[3]+'</text>'+
+  '<rect class="okbox" x="382" y="156" width="128" height="50" rx="8"/>'+
+  '<text class="mono" x="446" y="186" text-anchor="middle" font-size="12">'+L[4]+'</text>'+
+  '<text class="soft" x="260" y="190" text-anchor="middle">'+L[5]+'</text>'+
+  '<text class="soft" x="260" y="236" text-anchor="middle">'+L[6]+'</text>');
+
+/* ==========================================================
+   CHAPITRES IX ET X
+   ========================================================== */
+COURSES.push(
+{ id:9, num:"IX", title:{fr:"Les dictionnaires",en:"Dictionaries"},
+  desc:{fr:"Retrouver une valeur par son nom, pas par sa position",en:"Finding a value by its name, not its position"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Un dictionnaire se lit par clé, pas par position.",en:"A dictionary is read by key, not position."},
+   code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["age"])', answer:1,
+   options:[
+    {txt:'"age"', why:{fr:"« age » est la clé qu'on utilise pour chercher, pas ce qui est affiché.",en:"\"age\" is the key used to search, not what gets printed."}},
+    {txt:'16', why:{fr:'eleve["age"] va chercher la valeur rangée sous la clé age, qui vaut 16.',en:'eleve["age"] looks up the value stored under the key age, which is 16.'}},
+    {txt:'Alice', why:{fr:"C'est la valeur de la clé nom, pas de la clé age.",en:"That is the value of the key nom, not age."}},
+    {txt:'Erreur', why:{fr:"La clé age existe bel et bien dans ce dictionnaire.",en:"The key age does exist in this dictionary."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Créer un dictionnaire",en:"Create a dictionary"},
+   desc:{fr:'Crée un dictionnaire eleve avec les clés "nom" valant "Alice" et "age" valant 16, puis affiche-le en entier.',en:'Create a dictionary eleve with keys "nom" set to "Alice" and "age" set to 16, then print it whole.'},
+   hint:{fr:'Un dictionnaire s\'écrit entre accolades, avec des paires <code>clé: valeur</code> séparées par des virgules.',en:'A dictionary is written in curly braces, with <code>key: value</code> pairs separated by commas.'},
+   sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
+
+ { kind:"code", diff:"easy", title:{fr:"Lire une valeur",en:"Read a value"},
+   desc:{fr:'Avec le même dictionnaire eleve, affiche seulement la valeur de "nom", puis seulement celle de "age".',en:'With the same eleve dictionary, print only the value of "nom", then only "age".'},
+   hint:{fr:'<code>eleve["nom"]</code> — la clé se met entre crochets, comme une position de liste, mais avec un mot.',en:'<code>eleve["nom"]</code> — the key goes in brackets, like a list position, but with a word.'},
+   sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["nom"])\nprint(eleve["age"])', out:'Alice\n16' },
+
+ { kind:"code", diff:"medium", title:{fr:"Ajouter une clé",en:"Add a key"},
+   desc:{fr:'Crée eleve = {"nom": "Alice"}, ajoute une clé "age" valant 16, puis affiche le dictionnaire.',en:'Create eleve = {"nom": "Alice"}, add a key "age" set to 16, then print the dictionary.'},
+   hint:{fr:'<code>eleve["age"] = 16</code> ajoute la clé si elle n\'existe pas encore.',en:'<code>eleve["age"] = 16</code> adds the key if it does not exist yet.'},
+   sol:'eleve = {"nom": "Alice"}\neleve["age"] = 16\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
+
+ { kind:"code", diff:"medium", title:{fr:"Modifier une valeur",en:"Change a value"},
+   desc:{fr:'Avec score = {"Alice": 12}, change la valeur de "Alice" pour 15, puis affiche le dictionnaire.',en:'With score = {"Alice": 12}, change the value of "Alice" to 15, then print the dictionary.'},
+   hint:{fr:'La même écriture <code>score["Alice"] = 15</code> sert à ajouter ET à modifier : si la clé existe déjà, sa valeur est remplacée.',en:'The same <code>score["Alice"] = 15</code> both adds and changes: if the key already exists, its value is replaced.'},
+   sol:'score = {"Alice": 12}\nscore["Alice"] = 15\nprint(score)', out:"{'Alice': 15}" },
+
+ { kind:"code", diff:"hard", title:{fr:"Parcourir un dictionnaire",en:"Loop over a dictionary"},
+   desc:{fr:'Avec ages = {"Alice": 16, "Karim": 15}, affiche une ligne par personne au format : Alice a 16 ans',en:'With ages = {"Alice": 16, "Karim": 15}, print one line per person, formatted: Alice a 16 ans'},
+   hint:{fr:'<code>for nom, age in ages.items():</code> donne à la fois la clé et la valeur à chaque tour.',en:'<code>for nom, age in ages.items():</code> gives both the key and the value on each pass.'},
+   sol:'ages = {"Alice": 16, "Karim": 15}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")', out:'Alice a 16 ans\nKarim a 15 ans' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : {'nom': 'Alice', 'age': 17}",en:"This program must print: {'nom': 'Alice', 'age': 17}"},
+   hint:{fr:"Le dictionnaire doit exister avant qu'on puisse y ajouter une clé.",en:"The dictionary must exist before a key can be added to it."},
+   lines:['eleve = {"nom": "Alice"}','eleve["age"] = 17','print(eleve)'], out:"{'nom': 'Alice', 'age': 17}" }
+]},
+
+{ id:10, num:"X", title:{fr:"Gérer les erreurs",en:"Handling errors"},
+  desc:{fr:"Empêcher une erreur prévisible d'arrêter tout le programme",en:"Stopping a foreseeable error from crashing the whole program"}, ex:[
+
+ { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Repère quel bloc s'exécute selon qu'il y a une erreur ou non.",en:"Spot which block runs depending on whether there is an error."},
+   code:'try:\n    x = 10 / 0\n    print("Calcul ok")\nexcept ZeroDivisionError:\n    print("Division impossible")\nprint("La suite")', answer:2,
+   options:[
+    {txt:'Calcul ok\nLa suite', why:{fr:"10 / 0 provoque une erreur avant cette ligne : elle ne s'exécute jamais.",en:"10 / 0 raises an error before this line: it never runs."}},
+    {txt:'Division impossible\nCalcul ok\nLa suite', why:{fr:"Dès qu'une erreur survient dans le bloc try, Python saute directement à except : le reste du try est abandonné.",en:"As soon as an error occurs in the try block, Python jumps straight to except: the rest of try is abandoned."}},
+    {txt:'Division impossible\nLa suite', why:{fr:"10 / 0 déclenche une ZeroDivisionError, le bloc except l'attrape et l'affiche, puis le programme continue normalement après.",en:"10 / 0 raises a ZeroDivisionError, the except block catches it and prints its message, then the program continues normally afterwards."}},
+    {txt:"Le programme s'arrête avec une erreur", why:{fr:"C'est justement le rôle de try/except : empêcher l'erreur d'arrêter le programme.",en:"That is exactly the point of try/except: stopping the error from ending the program."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Protéger une division",en:"Protect a division"},
+   desc:{fr:'Essaie de calculer 10 / 0 dans un bloc try. Si ça échoue, affiche Impossible de diviser par zero.',en:'Try computing 10 / 0 inside a try block. If it fails, print Impossible de diviser par zero.'},
+   hint:{fr:"<code>try:</code> puis le calcul décalé, <code>except ZeroDivisionError:</code> puis le print décalé.",en:"<code>try:</code> then the indented calculation, <code>except ZeroDivisionError:</code> then the indented print."},
+   sol:'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Impossible de diviser par zero")', out:'Impossible de diviser par zero' },
+
+ { kind:"code", diff:"medium", title:{fr:"Conversion ratée",en:"Failed conversion"},
+   desc:{fr:'Essaie de convertir "quinze" en nombre avec int(). Si ça échoue, affiche Ce n\'est pas un nombre.',en:'Try converting "quinze" to a number with int(). If it fails, print Ce n\'est pas un nombre.'},
+   hint:{fr:'<code>int("quinze")</code> échoue avec une <code>ValueError</code> : c\'est cette erreur qu\'il faut attraper.',en:'<code>int("quinze")</code> fails with a <code>ValueError</code>: that is the error to catch.'},
+   sol:'try:\n    n = int("quinze")\n    print(n)\nexcept ValueError:\n    print("Ce n\'est pas un nombre")', out:"Ce n'est pas un nombre" },
+
+ { kind:"code", diff:"medium", title:{fr:"Deux erreurs possibles",en:"Two possible errors"},
+   desc:{fr:'Avec notes = [12, 0, 8], calcule 100 / notes[3] dans un try. Attrape IndexError et affiche Cette note n\'existe pas.',en:'With notes = [12, 0, 8], compute 100 / notes[3] inside a try. Catch IndexError and print Cette note n\'existe pas.'},
+   hint:{fr:"notes n'a que 3 éléments (positions 0, 1, 2) : la position 3 déclenche une IndexError, pas une division par zéro.",en:"notes only has 3 items (positions 0, 1, 2): position 3 raises an IndexError, not a division by zero."},
+   sol:'notes = [12, 0, 8]\ntry:\n    print(100 / notes[3])\nexcept IndexError:\n    print("Cette note n\'existe pas")', out:"Cette note n'existe pas" },
+
+ { kind:"code", diff:"hard", title:{fr:"Compter les conversions réussies",en:"Count successful conversions"},
+   desc:{fr:'Avec valeurs = ["3", "dix", "7", "x"], compte combien se convertissent en nombre sans erreur, et affiche ce compte.',en:'With valeurs = ["3", "dix", "7", "x"], count how many convert to a number without error, and print that count.'},
+   hint:{fr:"Un compteur à 0, une boucle sur la liste, un try/except autour de la conversion à l'intérieur de la boucle.",en:"A counter at 0, a loop over the list, a try/except around the conversion inside the loop."},
+   sol:'valeurs = ["3", "dix", "7", "x"]\ncompteur = 0\nfor v in valeurs:\n    try:\n        int(v)\n        compteur = compteur + 1\n    except ValueError:\n        pass\nprint(compteur)', out:'2' },
+
+ { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : Erreur evitee",en:"This program must print: Erreur evitee"},
+   hint:{fr:"Le except doit être aligné avec le try, et son contenu décalé de 4 espaces.",en:"except must line up with try, and its content indented by 4 spaces."},
+   lines:['try:','    x = 1 / 0','except ZeroDivisionError:','    print("Erreur evitee")'], out:'Erreur evitee' }
+]});
+
+/* ==========================================================
+   COURS DES CHAPITRES IX ET X
+   ========================================================== */
+LESSONS[9]={ title:{fr:"Cours — les dictionnaires",en:"Lesson — dictionaries"},
+  desc:{fr:"Une liste range par position ; un dictionnaire range par nom.",en:"A list stores by position; a dictionary stores by name."},
+  blocks:[
+  {type:"p",fr:'Une liste retrouve un élément par sa <b>position</b> : <code>fruits[0]</code>. Un <b>dictionnaire</b> retrouve une valeur par son <b>nom</b>, appelé la clé : <code>eleve["nom"]</code>. C\'est un vrai dictionnaire de langue : on ne cherche pas le mot numéro 4218, on cherche le mot lui-même.',
+       en:'A list finds an item by its <b>position</b>: <code>fruits[0]</code>. A <b>dictionary</b> finds a value by its <b>name</b>, called the key: <code>eleve["nom"]</code>. Like a real dictionary: you don\'t look up word number 4218, you look up the word itself.'},
+  {type:"d",id:"dictbox",
+    fr:['eleve = {"nom": "Alice", "age": 16, "ville": "Nice"}',"nom","Alice","age","16","ville","Nice","on cherche par clé, jamais par position"],
+    en:['eleve = {"nom": "Alice", "age": 16, "ville": "Nice"}',"nom","Alice","age","16","ville","Nice","you search by key, never by position"]},
+  {type:"p",fr:"Un dictionnaire s'écrit entre <b>accolades</b>, avec des paires <code>clé: valeur</code> séparées par des virgules. Une clé est presque toujours du texte, entre guillemets.",
+       en:"A dictionary is written in <b>curly braces</b>, with <code>key: value</code> pairs separated by commas. A key is almost always text, in quotes."},
+  {type:"c",code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve)\nprint(eleve["nom"])',out:"{'nom': 'Alice', 'age': 16}\nAlice"},
+  {type:"p",fr:'La même écriture <code>eleve["ville"] = "Nice"</code> sert à <b>deux choses</b> : si la clé n\'existe pas encore, elle est créée ; si elle existe déjà, sa valeur est remplacée.',
+       en:'The same <code>eleve["ville"] = "Nice"</code> does <b>two things</b>: if the key does not exist yet, it is created; if it already exists, its value is replaced.'},
+  {type:"c",code:'eleve = {"nom": "Alice"}\neleve["age"] = 16\neleve["age"] = 17\nprint(eleve)',out:"{'nom': 'Alice', 'age': 17}"},
+  {type:"p",fr:"Pour parcourir un dictionnaire en récupérant à la fois la clé et la valeur, on utilise <code>.items()</code>.",
+       en:"To loop over a dictionary while getting both the key and the value, use <code>.items()</code>."},
+  {type:"c",code:'ages = {"Alice": 16, "Karim": 15}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")',
+    out:'Alice a 16 ans\nKarim a 15 ans'},
+  {type:"t",fr:'Chercher une clé qui n\'existe pas provoque une erreur <code>KeyError</code>. Pour lire une clé sans risque, <code>eleve.get("ville")</code> renvoie <code>None</code> au lieu de planter si la clé est absente — et on peut même choisir une valeur de secours.',
+       en:'Looking up a missing key raises a <code>KeyError</code>. To read a key without risk, <code>eleve.get("ville")</code> returns <code>None</code> instead of crashing when the key is absent — and you can even choose a fallback value.'},
+  {type:"c",code:'eleve = {"nom": "Alice"}\nprint(eleve.get("ville"))\nprint(eleve.get("ville", "inconnue"))',out:'None\ninconnue'},
+  {type:"r",fr:"Une liste garde un <b>ordre de positions</b> ; un dictionnaire garde des <b>noms</b>. Choisis une liste quand la place compte (le premier, le dernier), un dictionnaire quand le nom compte (le score d'Alice, l'âge de Karim).",
+       en:"A list keeps an <b>order of positions</b>; a dictionary keeps <b>names</b>. Choose a list when position matters (the first, the last), a dictionary when the name matters (Alice's score, Karim's age)."}
+]};
+
+LESSONS[10]={ title:{fr:"Cours — gérer les erreurs",en:"Lesson — handling errors"},
+  desc:{fr:"Anticiper qu'une ligne précise peut échouer, sans arrêter tout le programme.",en:"Anticipating that one specific line can fail, without stopping the whole program."},
+  blocks:[
+  {type:"p",fr:"Jusqu'ici, une erreur arrêtait tout : le programme s'interrompait à la ligne fautive, et rien après ne s'exécutait. <code>try</code> / <code>except</code> permet de dire à Python : « essaie ce bloc, et si ça rate, fais autre chose au lieu de tout arrêter ».",
+       en:'Until now, an error stopped everything: the program halted at the faulty line, and nothing after it ran. <code>try</code> / <code>except</code> lets you tell Python: "try this block, and if it fails, do something else instead of stopping everything."'},
+  {type:"d",id:"tryflow",
+    fr:['bloc try',"pas d'erreur","une erreur survient","le programme continue","bloc except","except ne s'exécute que si une erreur survient dans le try — jamais les deux"],
+    en:['try block',"no error","an error occurs","the program continues","except block","except only runs if an error occurs in try — never both"]},
+  {type:"p",fr:"La structure a toujours la même forme : <code>try:</code>, un bloc décalé qu'on tente d'exécuter, puis <code>except NomDeLErreur:</code>, un bloc décalé qui ne s'exécute que si cette erreur précise survient dans le try.",
+       en:"The structure always has the same shape: <code>try:</code>, an indented block you attempt to run, then <code>except ErrorName:</code>, an indented block that only runs if that specific error occurs in the try."},
+  {type:"c",code:'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Division impossible")\nprint("La suite continue")',
+    out:'Division impossible\nLa suite continue'},
+  {type:"p",fr:"Dès que l'erreur survient dans le try, Python <b>abandonne immédiatement le reste du bloc try</b> — même les lignes qui n'ont rien à voir avec l'erreur — et saute directement au except correspondant.",
+       en:"As soon as the error occurs in try, Python <b>immediately abandons the rest of the try block</b> — even lines unrelated to the error — and jumps straight to the matching except."},
+  {type:"c",code:'try:\n    x = 10 / 0\n    print("Cette ligne ne s\'affiche jamais")\nexcept ZeroDivisionError:\n    print("Erreur attrapee")',
+    out:'Erreur attrapee'},
+  {type:"p",fr:"On précise toujours <b>quel type d'erreur</b> on attend, comme <code>ValueError</code> pour une conversion ratée ou <code>IndexError</code> pour une position hors liste. C'est le même nom qui apparaît dans les messages d'erreur qu'affiche cette application.",
+       en:"You always specify <b>which type of error</b> you expect, like <code>ValueError</code> for a failed conversion or <code>IndexError</code> for an out-of-range position. It is the same name shown in this app's error messages."},
+  {type:"c",code:'try:\n    n = int("dix")\nexcept ValueError:\n    print("Ce n\'est pas un nombre")',out:"Ce n'est pas un nombre"},
+  {type:"t",fr:"Attraper la <b>mauvaise</b> erreur ne sert à rien : <code>except ValueError:</code> n'arrêtera jamais une <code>ZeroDivisionError</code>, le programme plantera quand même. Il faut deviner — ou lire dans le message d'erreur — quel type précis va se produire.",
+       en:"Catching the <b>wrong</b> error is useless: <code>except ValueError:</code> will never stop a <code>ZeroDivisionError</code>, the program will crash anyway. You must guess — or read it from the error message — which exact type will occur."},
+  {type:"r",fr:"try/except sert pour une erreur <b>prévisible</b> qu'on sait gérer (une saisie invalide, une division par zéro) — pas pour cacher n'importe quel bug. Un programme qui avale silencieusement toutes les erreurs est plus difficile à corriger qu'un programme qui plante clairement.",
+       en:"try/except is for a <b>foreseeable</b> error you know how to handle (bad input, division by zero) — not for hiding any bug. A program that silently swallows every error is harder to fix than one that crashes clearly."}
+]};
+
+/* ==========================================================
+   AIDE-MÉMOIRE
+   ========================================================== */
+const MEMO=[
+{h:{fr:"Variables et types",en:"Variables and types"},rows:[
+ ['age = 15',{fr:"range 15 dans la boîte age",en:"store 15 into the box age"}],
+ ['prix = 3.5',{fr:"nombre à virgule (float)",en:"decimal number (float)"}],
+ ['nom = "Alice"',{fr:"texte (str), toujours entre guillemets",en:"text (str), always in quotes"}],
+ ['ok = True',{fr:"booléen (bool) : True ou False",en:"boolean (bool): True or False"}],
+ ['type(age)',{fr:"donne le type d'une valeur",en:"gives the type of a value"}],
+ ['int("15")',{fr:"convertit du texte en nombre",en:"converts text to a number"}],
+ ['str(15)',{fr:"convertit un nombre en texte",en:"converts a number to text"}]]},
+{h:{fr:"Afficher et demander",en:"Print and input"},rows:[
+ ['print("a", b)',{fr:"la virgule ajoute une espace",en:"the comma adds a space"}],
+ ['print("a" + "b")',{fr:"le + colle, sans espace",en:"the + glues, no space"}],
+ ['print(x, end="")',{fr:"reste sur la même ligne",en:"stays on the same line"}],
+ ['x = input("Nom ? ")',{fr:"renvoie toujours du texte",en:"always returns text"}],
+ ['n = int(input("Age ? "))',{fr:"pour pouvoir calculer ensuite",en:"so you can compute afterwards"}]]},
+{h:{fr:"Opérations",en:"Operations"},rows:[
+ ['+  -  *  /',{fr:"addition, soustraction, multiplication, division",en:"add, subtract, multiply, divide"}],
+ ['//',{fr:"division entière : 7 // 2 vaut 3",en:"integer division: 7 // 2 is 3"}],
+ ['%',{fr:"reste : 7 % 2 vaut 1 ; n % 2 == 0 teste si pair",en:"remainder: 7 % 2 is 1; n % 2 == 0 tests even"}],
+ ['**',{fr:"puissance : 2 ** 3 vaut 8",en:"power: 2 ** 3 is 8"}]]},
+{h:{fr:"Conditions",en:"Conditions"},rows:[
+ ['==  !=',{fr:"égal, différent",en:"equal, different"}],
+ ['<  >  <=  >=',{fr:"comparaisons",en:"comparisons"}],
+ ['and  or  not',{fr:"les deux, au moins une, le contraire",en:"both, at least one, the opposite"}],
+ ['if x > 5:',{fr:"deux-points, puis bloc décalé de 4 espaces",en:"colon, then block indented by 4 spaces"}],
+ ['elif x > 2:',{fr:"cas suivant, testé seulement si le précédent est faux",en:"next case, tested only if the previous is false"}],
+ ['else:',{fr:"tous les autres cas",en:"all remaining cases"}]]},
+{h:{fr:"Boucles",en:"Loops"},rows:[
+ ['for i in range(5):',{fr:"i vaut 0, 1, 2, 3, 4",en:"i takes 0, 1, 2, 3, 4"}],
+ ['for i in range(1, 6):',{fr:"i vaut 1 à 5 — s'arrête avant 6",en:"i takes 1 to 5 — stops before 6"}],
+ ['for x in liste:',{fr:"parcourt les éléments un par un",en:"walks the items one by one"}],
+ ['while cond:',{fr:"tant que la condition est vraie",en:"as long as the condition is true"}],
+ ['i = i + 1',{fr:"indispensable dans un while, sinon boucle infinie",en:"essential in a while, otherwise infinite loop"}]]},
+{h:{fr:"Listes",en:"Lists"},rows:[
+ ['l = [3, 7, 1]',{fr:"crée une liste",en:"creates a list"}],
+ ['l[0]',{fr:"premier élément (la numérotation part de 0)",en:"first item (numbering starts at 0)"}],
+ ['l[-1]',{fr:"dernier élément",en:"last item"}],
+ ['len(l)',{fr:"nombre d'éléments",en:"number of items"}],
+ ['l.append(9)',{fr:"ajoute à la fin",en:"adds at the end"}],
+ ['sum(l)  max(l)  min(l)',{fr:"somme, plus grand, plus petit",en:"sum, largest, smallest"}]]},
+{h:{fr:"Texte",en:"Text"},rows:[
+ ['mot[0]',{fr:"première lettre",en:"first letter"}],
+ ['mot[1:4]',{fr:"lettres 1, 2 et 3 — s'arrête avant 4",en:"letters 1, 2 and 3 — stops before 4"}],
+ ['mot.upper()',{fr:"renvoie une copie en majuscules",en:"returns an uppercase copy"}],
+ ['mot.lower()',{fr:"renvoie une copie en minuscules",en:"returns a lowercase copy"}],
+ ['f"{nom} a {age} ans"',{fr:"insère les variables dans le texte",en:"inserts variables into the text"}]]},
+{h:{fr:"Fonctions",en:"Functions"},rows:[
+ ['def carre(n):',{fr:"définit — n'exécute rien",en:"defines — runs nothing"}],
+ ['    return n * n',{fr:"rend la valeur à l'appelant",en:"hands the value back to the caller"}],
+ ['carre(5)',{fr:"appelle, mais le résultat est jeté",en:"calls, but the result is thrown away"}],
+ ['print(carre(5))',{fr:"appelle et affiche le résultat",en:"calls and prints the result"}]]},
+{h:{fr:"Erreurs fréquentes",en:"Common errors"},rows:[
+ ['SyntaxError',{fr:"parenthèse, guillemet ou deux-points manquant",en:"missing parenthesis, quote or colon"}],
+ ['IndentationError',{fr:"décalage manquant ou en trop",en:"missing or extra indentation"}],
+ ['NameError',{fr:"nom inconnu : faute de frappe, ou guillemets oubliés",en:"unknown name: typo, or forgotten quotes"}],
+ ['TypeError',{fr:"opération entre un texte et un nombre",en:"operation between text and a number"}],
+ ['IndexError',{fr:"position en dehors de la liste",en:"position outside the list"}]]},
+{h:{fr:"Dictionnaires",en:"Dictionaries"},rows:[
+ ['d = {"a": 1}',{fr:"crée un dictionnaire",en:"creates a dictionary"}],
+ ['d["a"]',{fr:"lit la valeur de la clé a",en:"reads the value of key a"}],
+ ['d["b"] = 2',{fr:"ajoute ou remplace la clé b",en:"adds or replaces key b"}],
+ ['d.get("c")',{fr:"renvoie None si la clé n'existe pas, sans planter",en:"returns None if the key is missing, without crashing"}],
+ ['for k, v in d.items():',{fr:"parcourt les paires clé/valeur",en:"walks the key/value pairs"}]]},
+{h:{fr:"Gérer les erreurs",en:"Handling errors"},rows:[
+ ['try:',{fr:"tente d'exécuter le bloc décalé",en:"attempts to run the indented block"}],
+ ['except ValueError:',{fr:"ne s'exécute que si cette erreur précise survient",en:"only runs if that specific error occurs"}],
+ ['except ZeroDivisionError:',{fr:"attrape une division par zéro",en:"catches a division by zero"}]]}
+];
+function viewMemo(){
+  let h='<div class="exhead"><h2>'+t("memoT")+'</h2><p>'+t("memoD")+'</p></div>';
+  MEMO.forEach(sec=>{
+    h+='<h3 class="memoH">'+sec.h[lang]+'</h3><div class="memo">';
+    sec.rows.forEach(r=>{ h+='<div><code>'+esc(r[0])+'</code></div><div>'+r[1][lang]+'</div>'; });
+    h+='</div>';
+  });
+  return h;
+}
+
+COURSES.forEach(c=>{
+  const L=LESSONS[c.id];
+  c.ex.unshift({kind:"lesson",title:L.title,desc:L.desc,blocks:L.blocks});
+});
+
+/* ==========================================================
    2. TRADUCTIONS DE L'INTERFACE
    ========================================================== */
 const T = {
@@ -486,7 +1221,10 @@ const T = {
   run:"Exécuter", check:"Vérifier", showHint:"Indice", hideHint:"Masquer l'indice", showSol:"Voir le corrigé",
   back:"Retour aux chapitres", prev:"Précédent", next:"Suivant",
   chapter:"Chapitre", easy:"facile", medium:"moyen", hard:"difficile", done:"réussi",
-  kCode:"écrire", kQuiz:"prédire", kOrder:"ordonner",
+  kCode:"écrire", kQuiz:"prédire", kOrder:"ordonner", kLesson:"cours",
+  lessonGo:"Passer aux exercices", memoBtn:"Aide-mémoire",
+  memoT:"Aide-mémoire Python", memoD:"Toute la syntaxe vue dans les huit chapitres, sur une seule page. À garder ouvert pendant les exercices.", exCode:"Le code", exOut:"Ce que ça affiche",
+  exTrap:"Le piège classique", exKeep:"À retenir",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
   timeout:"Ton programme tourne trop longtemps.",
@@ -539,7 +1277,10 @@ const T = {
   run:"Run", check:"Check", showHint:"Hint", hideHint:"Hide hint", showSol:"Show solution",
   back:"Back to chapters", prev:"Previous", next:"Next",
   chapter:"Chapter", easy:"easy", medium:"medium", hard:"hard", done:"solved",
-  kCode:"write", kQuiz:"predict", kOrder:"order",
+  kCode:"write", kQuiz:"predict", kOrder:"order", kLesson:"lesson",
+  lessonGo:"Go to the exercises", memoBtn:"Cheat sheet",
+  memoT:"Python cheat sheet", memoD:"All the syntax from the eight chapters, on one page. Keep it open while doing the exercises.", exCode:"The code", exOut:"What it prints",
+  exTrap:"The classic trap", exKeep:"Remember",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
   timeout:"Your program runs too long.",
@@ -874,8 +1615,9 @@ let lang="fr", storageOK=true;
 let state={name:"",points:0,done:{}};
 let cur={c:0,e:0}, attempts=0, orderNow=null, quizPicked=-1;
 let pyodide=null, pyReady=false, pyFailed=false;
-const PTS={code:10,quiz:5,order:5};
-const totalEx=COURSES.reduce((n,c)=>n+c.ex.length,0);
+const PTS={code:10,quiz:5,order:5,lesson:0};
+const scored=c=>c.ex.filter(x=>x.kind!=="lesson").length;
+const totalEx=COURSES.reduce((n,c)=>n+scored(c),0);
 const doneCount=()=>Object.keys(state.done).length;
 const t=k=>T[lang][k];
 
@@ -1045,7 +1787,7 @@ function applyStatic(){
   document.documentElement.lang=lang;
 }
 function renderStoreNote(){document.getElementById("storeNote").textContent=storageOK?"":t("noStore");}
-function show(id){["welcome","dash","ex"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+function show(id){["welcome","dash","ex","memo"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
 
 function renderDash(){
   document.getElementById("sPoints").textContent=state.points;
@@ -1053,11 +1795,11 @@ function renderDash(){
   document.getElementById("sPct").textContent=Math.round(doneCount()/totalEx*100)+"%";
   const box=document.getElementById("chapters");box.innerHTML="";
   COURSES.forEach((c,ci)=>{
-    const n=c.ex.filter((_,ei)=>state.done[c.id+"-"+ei]).length;
+    const n=c.ex.filter((_,ei)=>state.done[c.id+"-"+ei]).length, tot=scored(c);
     const b=document.createElement("button");b.className="chapter";
     b.innerHTML='<span class="numeral">'+c.num+'</span><span style="flex:1"><h3></h3>'+
-      '<div class="mini"></div><div class="bar"><i style="width:'+(n/c.ex.length*100)+'%"></i></div></span>'+
-      '<span class="mini" style="flex:none">'+n+"/"+c.ex.length+"</span>";
+      '<div class="mini"></div><div class="bar"><i style="width:'+(n/tot*100)+'%"></i></div></span>'+
+      '<span class="mini" style="flex:none">'+n+"/"+tot+"</span>";
     b.querySelector("h3").textContent=c.title[lang];
     b.querySelector(".mini").textContent=c.desc[lang];
     b.onclick=()=>openEx(ci,0);
@@ -1086,15 +1828,17 @@ function render(){
   document.getElementById("crumbs").textContent=t("chapter")+" "+c.num+" · "+c.title[lang]+" · "+(cur.e+1)+"/"+c.ex.length;
   document.getElementById("exTitle").textContent=x.title[lang];
   document.getElementById("exDesc").textContent=x.desc[lang];
-  document.getElementById("tagKind").textContent=t(x.kind==="code"?"kCode":x.kind==="quiz"?"kQuiz":"kOrder");
-  document.getElementById("tagDiff").textContent=t(x.diff);
+  document.getElementById("tagKind").textContent=t(x.kind==="code"?"kCode":x.kind==="quiz"?"kQuiz":x.kind==="order"?"kOrder":"kLesson");
+  const td=document.getElementById("tagDiff");
+  td.classList.toggle("hidden",!x.diff); if(x.diff) td.textContent=t(x.diff);
   const dt=document.getElementById("tagDone");
   dt.textContent=t("done");dt.classList.toggle("hidden",!state.done[id]);
   document.getElementById("prevBtn").disabled=(cur.c===0&&cur.e===0);
   document.getElementById("hintBox").classList.add("hidden");
   document.getElementById("feedback").innerHTML="";
   const B=document.getElementById("body");
-  if(x.kind==="code") B.innerHTML=viewCode(x);
+  if(x.kind==="lesson") B.innerHTML=viewLesson(x);
+  else if(x.kind==="code") B.innerHTML=viewCode(x);
   else if(x.kind==="quiz") B.innerHTML=viewQuiz(x);
   else B.innerHTML=viewOrder(x);
   wire(x);
@@ -1105,12 +1849,25 @@ function viewCode(x){
   if(x.inputs) exp+="\n\n— "+t("simIn")+" "+x.inputs.join(", ");
   return '<div class="panel"><div class="ph">'+t("expected")+'</div><pre>'+exp+'</pre></div>'+
    '<div class="panel editor"><div class="ph">'+t("yourCode")+'</div>'+
-   '<textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea></div>'+
+   '<div class="edit"><pre class="gut" id="gut"><i>1</i></pre>'+
+   '<textarea id="code" spellcheck="false" autocapitalize="off" autocorrect="off"></textarea></div></div>'+
    '<div class="actions"><button id="runBtn">'+t("run")+'</button>'+
    '<button class="primary" id="checkBtn">'+t("check")+'</button>'+
    '<button class="ghost" id="hintBtn">'+t("showHint")+'</button>'+
    '<button class="ghost" id="solBtn">'+t("showSol")+'</button></div>'+
    '<div class="panel"><div class="ph">'+t("output")+'</div><pre id="out" class="empty">'+t("nothing")+'</pre></div>';
+}
+function viewLesson(x){
+  let h='<p class="lead">'+x.desc[lang]+'</p>';
+  x.blocks.forEach(b=>{
+    if(b.type==="p") h+='<div class="blk">'+b[lang]+'</div>';
+    else if(b.type==="d") h+='<div class="diagram">'+DIAG[b.id](b[lang])+'</div>';
+    else if(b.type==="c") h+='<div class="duo"><div class="cd"><h4>'+t("exCode")+'</h4><pre>'+
+      esc(b.code)+'</pre></div><div><h4>'+t("exOut")+'</h4><pre>'+esc(b.out)+'</pre></div></div>';
+    else if(b.type==="t") h+=card("bad",t("exTrap"),b[lang]);
+    else if(b.type==="r") h+=card("ok",t("exKeep"),b[lang]);
+  });
+  return h+'<div class="actions" style="margin-top:26px"><button class="primary" id="goEx">'+t("lessonGo")+'</button></div>';
 }
 function viewQuiz(x){
   let h='<div class="panel"><div class="ph">'+t("quizQ")+'</div><pre class="dark">'+esc(x.code)+'</pre></div><div id="opts">';
@@ -1131,6 +1888,8 @@ function viewOrder(x){
 }
 
 function wire(x){
+  const ge=document.getElementById("goEx");
+  if(ge) ge.onclick=()=>step(1);
   const hb=document.getElementById("hintBtn");
   if(hb) hb.onclick=()=>toggleHint();
   const sb=document.getElementById("solBtn");
@@ -1140,10 +1899,23 @@ function wire(x){
   const cb=document.getElementById("checkBtn");
   if(cb){cb.onclick=x.kind==="order"?checkOrder:doCheck;cb.disabled=!pyReady;}
   const ta=document.getElementById("code");
-  if(ta) ta.addEventListener("keydown",editorKeys);
+  if(ta){
+    ta.addEventListener("keydown",editorKeys);
+    ta.addEventListener("input",()=>drawGutter());
+    ta.addEventListener("scroll",()=>{const g=document.getElementById("gut");if(g)g.scrollTop=ta.scrollTop;});
+    drawGutter();
+  }
   document.querySelectorAll("#opts .opt").forEach(b=>b.onclick=()=>pickQuiz(+b.dataset.i));
   document.querySelectorAll("#rows [data-mv]").forEach(b=>b.onclick=()=>moveRow(+b.dataset.i,b.dataset.mv==="up"?-1:1));
   if(pyFailed) document.getElementById("feedback").innerHTML=card("bad",t("failed"),t("failedMsg"));
+}
+function drawGutter(badLine){
+  const ta=document.getElementById("code"),g=document.getElementById("gut");
+  if(!ta||!g) return;
+  const n=Math.max(1,ta.value.split("\n").length);
+  let h="";
+  for(let i=1;i<=n;i++) h+='<i'+(i===badLine?' class="bad"':'')+'>'+i+'</i>';
+  g.innerHTML=h; g.scrollTop=ta.scrollTop;
 }
 function toggleHint(force){
   const h=document.getElementById("hintBox"),x=COURSES[cur.c].ex[cur.e];
@@ -1154,6 +1926,11 @@ function toggleHint(force){
 }
 function editorKeys(e){
   const c=e.target;
+  if(e.key==="Enter"&&(e.ctrlKey||e.metaKey)){
+    e.preventDefault();
+    const b=document.getElementById("checkBtn"); if(b&&!b.disabled) b.click();
+    return;
+  }
   if(e.key==="Tab"){e.preventDefault();
     const s=c.selectionStart,en=c.selectionEnd;
     c.value=c.value.slice(0,s)+"    "+c.value.slice(en);
@@ -1195,6 +1972,7 @@ function showOut(res){
 function errCard(res,code){
   if(res.err==="TIMEOUT") return card("bad",t("timeout"),t("timeoutMsg"));
   const ex=explainError(res.err,res.line,code,lang);
+  if(ex.line) drawGutter(ex.line);
   const src=(code.split("\n")[ex.line-1]||"").replace(/^\s+/,"");
   const loc=ex.line?'<div class="errline">'+fmt(t("atLine"),{n:ex.line})+(src?"   "+esc(src):"")+"\n"+esc(res.err)+'</div>':
     '<div class="errline">'+esc(res.err)+'</div>';
@@ -1302,6 +2080,9 @@ document.getElementById("nameInput").addEventListener("keydown",e=>{if(e.key==="
 document.getElementById("backBtn").onclick=renderDash;
 document.getElementById("prevBtn").onclick=()=>step(-1);
 document.getElementById("nextBtn").onclick=()=>step(1);
+document.getElementById("memoBtn").onclick=()=>{
+  document.getElementById("memoBody").innerHTML=viewMemo();show("memo");};
+document.getElementById("memoBack").onclick=renderDash;
 document.getElementById("resetBtn").onclick=()=>{
   if(confirm(t("confirmReset"))){state.points=0;state.done={};save();renderDash();}};
 document.getElementById("logoutBtn").onclick=()=>{
