@@ -206,6 +206,8 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
     <div id="chapters"></div>
     <div class="navrow">
       <button id="memoBtn" data-t="memoBtn"></button>
+      <button class="ghost" id="glossaryBtn" data-t="glossaryBtn"></button>
+      <button class="ghost" id="guideBtn" data-t="guideBtn"></button>
       <button class="ghost" id="resetBtn" data-t="resetAll"></button>
       <button class="ghost" id="logoutBtn" data-t="logout"></button>
     </div>
@@ -215,6 +217,16 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
   <section id="memo" class="hidden">
     <div id="memoBody"></div>
     <div class="navrow"><button class="ghost" id="memoBack" data-t="back"></button><span></span></div>
+  </section>
+
+  <section id="glossary" class="hidden">
+    <div id="glossaryBody"></div>
+    <div class="navrow"><button class="ghost" id="glossaryBack" data-t="back"></button><span></span></div>
+  </section>
+
+  <section id="guide" class="hidden">
+    <div id="guideBody"></div>
+    <div class="navrow"><button class="ghost" id="guideBack" data-t="back"></button><span></span></div>
   </section>
 
   <section id="ex" class="hidden">
@@ -1202,6 +1214,151 @@ function viewMemo(){
   return h;
 }
 
+/* ==========================================================
+   GLOSSAIRE — vocabulaire de la programmation, expliqué simplement
+   ========================================================== */
+const GLOSSARY=[
+{term:{fr:"Variable",en:"Variable"},
+ def:{fr:"Une boîte avec une étiquette : tu ranges une valeur dedans, et tu la retrouves plus tard en citant son nom.",
+      en:"A labelled box: you store a value inside, and find it later by using its name."},
+ ex:'age = 15\nprint(age)'},
+{term:{fr:"Fonction",en:"Function"},
+ def:{fr:"Une machine qu'on construit une fois avec <code>def</code>, et qu'on peut ensuite utiliser autant de fois qu'on veut sans la réécrire.",
+      en:"A machine you build once with <code>def</code>, then use as often as you like without rewriting it."},
+ ex:'def carre(n):\n    return n * n'},
+{term:{fr:"Paramètre",en:"Parameter"},
+ def:{fr:"Le nom donné, dans la définition d'une fonction, à ce qu'elle va recevoir. Il n'existe qu'à l'intérieur de la fonction.",
+      en:"The name given, in a function's definition, to what it will receive. It only exists inside that function."},
+ ex:'def carre(n):   # n est le parametre\n    return n * n'},
+{term:{fr:"Argument",en:"Argument"},
+ def:{fr:"La valeur réellement envoyée à une fonction au moment de l'appel.",
+      en:"The value actually sent to a function when it is called."},
+ ex:'carre(5)   # 5 est l\'argument'},
+{term:{fr:"Boucle",en:"Loop"},
+ def:{fr:"Une instruction (<code>for</code> ou <code>while</code>) qui répète un bloc de code plusieurs fois, sans qu'on ait à le réécrire.",
+      en:"An instruction (<code>for</code> or <code>while</code>) that repeats a block of code several times, without rewriting it."},
+ ex:'for i in range(3):\n    print(i)'},
+{term:{fr:"Itération",en:"Iteration"},
+ def:{fr:"Un seul passage, un seul tour, à l'intérieur d'une boucle.",
+      en:"A single pass, a single turn, inside a loop."},
+ ex:'for i in range(3):\n    print(i)  # 3 iterations : i vaut 0, puis 1, puis 2'},
+{term:{fr:"Condition",en:"Condition"},
+ def:{fr:"Une question à laquelle Python répond seulement par vrai ou faux, pour choisir quel chemin suivre (<code>if</code> / <code>elif</code> / <code>else</code>).",
+      en:"A question Python answers only true or false, to choose which path to take (<code>if</code> / <code>elif</code> / <code>else</code>)."},
+ ex:'if age >= 18:\n    print("Adulte")'},
+{term:{fr:"Indentation",en:"Indentation"},
+ def:{fr:"Le décalage de 4 espaces au début d'une ligne. C'est ce décalage, et lui seul, qui dit à Python ce qui appartient à un bloc.",
+      en:"The 4-space shift at the start of a line. That shift alone tells Python what belongs to a block."},
+ ex:'if age >= 18:\n    print("Adulte")   # decale de 4 espaces : dans le bloc'},
+{term:{fr:"Syntaxe",en:"Syntax"},
+ def:{fr:"L'ensemble des règles d'écriture d'un langage — un peu comme la grammaire d'une langue. Une faute de syntaxe empêche Python de lire le programme.",
+      en:"The set of writing rules of a language — a bit like grammar. A syntax mistake stops Python from reading the program at all."},
+ ex:'if age > 5   # faute de syntaxe : il manque les deux-points'},
+{term:{fr:"Bug / erreur",en:"Bug / error"},
+ def:{fr:"Une faute dans un programme qui l'empêche de fonctionner comme prévu — soit il plante, soit il donne une réponse fausse sans planter.",
+      en:"A mistake in a program that stops it working as intended — either it crashes, or it silently gives a wrong answer."},
+ ex:'maxi = 0   # bug classique : et si tous les nombres sont negatifs ?'},
+{term:{fr:"Déboguer",en:"Debugging"},
+ def:{fr:"Chercher puis corriger un bug — souvent en lisant le message d'erreur, ou en ajoutant des <code>print()</code> pour voir ce que vaut une variable à un moment donné.",
+      en:"Finding then fixing a bug — often by reading the error message, or adding <code>print()</code> calls to see what a variable holds at some point."},
+ ex:'print("debug, x vaut :", x)   # un print temporaire pour comprendre'},
+{term:{fr:"Algorithme",en:"Algorithm"},
+ def:{fr:"Une méthode de résolution qui doit marcher sur <b>toutes</b> les données possibles, pas seulement sur l'exemple qu'on a sous les yeux.",
+      en:"A solving method that must work on <b>all</b> possible data, not just the one example in front of you."},
+ ex:'# l\'algorithme du maximum marche pour n\'importe quelle liste,\n# pas seulement pour celle de l\'exemple'},
+{term:{fr:"Exécuter",en:"Run / execute"},
+ def:{fr:"Faire tourner un programme, ligne par ligne, pour voir ce qu'il fait réellement — c'est ce que fait le bouton « Exécuter ».",
+      en:"Making a program run, line by line, to see what it actually does — that is what the \"Run\" button does."},
+ ex:'print("Ce message ne s\'affiche que si tu executes le code")'},
+{term:{fr:"Type",en:"Type"},
+ def:{fr:"La catégorie d'une valeur : <code>int</code> (nombre entier), <code>float</code> (nombre à virgule), <code>str</code> (texte), <code>bool</code> (vrai/faux). <code>type()</code> te la donne.",
+      en:"The category of a value: <code>int</code> (whole number), <code>float</code> (decimal), <code>str</code> (text), <code>bool</code> (true/false). <code>type()</code> gives it to you."},
+ ex:'print(type(15))\nprint(type("15"))'},
+{term:{fr:"Chaîne de caractères",en:"String"},
+ def:{fr:"Du texte, toujours écrit entre guillemets. Python la traite comme une suite de lettres numérotées, depuis 0.",
+      en:"Text, always written in quotes. Python treats it as a numbered sequence of letters, starting at 0."},
+ ex:'mot = "python"\nprint(mot[0])'},
+{term:{fr:"Liste",en:"List"},
+ def:{fr:"Une seule boîte qui range plusieurs valeurs dans l'ordre, chacune à une position numérotée depuis 0.",
+      en:"A single box holding several values in order, each at a numbered position starting at 0."},
+ ex:'fruits = ["pomme", "kiwi"]\nprint(fruits[0])'},
+{term:{fr:"Dictionnaire",en:"Dictionary"},
+ def:{fr:"Une boîte qui range des valeurs retrouvées par leur nom (la clé), et non par leur position.",
+      en:"A box that stores values found by their name (the key), not by their position."},
+ ex:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["nom"])'},
+{term:{fr:"Indice / index",en:"Index"},
+ def:{fr:"La position d'un élément dans une liste ou une chaîne, en commençant toujours à 0, jamais à 1.",
+      en:"The position of an item in a list or string, always starting at 0, never at 1."},
+ ex:'fruits = ["pomme", "kiwi", "orange"]\nprint(fruits[1])   # indice 1 = deuxieme element'},
+{term:{fr:"Méthode",en:"Method"},
+ def:{fr:"Une fonction attachée à une valeur, qu'on appelle avec un point : <code>mot.upper()</code> plutôt que <code>upper(mot)</code>.",
+      en:"A function attached to a value, called with a dot: <code>mot.upper()</code> rather than <code>upper(mot)</code>."},
+ ex:'mot = "python"\nprint(mot.upper())'},
+{term:{fr:"Retourner (return)",en:"Return"},
+ def:{fr:"Renvoyer une valeur depuis une fonction vers l'endroit qui l'a appelée. À ne pas confondre avec <code>print</code>, qui affiche mais ne renvoie rien.",
+      en:"Handing a value back from a function to the place that called it. Not to be confused with <code>print</code>, which shows a value but returns nothing."},
+ ex:'def carre(n):\n    return n * n\n\nprint(carre(5))'},
+{term:{fr:"Portée (scope)",en:"Scope"},
+ def:{fr:"L'endroit du programme où une variable existe. Un paramètre de fonction n'existe qu'à l'intérieur de cette fonction, nulle part ailleurs.",
+      en:"The part of the program where a variable exists. A function's parameter only exists inside that function, nowhere else."},
+ ex:'def carre(n):\n    return n * n\n# ici, n n\'existe plus : il n\'existait que dans la fonction'},
+{term:{fr:"Booléen",en:"Boolean"},
+ def:{fr:"Une valeur qui ne peut être que <code>True</code> (vrai) ou <code>False</code> (faux). C'est ce que renvoie toujours une condition.",
+      en:"A value that can only be <code>True</code> or <code>False</code>. That is always what a condition returns."},
+ ex:'ok = 10 > 5\nprint(ok)\nprint(type(ok))'},
+{term:{fr:"Commentaire",en:"Comment"},
+ def:{fr:"Une ligne commençant par <code>#</code>, entièrement ignorée par Python. Elle sert uniquement à expliquer le code à un humain qui le lit.",
+      en:"A line starting with <code>#</code>, completely ignored by Python. It only exists to explain the code to a human reader."},
+ ex:'# ceci est un commentaire, Python ne l\'execute pas\nprint("ceci s\'affiche")'}
+];
+function viewGlossary(){
+  let h='<div class="exhead"><h2>'+t("glossaryT")+'</h2><p>'+t("glossaryD")+'</p></div>';
+  GLOSSARY.forEach(g=>{
+    h+='<h3 class="memoH">'+g.term[lang]+'</h3>'+
+       '<div class="blk" style="margin-top:8px">'+g.def[lang]+'</div>'+
+       '<pre class="dark" style="border-radius:8px;margin-top:10px">'+esc(g.ex)+'</pre>';
+  });
+  return h;
+}
+
+/* ==========================================================
+   GUIDE PAS À PAS — comment résoudre un exercice de ce cahier
+   ========================================================== */
+const GUIDE_STEPS=[
+ {fr:"Lis l'énoncé en entier, sans écrire une seule ligne de code tout de suite. Une lecture trop rapide est la première cause de blocage.",
+  en:"Read the whole problem before writing a single line of code. Reading too fast is the first cause of getting stuck."},
+ {fr:"Repère deux choses séparément : ce qu'on te <b>donne</b> (les variables, les valeurs de départ) et ce qu'on te demande d'<b>afficher</b> exactement, avec quel format.",
+  en:"Spot two things separately: what you are <b>given</b> (variables, starting values) and what you must <b>print</b> exactly, in what format."},
+ {fr:"Réfléchis en français aux étapes, avant d'écrire du code. Si tu ne sais pas expliquer avec des mots ce que le programme doit faire, tu ne sauras pas non plus l'écrire.",
+  en:"Think through the steps in plain words before coding. If you cannot explain in words what the program must do, you will not be able to write it either."},
+ {fr:"Écris le code petit à petit, une instruction à la fois plutôt que tout d'un coup. Consulte l'aide-mémoire et le glossaire si un mot ou une syntaxe t'échappe.",
+  en:"Write the code little by little, one instruction at a time rather than all at once. Check the cheat sheet and the glossary if a word or a syntax escapes you."},
+ {fr:"Clique sur « Exécuter » et compare ta sortie à la sortie attendue, ligne par ligne.",
+  en:"Click \"Run\" and compare your output to the expected output, line by line."},
+ {fr:"Si ça ne colle pas : lis le message d'erreur affiché, il explique presque toujours quoi corriger. S'il n'y a pas d'erreur mais que le résultat diffère, compare les deux colonnes proposées — la partie surlignée est le premier endroit qui diffère.",
+  en:"If it does not match: read the error message shown, it almost always explains what to fix. If there is no error but the result differs, compare the two columns offered — the highlighted part is the first place they differ."},
+ {fr:"Si tu es bloquée depuis plusieurs minutes sur la même chose, ouvre l'indice. Ce n'est pas tricher : c'est éviter de rester bloquée pour rien.",
+  en:"If you are stuck on the same thing for several minutes, open the hint. That is not cheating: it avoids being stuck for nothing."},
+ {fr:"Une fois que c'est juste, relis ton code en entier et demande-toi <b>pourquoi</b> il marche. C'est cette dernière étape, souvent sautée, qui fait vraiment progresser.",
+  en:"Once it is correct, re-read your whole code and ask yourself <b>why</b> it works. This last step, often skipped, is what really makes you improve."}
+];
+function viewGuide(){
+  let h='<div class="exhead"><h2>'+t("guideT")+'</h2><p>'+t("guideD")+'</p></div>';
+  GUIDE_STEPS.forEach((s,i)=>{
+    h+='<div class="blk"><b>'+(i+1)+'. </b>'+s[lang]+'</div>';
+  });
+  h+='<h3 class="memoH">'+t("guideExT")+'</h3>'+
+     '<div class="blk" style="margin-top:0">'+t("guideExDesc")+'</div>'+
+     '<div class="blk"><b>'+t("guideExStep1T")+'</b> '+t("guideExStep1B")+'</div>'+
+     '<div class="blk"><b>'+t("guideExStep2T")+'</b> '+t("guideExStep2B")+'</div>'+
+     '<div class="blk"><b>'+t("guideExStep3T")+'</b> '+t("guideExStep3B")+'</div>'+
+     '<div class="duo"><div class="cd"><h4>'+t("exCode")+'</h4><pre>'+
+       esc('nombres = [3, 8, 12, 5, 6]\ntotal = 0\nfor n in nombres:\n    if n % 2 == 0:\n        total = total + n\nprint(total)')+
+       '</pre></div><div><h4>'+t("exOut")+'</h4><pre>26</pre></div></div>'+
+     '<div class="blk">'+t("guideExEnd")+'</div>';
+  return h;
+}
+
 COURSES.forEach(c=>{
   const L=LESSONS[c.id];
   c.ex.unshift({kind:"lesson",title:L.title,desc:L.desc,blocks:L.blocks});
@@ -1224,6 +1381,15 @@ const T = {
   kCode:"écrire", kQuiz:"prédire", kOrder:"ordonner", kLesson:"cours",
   lessonGo:"Passer aux exercices", memoBtn:"Aide-mémoire",
   memoT:"Aide-mémoire Python", memoD:"Toute la syntaxe vue dans les huit chapitres, sur une seule page. À garder ouvert pendant les exercices.", exCode:"Le code", exOut:"Ce que ça affiche",
+  glossaryBtn:"Vocabulaire",
+  glossaryT:"Vocabulaire de la programmation", glossaryD:"Les mots qu'on utilise tout le temps, expliqués simplement et avec un exemple. À consulter dès qu'un mot du cours ou d'un exercice n'est pas clair.",
+  guideBtn:"Guide pas à pas",
+  guideT:"Comment résoudre un exercice", guideD:"Une méthode en huit étapes, valable pour n'importe quel exercice de ce cahier — à suivre surtout quand tu ne sais pas par où commencer.",
+  guideExT:"Exemple guidé", guideExDesc:"Prenons un exercice : « Dans nombres = [3, 8, 12, 5, 6], calcule la somme des nombres pairs et affiche le résultat. »",
+  guideExStep1T:"Ce qu'on te donne, ce qu'on te demande —", guideExStep1B:"une liste de 5 nombres ; il faut afficher un seul nombre : la somme de ceux qui sont pairs.",
+  guideExStep2T:"En français d'abord —", guideExStep2B:"je vais parcourir la liste, et à chaque fois qu'un nombre est pair, je l'ajoute à un total qui commence à 0.",
+  guideExStep3T:"Le motif reconnu —", guideExStep3B:"c'est un accumulateur (chapitre VIII) avec une condition à l'intérieur de la boucle.",
+  guideExEnd:"8 est pair (total 8), 12 est pair (total 20), 6 est pair (total 26) ; 3 et 5 sont impairs, ignorés. Résultat : 26.",
   exTrap:"Le piège classique", exKeep:"À retenir",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
@@ -1280,6 +1446,15 @@ const T = {
   kCode:"write", kQuiz:"predict", kOrder:"order", kLesson:"lesson",
   lessonGo:"Go to the exercises", memoBtn:"Cheat sheet",
   memoT:"Python cheat sheet", memoD:"All the syntax from the eight chapters, on one page. Keep it open while doing the exercises.", exCode:"The code", exOut:"What it prints",
+  glossaryBtn:"Vocabulary",
+  glossaryT:"Programming vocabulary", glossaryD:"The words used all the time, explained simply with an example. Check it whenever a word in a lesson or exercise is unclear.",
+  guideBtn:"Step-by-step guide",
+  guideT:"How to solve an exercise", guideD:"An eight-step method that works for any exercise in this notebook — follow it especially when you don't know where to start.",
+  guideExT:"Worked example", guideExDesc:"Take this exercise: \"In nombres = [3, 8, 12, 5, 6], compute the sum of the even numbers and print the result.\"",
+  guideExStep1T:"What you're given, what's asked —", guideExStep1B:"a list of 5 numbers; you must print a single number: the sum of the even ones.",
+  guideExStep2T:"In plain words first —", guideExStep2B:"I will walk the list, and each time a number is even, I add it to a total starting at 0.",
+  guideExStep3T:"The pattern recognised —", guideExStep3B:"this is an accumulator (chapter VIII) with a condition inside the loop.",
+  guideExEnd:"8 is even (total 8), 12 is even (total 20), 6 is even (total 26); 3 and 5 are odd, skipped. Result: 26.",
   exTrap:"The classic trap", exKeep:"Remember",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
@@ -1787,7 +1962,7 @@ function applyStatic(){
   document.documentElement.lang=lang;
 }
 function renderStoreNote(){document.getElementById("storeNote").textContent=storageOK?"":t("noStore");}
-function show(id){["welcome","dash","ex","memo"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+function show(id){["welcome","dash","ex","memo","glossary","guide"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
 
 function renderDash(){
   document.getElementById("sPoints").textContent=state.points;
@@ -2083,6 +2258,12 @@ document.getElementById("nextBtn").onclick=()=>step(1);
 document.getElementById("memoBtn").onclick=()=>{
   document.getElementById("memoBody").innerHTML=viewMemo();show("memo");};
 document.getElementById("memoBack").onclick=renderDash;
+document.getElementById("glossaryBtn").onclick=()=>{
+  document.getElementById("glossaryBody").innerHTML=viewGlossary();show("glossary");};
+document.getElementById("glossaryBack").onclick=renderDash;
+document.getElementById("guideBtn").onclick=()=>{
+  document.getElementById("guideBody").innerHTML=viewGuide();show("guide");};
+document.getElementById("guideBack").onclick=renderDash;
 document.getElementById("resetBtn").onclick=()=>{
   if(confirm(t("confirmReset"))){state.points=0;state.done={};save();renderDash();}};
 document.getElementById("logoutBtn").onclick=()=>{
