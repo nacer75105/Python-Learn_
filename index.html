@@ -208,6 +208,7 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
       <button id="memoBtn" data-t="memoBtn"></button>
       <button class="ghost" id="glossaryBtn" data-t="glossaryBtn"></button>
       <button class="ghost" id="guideBtn" data-t="guideBtn"></button>
+      <button class="ghost" id="revisionBtn" data-t="revisionBtn"></button>
       <button class="ghost" id="resetBtn" data-t="resetAll"></button>
       <button class="ghost" id="logoutBtn" data-t="logout"></button>
     </div>
@@ -227,6 +228,11 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
   <section id="guide" class="hidden">
     <div id="guideBody"></div>
     <div class="navrow"><button class="ghost" id="guideBack" data-t="back"></button><span></span></div>
+  </section>
+
+  <section id="revision" class="hidden">
+    <div id="revisionBody"></div>
+    <div class="navrow"><button class="ghost" id="revisionBack" data-t="back"></button><span></span></div>
   </section>
 
   <section id="ex" class="hidden">
@@ -1081,6 +1087,213 @@ COURSES.push(
 ]});
 
 /* ==========================================================
+   CHAPITRES XI ET XII
+   ========================================================== */
+COURSES.push(
+{ id:11, num:"XI", title:{fr:"Modules : random et math",en:"Modules: random and math"},
+  desc:{fr:"Utiliser du code déjà écrit par d'autres, avec import",en:"Using code already written by others, with import"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"math.sqrt renvoie toujours le même type de valeur, quel que soit le nombre.",en:"math.sqrt always returns the same kind of value, whatever the number."},
+   code:'import math\nprint(math.sqrt(16))', answer:1,
+   options:[
+    {txt:'4', why:{fr:"4 est un entier. math.sqrt renvoie toujours un nombre à virgule, même quand le résultat tombe juste.",en:"4 is an integer. math.sqrt always returns a decimal number, even when the result is exact."}},
+    {txt:'4.0', why:{fr:"math.sqrt renvoie toujours un float (nombre à virgule), même quand la racine carrée est un nombre entier.",en:"math.sqrt always returns a float (decimal number), even when the square root is a whole number."}},
+    {txt:'16', why:{fr:"16 est l'argument fourni à la fonction, pas son résultat.",en:"16 is the argument given to the function, not its result."}},
+    {txt:'Erreur', why:{fr:"Le module math est bien importé, et sqrt(16) est un calcul valide.",en:"The math module is correctly imported, and sqrt(16) is a valid calculation."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Racine carrée",en:"Square root"},
+   desc:{fr:'Importe le module math et affiche la racine carrée de 81.',en:'Import the math module and print the square root of 81.'},
+   hint:{fr:'<code>import math</code> en première ligne, puis <code>math.sqrt(81)</code>.',en:'<code>import math</code> on the first line, then <code>math.sqrt(81)</code>.'},
+   sol:'import math\nprint(math.sqrt(81))', out:'9.0' },
+
+ { kind:"code", diff:"medium", title:{fr:"Aire d'un cercle",en:"Area of a circle"},
+   desc:{fr:'Avec r = 3, calcule l\'aire d\'un cercle (math.pi * r ** 2), arrondis à 2 décimales avec round(), et affiche le résultat.',en:'With r = 3, compute the area of a circle (math.pi * r ** 2), round it to 2 decimals with round(), and print the result.'},
+   hint:{fr:'<code>math.pi</code> est la valeur de π toute prête. <code>round(valeur, 2)</code> arrondit à 2 décimales.',en:'<code>math.pi</code> is the ready-made value of π. <code>round(value, 2)</code> rounds to 2 decimals.'},
+   sol:'import math\nr = 3\naire = round(math.pi * r ** 2, 2)\nprint(aire)', out:'28.27' },
+
+ { kind:"code", diff:"medium", title:{fr:"Un tirage reproductible",en:"A repeatable draw"},
+   desc:{fr:'Importe random. Utilise random.seed(0), puis affiche trois nombres tirés avec random.randint(1, 6), un par ligne.',en:'Import random. Use random.seed(0), then print three numbers drawn with random.randint(1, 6), one per line.'},
+   hint:{fr:'<code>random.seed(0)</code> fixe le point de départ du hasard : avec la même graine, on retrouve toujours la même suite de nombres.',en:'<code>random.seed(0)</code> fixes the starting point of randomness: with the same seed, you always get the same sequence of numbers.'},
+   sol:'import random\nrandom.seed(0)\nprint(random.randint(1, 6))\nprint(random.randint(1, 6))\nprint(random.randint(1, 6))', out:'4\n4\n1' },
+
+ { kind:"code", diff:"medium", title:{fr:"Choisir dans une liste",en:"Choosing from a list"},
+   desc:{fr:'Crée choix = ["pierre", "feuille", "ciseaux"]. Utilise random.seed(2), puis affiche random.choice(choix).',en:'Create choix = ["pierre", "feuille", "ciseaux"]. Use random.seed(2), then print random.choice(choix).'},
+   hint:{fr:'<code>random.choice(liste)</code> tire un élément au hasard dans la liste.',en:'<code>random.choice(list)</code> draws one random element from the list.'},
+   sol:'import random\nchoix = ["pierre", "feuille", "ciseaux"]\nrandom.seed(2)\nprint(random.choice(choix))', out:'pierre' },
+
+ { kind:"quiz", diff:"hard", title:{fr:"Que se passe-t-il ?",en:"What happens?"},
+   desc:{fr:"Un module doit être importé avant d'être utilisé — sur toute la longueur du programme.",en:"A module must be imported before it is used — for the whole program."},
+   code:'print(math.sqrt(16))', answer:1,
+   options:[
+    {txt:'4.0', why:{fr:"Python ne connaît pas math tant qu'aucun import math n'a été exécuté, même si le module existe.",en:"Python does not know math until an import math has run, even though the module exists."}},
+    {txt:"NameError : name 'math' is not defined", why:{fr:"Exact. math n'a jamais été importé dans ce programme, donc son nom est inconnu.",en:"Correct. math was never imported in this program, so its name is unknown."}},
+    {txt:'SyntaxError', why:{fr:"La ligne est syntaxiquement correcte. Le problème n'apparaît qu'à l'exécution.",en:"The line is syntactically correct. The problem only appears when it runs."}},
+    {txt:'0.0', why:{fr:"Le programme ne calcule rien : il s'arrête avant, sur une erreur.",en:"The program computes nothing: it stops before that, on an error."}}]},
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : 5.0",en:"This program must print: 5.0"},
+   hint:{fr:"Le module doit être importé avant d'être utilisé, et la variable doit exister avant d'être passée à la fonction.",en:"The module must be imported before use, and the variable must exist before being passed to the function."},
+   lines:['import math','x = 25','print(math.sqrt(x))'], out:'5.0' }
+]},
+
+{ id:12, num:"XII", title:{fr:"Mini-projet : le nombre mystère",en:"Mini-project: the mystery number"},
+  desc:{fr:"Assembler variables, boucles et conditions dans un vrai petit programme",en:"Combining variables, loops and conditions into a real small program"}, ex:[
+
+ { kind:"code", diff:"easy", title:{fr:"Étape 1 — Choisir le nombre secret",en:"Step 1 — Pick the secret number"},
+   desc:{fr:'Importe random, utilise random.seed(3), crée secret = random.randint(1, 20) et affiche-le. (On triche pour l\'instant, juste pour vérifier que ça marche — le vrai jeu ne l\'affichera plus.)',en:"Import random, use random.seed(3), create secret = random.randint(1, 20) and print it. (We're peeking for now, just to check it works — the real game won't print it.)"},
+   hint:{fr:'<code>random.seed(3)</code> puis <code>random.randint(1, 20)</code>.',en:'<code>random.seed(3)</code> then <code>random.randint(1, 20)</code>.'},
+   sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nprint(secret)', out:'8' },
+
+ { kind:"code", diff:"easy", title:{fr:"Étape 2 — Demander un essai",en:"Step 2 — Ask for a guess"}, inputs:["10"],
+   desc:{fr:'Demande un essai avec input("Ton essai (1-20) ? "), convertis-le tout de suite en entier avec int(), range-le dans essai, puis affiche essai.',en:'Ask for a guess with input("Ton essai (1-20) ? "), convert it right away to an integer with int(), store it in essai, then print essai.'},
+   hint:{fr:"Sans int(), essai serait du texte, et on ne pourrait pas le comparer à un nombre plus loin.",en:"Without int(), essai would be text, and it could not be compared to a number later on."},
+   sol:'essai = int(input("Ton essai (1-20) ? "))\nprint(essai)', out:'Ton essai (1-20) ? 10\n10' },
+
+ { kind:"code", diff:"medium", title:{fr:"Étape 3 — Comparer (trop petit)",en:"Step 3 — Compare (too low)"}, inputs:["5"],
+   desc:{fr:'Reprends l\'étape 1 (seed 3), demande un essai comme à l\'étape 2, puis affiche Bravo, tu as trouve ! si essai == secret, Trop petit si essai < secret, sinon Trop grand.',en:'Redo step 1 (seed 3), ask for a guess like in step 2, then print Bravo, tu as trouve ! if essai == secret, Trop petit if essai < secret, otherwise Trop grand.'},
+   hint:{fr:"Un if / elif / else classique, avec la comparaison == en premier.",en:"A classic if / elif / else, with the == comparison first."},
+   sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nif essai == secret:\n    print("Bravo, tu as trouve !")\nelif essai < secret:\n    print("Trop petit")\nelse:\n    print("Trop grand")',
+   out:'Ton essai (1-20) ? 5\nTrop petit' },
+
+ { kind:"code", diff:"medium", title:{fr:"Étape 4 — Comparer (trop grand)",en:"Step 4 — Compare (too high)"}, inputs:["20"],
+   desc:{fr:'Le même programme qu\'à l\'étape 3, mais l\'utilisatrice tape 20 cette fois.',en:'The same program as step 3, but this time the user types 20.'},
+   hint:{fr:"Le code ne change pas : seule la valeur tapée change, et donc la branche qui s'exécute.",en:"The code does not change: only the typed value changes, and so does the branch that runs."},
+   sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nif essai == secret:\n    print("Bravo, tu as trouve !")\nelif essai < secret:\n    print("Trop petit")\nelse:\n    print("Trop grand")',
+   out:'Ton essai (1-20) ? 20\nTrop grand' },
+
+ { kind:"quiz", diff:"medium", title:{fr:"Pourquoi fixer la graine ici ?",en:"Why fix the seed here?"},
+   desc:{fr:"random.seed n'est pas là par hasard dans ces exercices.",en:"random.seed is not here by accident in these exercises."},
+   code:'random.seed(3)\nsecret = random.randint(1, 20)', answer:0,
+   options:[
+    {txt:"Pour que le nombre secret soit toujours le même, et que la sortie de l'exercice puisse être vérifiée automatiquement", why:{fr:"Exact. Sans seed, secret changerait à chaque exécution, et l'exercice ne pourrait jamais comparer ta sortie à une réponse fixe.",en:"Correct. Without a seed, secret would change every run, and the exercise could never compare your output to one fixed answer."}},
+    {txt:"Parce que random.randint ne fonctionne pas sans seed", why:{fr:"random.randint fonctionne très bien sans seed — c'est même comme ça qu'on l'utilise dans un vrai jeu, pour un vrai hasard.",en:"random.randint works perfectly without a seed — that is actually how you use it in a real game, for real randomness."}},
+    {txt:"Pour rendre le jeu plus facile", why:{fr:"seed ne change pas la difficulté, seulement la reproductibilité du résultat.",en:"seed does not change the difficulty, only whether the result is reproducible."}},
+    {txt:"C'est une obligation du langage Python", why:{fr:"random.seed est optionnel. On l'utilise ici uniquement pour pouvoir corriger l'exercice automatiquement.",en:"random.seed is optional. It is used here only so the exercise can be checked automatically."}}]},
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Ce programme doit afficher : Trop petit",en:"This program must print: Trop petit"},
+   hint:{fr:"Le nombre secret doit exister avant la comparaison, et le bloc if doit être décalé de 4 espaces.",en:"The secret number must exist before the comparison, and the if block must be indented by 4 spaces."},
+   lines:['import random','random.seed(3)','secret = random.randint(1, 20)','guess = 5','if guess < secret:','    print("Trop petit")'], out:'Trop petit' },
+
+ { kind:"code", diff:"hard", title:{fr:"Étape 5 — Le vrai jeu, avec une boucle",en:"Step 5 — The real game, with a loop"}, inputs:["5","20","8"],
+   desc:{fr:'Assemble tout : tant que essai est différent de secret, affiche Trop petit ou Trop grand puis redemande un essai. Quand essai == secret, sors de la boucle et affiche Bravo, tu as trouve !',en:'Put it all together: while essai is different from secret, print Trop petit or Trop grand then ask for another guess. When essai == secret, exit the loop and print Bravo, tu as trouve !'},
+   hint:{fr:"Un while essai != secret: qui redemande un essai à l'intérieur de la boucle, sinon elle ne s'arrête jamais. Voir le guide « Comment résoudre un exercice » si tu ne sais pas par où commencer.",en:"A while essai != secret: that asks for another guess inside the loop, otherwise it never stops. See the \"How to solve an exercise\" guide if you don't know where to start."},
+   sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nwhile essai != secret:\n    if essai < secret:\n        print("Trop petit")\n    else:\n        print("Trop grand")\n    essai = int(input("Ton essai (1-20) ? "))\nprint("Bravo, tu as trouve !")',
+   out:'Ton essai (1-20) ? 5\nTrop petit\nTon essai (1-20) ? 20\nTrop grand\nTon essai (1-20) ? 8\nBravo, tu as trouve !' }
+]}
+);
+
+/* Programme de mathématiques (Première/Terminale spécialité) : suites numériques et dichotomie */
+COURSES.push(
+{ id:13, num:"XIII", title:{fr:"Suites numériques",en:"Numeric sequences"},
+  desc:{fr:"Calculer un terme, la liste des termes, ou le premier terme qui dépasse un seuil",en:"Compute a term, the list of terms, or the first term crossing a threshold"}, ex:[
+
+ { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"u₀ = 2, et chaque terme suivant vaut le précédent plus 3.",en:"u₀ = 2, and each next term is the previous one plus 3."},
+   code:'u = 2\nfor i in range(3):\n    u = u + 3\nprint(u)', answer:0,
+   options:[
+    {txt:'11', why:{fr:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11 : trois tours de boucle font passer de u₀ à u₃.",en:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11: three loop passes move from u₀ to u₃."}},
+    {txt:'2', why:{fr:"C'est u₀, la valeur de départ. La boucle avance jusqu'à u₃.",en:"That is u₀, the starting value. The loop advances up to u₃."}},
+    {txt:'14', why:{fr:"Ce serait le résultat avec un tour de boucle en trop : range(4) donnerait u₄.",en:"That would need one extra pass: range(4) would give u₄."}},
+    {txt:'5', why:{fr:"C'est u₁, après un seul tour de boucle — pas trois.",en:"That is u₁, after a single pass — not three."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Calculer un terme",en:"Compute a term"},
+   desc:{fr:'u₀ = 5, et chaque terme suivant vaut le précédent moins 2. Calcule et affiche u₄.',en:'u₀ = 5, and each next term is the previous one minus 2. Compute and print u₄.'},
+   hint:{fr:"Une boucle <code>for i in range(4):</code> fait passer de u₀ à u₄, un pas à la fois.",en:"A <code>for i in range(4):</code> loop moves from u₀ to u₄, one step at a time."},
+   sol:'u = 5\nfor i in range(4):\n    u = u - 2\nprint(u)', out:'-3' },
+
+ { kind:"code", diff:"medium", title:{fr:"La liste des termes",en:"The list of terms"},
+   desc:{fr:'u₀ = 1, et chaque terme suivant vaut le double du précédent. Construis et affiche la liste [u₀, u₁, u₂, u₃, u₄].',en:'u₀ = 1, and each next term is double the previous one. Build and print the list [u₀, u₁, u₂, u₃, u₄].'},
+   hint:{fr:"Commence une liste avec <code>[u]</code>, puis ajoute le nouveau terme avec <code>.append()</code> à chaque tour.",en:"Start a list with <code>[u]</code>, then add the new term with <code>.append()</code> on each pass."},
+   sol:'u = 1\ntermes = [u]\nfor i in range(4):\n    u = u * 2\n    termes.append(u)\nprint(termes)', out:'[1, 2, 4, 8, 16]' },
+
+ { kind:"code", diff:"medium", title:{fr:"La somme des termes",en:"The sum of the terms"},
+   desc:{fr:'u₀ = 3, et chaque terme suivant vaut le précédent plus 2. Calcule et affiche la somme des cinq premiers termes (u₀ à u₄).',en:'u₀ = 3, and each next term is the previous one plus 2. Compute and print the sum of the first five terms (u₀ to u₄).'},
+   hint:{fr:"Deux variables avancent ensemble : <code>u</code> (le terme courant) et <code>total</code> (le cumul) — le motif 2 du chapitre VIII.",en:"Two variables move together: <code>u</code> (the current term) and <code>total</code> (the running sum) — pattern 2 from chapter VIII."},
+   sol:'u = 3\ntotal = u\nfor i in range(4):\n    u = u + 2\n    total = total + u\nprint(total)', out:'35' },
+
+ { kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
+   desc:{fr:'u₀ = 1, et chaque terme suivant vaut le double du précédent. Trouve le plus petit n tel que uₙ dépasse 500, et affiche n.',en:'u₀ = 1, and each next term is double the previous one. Find the smallest n such that uₙ exceeds 500, and print n.'},
+   hint:{fr:"On ne sait pas à l'avance combien de tours : c'est un <code>while</code>, comme le motif 5 du chapitre VIII.",en:"You don't know the number of passes in advance: use a <code>while</code>, as in pattern 5 from chapter VIII."},
+   sol:'u = 1\nn = 0\nwhile u <= 500:\n    u = u * 2\n    n = n + 1\nprint(n)', out:'9' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"u₀ = 0, et chaque terme suivant vaut le précédent plus 5. Ce programme doit afficher u₃ : 15",en:"u₀ = 0, and each next term is the previous one plus 5. This program must print u₃: 15"},
+   hint:{fr:"La variable u doit exister avant la boucle qui la modifie.",en:"The variable u must exist before the loop that changes it."},
+   lines:['u = 0','for i in range(3):','    u = u + 5','print(u)'], out:'15' }
+]},
+
+{ id:14, num:"XIV", title:{fr:"La dichotomie",en:"The bisection method"},
+  desc:{fr:"Trouver où une fonction s'annule en coupant l'intervalle en deux, à chaque tour",en:"Find where a function crosses zero by halving the interval, round after round"}, ex:[
+
+ { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Une seule étape de dichotomie. Suis les deux tests un par un.",en:"A single bisection step. Follow both tests one by one."},
+   code:'def f(x):\n    return x - 3\na, b = 0, 10\nm = (a + b) / 2\nif f(a) * f(m) <= 0:\n    b = m\nelse:\n    a = m\nprint(a, b)', answer:0,
+   options:[
+    {txt:'0 5.0', why:{fr:"f(0) = -3 et f(5) = 2, de signes opposés : leur produit est négatif, donc b devient m. Et m = (0+10)/2 est un résultat de division, donc un flottant : 5.0, pas 5.",en:"f(0) = -3 and f(5) = 2 have opposite signs: their product is negative, so b becomes m. And m = (0+10)/2 is a division result, so a float: 5.0, not 5."}},
+    {txt:'5.0 10', why:{fr:"Ce serait le cas si f(a) et f(m) avaient été de même signe — ce n'est pas ce qui se passe ici.",en:"That would happen if f(a) and f(m) had the same sign — that is not what happens here."}},
+    {txt:'0 10', why:{fr:"L'intervalle a bien été réduit : une des deux bornes a changé.",en:"The interval was indeed reduced: one of the two bounds did change."}},
+    {txt:'0 5', why:{fr:"Piège classique : en Python, / renvoie toujours un flottant, même quand le résultat est un nombre entier. m vaut 5.0, pas 5.",en:"Classic trap: in Python, / always returns a float, even when the result is a whole number. m is 5.0, not 5."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Calculer le milieu",en:"Compute the midpoint"},
+   desc:{fr:'Avec a = 2 et b = 10, calcule et affiche le milieu m de l\'intervalle.',en:'With a = 2 and b = 10, compute and print the midpoint m of the interval.'},
+   hint:{fr:"Le milieu de [a, b] est <code>(a + b) / 2</code>.",en:"The midpoint of [a, b] is <code>(a + b) / 2</code>."},
+   sol:'a = 2\nb = 10\nm = (a + b) / 2\nprint(m)', out:'6.0' },
+
+ { kind:"code", diff:"medium", title:{fr:"Une étape de dichotomie",en:"One bisection step"},
+   desc:{fr:"Avec f(x) = x - 3 et l'intervalle [0, 10] : calcule le milieu m, puis réduis l'intervalle à la moitié qui contient le zéro (si f(a) et f(m) sont de signes opposés ou si l'un des deux est nul, le zéro est dans [a, m], sinon il est dans [m, b]). Affiche les nouvelles bornes a et b.",en:"With f(x) = x - 3 and the interval [0, 10]: compute the midpoint m, then shrink the interval to the half containing the zero (if f(a) and f(m) have opposite signs, or one of them is zero, the zero is in [a, m], otherwise it is in [m, b]). Print the new bounds a and b."},
+   hint:{fr:"<code>f(a) * f(m) &lt;= 0</code> signifie que f(a) et f(m) sont de signes opposés, ou que l'un des deux vaut 0.",en:"<code>f(a) * f(m) &lt;= 0</code> means f(a) and f(m) have opposite signs, or one of them is 0."},
+   sol:'def f(x):\n    return x - 3\na = 0\nb = 10\nm = (a + b) / 2\nif f(a) * f(m) <= 0:\n    b = m\nelse:\n    a = m\nprint(a, b)', out:'0 5.0' },
+
+ { kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
+   desc:{fr:'Avec f(x) = x**2 - 2, encadre la racine carrée de 2 à 0,01 près en partant de [0, 2], et affiche les deux bornes arrondies à 2 décimales.',en:'With f(x) = x**2 - 2, bracket the square root of 2 to within 0.01 starting from [0, 2], and print both bounds rounded to 2 decimals.'},
+   hint:{fr:"La boucle continue tant que <code>b - a &gt; 0.01</code> : c'est encore le motif du seuil, chapitre VIII.",en:"The loop continues while <code>b - a &gt; 0.01</code>: this is still the threshold pattern from chapter VIII."},
+   sol:'def f(x):\n    return x**2 - 2\na = 0\nb = 2\nwhile b - a > 0.01:\n    m = (a + b) / 2\n    if f(a) * f(m) <= 0:\n        b = m\n    else:\n        a = m\nprint(round(a, 2), round(b, 2))', out:'1.41 1.42' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Avec f(x) = x - 5 et l'intervalle [0, 20], ce programme fait une étape de dichotomie et doit afficher : 0 10.0",en:"With f(x) = x - 5 and the interval [0, 20], this program performs one bisection step and must print: 0 10.0"},
+   hint:{fr:"Le milieu doit être calculé avant de pouvoir tester son signe.",en:"The midpoint must be computed before its sign can be tested."},
+   lines:['def f(x):','    return x - 5','a = 0','b = 20','m = (a + b) / 2','if f(a) * f(m) <= 0:','    b = m','else:','    a = m','print(a, b)'], out:'0 10.0' }
+]}
+);
+
+COURSES.push(
+{ id:15, num:"XV", title:{fr:"La méthode de Newton",en:"Newton's method"},
+  desc:{fr:"Trouver un zéro d'une fonction beaucoup plus vite, en suivant sa tangente",en:"Find a function's zero much faster, by following its tangent line"}, ex:[
+
+ { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   desc:{fr:"Un seul pas de la méthode de Newton. Calcule f(x) puis la nouvelle valeur de x.",en:"A single Newton step. Compute f(x), then the new value of x."},
+   code:'def f(x):\n    return x - 4\ndef fp(x):\n    return 1\nx = 10\nx = x - f(x) / fp(x)\nprint(x)', answer:0,
+   options:[
+    {txt:'4.0', why:{fr:"f(10) = 6, donc x devient 10 - 6/1 = 4.0. La division rend toujours un flottant en Python.",en:"f(10) = 6, so x becomes 10 - 6/1 = 4.0. Division always yields a float in Python."}},
+    {txt:'4', why:{fr:"Le résultat est correct, mais / renvoie toujours un flottant en Python : c'est 4.0, pas 4.",en:"The result is right, but / always returns a float in Python: it is 4.0, not 4."}},
+    {txt:'6.0', why:{fr:"6.0 est la valeur de f(x) avant la mise à jour — mais c'est x qui est affiché après avoir été réaffecté, pas f(x).",en:"6.0 is the value of f(x) before the update — but it is x that gets printed after being reassigned, not f(x)."}},
+    {txt:'-4.0', why:{fr:"Ce serait le cas avec un + à la place du - dans la formule. La méthode de Newton soustrait toujours f(x) / f'(x).",en:"That would happen with a + instead of the - in the formula. Newton's method always subtracts f(x) / f'(x)."}}]},
+
+ { kind:"code", diff:"easy", title:{fr:"Un pas de la méthode",en:"One step of the method"},
+   desc:{fr:"Avec f(x) = x**2 - 16, sa dérivée fp(x) = 2 * x, et x = 5 : calcule et affiche la nouvelle valeur de x après un seul pas de Newton.",en:"With f(x) = x**2 - 16, its derivative fp(x) = 2 * x, and x = 5: compute and print the new value of x after a single Newton step."},
+   hint:{fr:"La formule est toujours la même : <code>x = x - f(x) / fp(x)</code>.",en:"The formula is always the same: <code>x = x - f(x) / fp(x)</code>."},
+   sol:'def f(x):\n    return x**2 - 16\ndef fp(x):\n    return 2 * x\nx = 5\nx = x - f(x) / fp(x)\nprint(x)', out:'4.1' },
+
+ { kind:"code", diff:"medium", title:{fr:"Deux pas d'affilée",en:"Two steps in a row"},
+   desc:{fr:"Avec f(x) = x**2 - 2, fp(x) = 2 * x, et x = 1.5 : enchaîne deux pas de Newton, puis affiche x arrondi à 6 décimales.",en:"With f(x) = x**2 - 2, fp(x) = 2 * x, and x = 1.5: chain two Newton steps, then print x rounded to 6 decimals."},
+   hint:{fr:"Répète simplement deux fois la même ligne <code>x = x - f(x) / fp(x)</code>.",en:"Just repeat the same line <code>x = x - f(x) / fp(x)</code> twice."},
+   sol:'def f(x):\n    return x**2 - 2\ndef fp(x):\n    return 2 * x\nx = 1.5\nx = x - f(x) / fp(x)\nx = x - f(x) / fp(x)\nprint(round(x, 6))', out:'1.414216' },
+
+ { kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
+   desc:{fr:"Avec f(x) = x**2 - 2, fp(x) = 2 * x, et x = 1.5 : répète des pas de Newton tant que |f(x)| dépasse 0.0001, puis affiche x arrondi à 5 décimales.",en:"With f(x) = x**2 - 2, fp(x) = 2 * x, and x = 1.5: repeat Newton steps while |f(x)| exceeds 0.0001, then print x rounded to 5 decimals."},
+   hint:{fr:"Le test s'écrit <code>while abs(f(x)) &gt; 0.0001:</code> — encore le motif du seuil, chapitre VIII.",en:"The test is <code>while abs(f(x)) &gt; 0.0001:</code> — the threshold pattern again, chapter VIII."},
+   sol:'def f(x):\n    return x**2 - 2\ndef fp(x):\n    return 2 * x\nx = 1.5\nwhile abs(f(x)) > 0.0001:\n    x = x - f(x) / fp(x)\nprint(round(x, 5))', out:'1.41422' },
+
+ { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+   desc:{fr:"Avec f(x) = x**2 - 16, fp(x) = 2 * x et x = 5, ce programme fait un pas de Newton et doit afficher : 4.1",en:"With f(x) = x**2 - 16, fp(x) = 2 * x and x = 5, this program performs one Newton step and must print: 4.1"},
+   hint:{fr:"f et fp doivent être définies avant d'être appelées, et x doit exister avant d'être mis à jour.",en:"f and fp must be defined before being called, and x must exist before being updated."},
+   lines:['def f(x):','    return x**2 - 16','def fp(x):','    return 2 * x','x = 5','x = x - f(x) / fp(x)','print(x)'], out:'4.1' }
+]}
+);
+
+/* ==========================================================
    COURS DES CHAPITRES IX ET X
    ========================================================== */
 LESSONS[9]={ title:{fr:"Cours — les dictionnaires",en:"Lesson — dictionaries"},
@@ -1131,6 +1344,110 @@ LESSONS[10]={ title:{fr:"Cours — gérer les erreurs",en:"Lesson — handling e
        en:"Catching the <b>wrong</b> error is useless: <code>except ValueError:</code> will never stop a <code>ZeroDivisionError</code>, the program will crash anyway. You must guess — or read it from the error message — which exact type will occur."},
   {type:"r",fr:"try/except sert pour une erreur <b>prévisible</b> qu'on sait gérer (une saisie invalide, une division par zéro) — pas pour cacher n'importe quel bug. Un programme qui avale silencieusement toutes les erreurs est plus difficile à corriger qu'un programme qui plante clairement.",
        en:"try/except is for a <b>foreseeable</b> error you know how to handle (bad input, division by zero) — not for hiding any bug. A program that silently swallows every error is harder to fix than one that crashes clearly."}
+]};
+
+/* ==========================================================
+   COURS DES CHAPITRES XI ET XII
+   ========================================================== */
+LESSONS[11]={ title:{fr:"Cours — les modules",en:"Lesson — modules"},
+  desc:{fr:"Réutiliser du code déjà écrit et testé par d'autres, au lieu de tout réécrire.",en:"Reusing code already written and tested by others, instead of rewriting everything."},
+  blocks:[
+  {type:"p",fr:"Jusqu'ici, tout ce que tu as utilisé (<code>print</code>, <code>len</code>, <code>range</code>...) était toujours disponible. Beaucoup d'autres outils existent, mais ils vivent dans des <b>modules</b> séparés, qu'il faut aller chercher avec <code>import</code> avant de pouvoir les utiliser — comme des boîtes à outils rangées à part, qu'on ne sort que quand on en a besoin.",
+       en:"So far, everything you used (<code>print</code>, <code>len</code>, <code>range</code>...) was always available. Many other tools exist, but they live in separate <b>modules</b> that must be fetched with <code>import</code> before you can use them — like toolboxes kept elsewhere, only taken out when needed."},
+  {type:"d",id:"machine",
+    fr:["16","math.sqrt(16)","renvoie 4.0","print(...) l'affiche","4.0 à l'écran"],
+    en:["16","math.sqrt(16)","returns 4.0","print(...) displays it","4.0 on screen"]},
+  {type:"p",fr:'<code>import math</code> donne accès au module <b>math</b> : racines carrées, puissances, la valeur de π... On accède à son contenu avec un point, comme <code>math.sqrt(16)</code> ou <code>math.pi</code>.',
+       en:'<code>import math</code> gives access to the <b>math</b> module: square roots, powers, the value of π... You reach its content with a dot, like <code>math.sqrt(16)</code> or <code>math.pi</code>.'},
+  {type:"c",code:'import math\nprint(math.sqrt(16))\nprint(math.pi)',out:'4.0\n3.141592653589793'},
+  {type:"p",fr:'<code>import random</code> donne accès au <b>hasard</b> : <code>random.randint(1, 6)</code> tire un entier entre 1 et 6 inclus, <code>random.choice(liste)</code> tire un élément au hasard dans une liste.',
+       en:'<code>import random</code> gives access to <b>randomness</b>: <code>random.randint(1, 6)</code> draws an integer between 1 and 6 inclusive, <code>random.choice(list)</code> draws a random item from a list.'},
+  {type:"c",code:'import random\nprint(random.randint(1, 6))',out:'(un nombre différent à chaque exécution)'},
+  {type:"t",fr:"Dans un vrai jeu, <code>random</code> donne un résultat différent à chaque exécution — c'est voulu. Mais pour qu'un exercice puisse vérifier automatiquement ta réponse, on fixe parfois le hasard avec <code>random.seed(un_nombre)</code> juste avant : la suite de tirages devient alors toujours la même. C'est une astuce de test, pas la façon normale de jouer.",
+       en:"In a real game, <code>random</code> gives a different result every run — that's the point. But for an exercise to check your answer automatically, the randomness is sometimes fixed with <code>random.seed(a_number)</code> right before: the sequence of draws then stays the same every time. That's a testing trick, not how you'd normally play."},
+  {type:"r",fr:"<code>import nom_du_module</code> en haut du programme, puis <code>nom_du_module.quelque_chose</code> pour utiliser son contenu. Sans l'import, Python ne connaît pas le module : <code>NameError</code>.",
+       en:"<code>import module_name</code> at the top of the program, then <code>module_name.something</code> to use its content. Without the import, Python doesn't know the module: <code>NameError</code>."}
+]};
+
+LESSONS[12]={ title:{fr:"Cours — le mini-projet",en:"Lesson — the mini-project"},
+  desc:{fr:"Un vrai petit programme, construit morceau par morceau à partir de tout ce que tu as déjà appris.",en:"A real small program, built piece by piece from everything you've already learned."},
+  blocks:[
+  {type:"p",fr:"Ce chapitre ne t'apprend rien de nouveau : il assemble les variables, les conditions, les boucles, l'entrée utilisateur et le module <code>random</code> — tout ce que tu maîtrises déjà — dans un vrai jeu, le <b>nombre mystère</b>. C'est exactement comme ça qu'on construit un vrai programme : petit bout par petit bout, en vérifiant chaque étape avant de passer à la suivante.",
+       en:"This chapter teaches nothing new: it assembles variables, conditions, loops, user input and the <code>random</code> module — everything you already master — into a real game, the <b>mystery number</b>. This is exactly how a real program gets built: piece by piece, checking each step before moving to the next."},
+  {type:"p",fr:"Le principe du jeu : l'ordinateur choisit un nombre secret entre 1 et 20. La joueuse propose un nombre ; l'ordinateur répond « trop petit », « trop grand », ou « bravo » — jusqu'à ce qu'elle trouve.",
+       en:"The game's principle: the computer picks a secret number between 1 and 20. The player suggests a number; the computer answers \"too low\", \"too high\", or \"well done\" — until she finds it."},
+  {type:"d",id:"whileloop",
+    fr:["essai != secret ?","affiche trop petit / trop grand","redemande un essai","sans un nouvel essai à chaque tour, la boucle ne s'arrête jamais"],
+    en:["essai != secret ?","print too low / too high","ask for another guess","without a new guess each time, the loop never stops"]},
+  {type:"p",fr:"La méthode suivie dans les exercices : d'abord choisir le secret et l'afficher pour vérifier (étape 1), puis demander un essai (étape 2), puis comparer une seule fois avec if/elif/else (étapes 3 et 4), et seulement à la fin transformer cette comparaison unique en boucle <code>while</code> qui se répète jusqu'à la bonne réponse (étape 5). Le guide « Comment résoudre un exercice » suit exactement cette logique : petites étapes, vérifiées une par une.",
+       en:'The method followed in the exercises: first pick the secret and print it to check (step 1), then ask for a guess (step 2), then compare just once with if/elif/else (steps 3 and 4), and only at the end turn that single comparison into a <code>while</code> loop that repeats until the right answer (step 5). The "How to solve an exercise" guide follows exactly this logic: small steps, checked one by one.'},
+  {type:"c",code:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nwhile essai != secret:\n    if essai < secret:\n        print("Trop petit")\n    else:\n        print("Trop grand")\n    essai = int(input("Ton essai (1-20) ? "))\nprint("Bravo, tu as trouve !")',
+    out:'Ton essai (1-20) ? 5\nTrop petit\nTon essai (1-20) ? 20\nTrop grand\nTon essai (1-20) ? 8\nBravo, tu as trouve !'},
+  {type:"t",fr:'Oublier <code>int()</code> autour de <code>input()</code> est l\'erreur la plus fréquente ici : <code>essai</code> resterait du texte, et Python refuse de comparer du texte à un nombre avec <code>&lt;</code> — <code>TypeError</code> garanti.',
+       en:'Forgetting <code>int()</code> around <code>input()</code> is the most common mistake here: <code>essai</code> would stay text, and Python refuses to compare text to a number with <code>&lt;</code> — a guaranteed <code>TypeError</code>.'},
+  {type:"r",fr:"Un programme qui semble compliqué n'est presque toujours qu'un assemblage de briques déjà connues. Construis-le étape par étape, en testant chaque brique avant de l'assembler à la suivante — jamais tout d'un coup.",
+       en:"A program that looks complicated is almost always just an assembly of bricks you already know. Build it step by step, testing each brick before assembling it with the next — never all at once."}
+]};
+
+LESSONS[13]={ title:{fr:"Cours — les suites numériques",en:"Lesson — numeric sequences"},
+  desc:{fr:"Un terme se calcule à partir du précédent : c'est exactement le motif du chapitre VIII, avec le vocabulaire des maths.",en:"A term is computed from the previous one: this is exactly the pattern from chapter VIII, with maths vocabulary."},
+  blocks:[
+  {type:"p",fr:"Une <b>suite numérique</b> est une liste infinie de nombres u₀, u₁, u₂… où chaque terme se déduit du précédent par une règle fixe, notée u<sub>n+1</sub> = f(u<sub>n</sub>). Rien de nouveau en Python : c'est une variable qu'on met à jour à chaque tour de boucle, comme au chapitre VIII.",
+       en:"A <b>numeric sequence</b> is an infinite list of numbers u₀, u₁, u₂… where each term is derived from the previous one by a fixed rule, written u<sub>n+1</sub> = f(u<sub>n</sub>). Nothing new in Python: it is a variable updated on every loop pass, just like in chapter VIII."},
+  {type:"p",fr:"<b>Calculer un terme.</b> Pour connaître u<sub>n</sub>, on part de u₀ et on applique la règle n fois — une boucle <code>for i in range(n):</code> fait exactement n tours.",
+       en:"<b>Computing a term.</b> To know u<sub>n</sub>, start from u₀ and apply the rule n times — a <code>for i in range(n):</code> loop does exactly n passes."},
+  {type:"c",code:'u = 1\nfor i in range(5):\n    u = 2 * u + 1\nprint(u)',out:'63'},
+  {type:"p",fr:"<b>La liste des termes.</b> Même principe, mais on garde chaque valeur au lieu de l'écraser : une liste qui commence à [u₀], puis un <code>.append()</code> à chaque tour.",
+       en:"<b>The list of terms.</b> Same principle, but every value is kept instead of overwritten: a list starting at [u₀], then an <code>.append()</code> on every pass."},
+  {type:"c",code:'u = 1\ntermes = [u]\nfor i in range(4):\n    u = 2 * u + 1\n    termes.append(u)\nprint(termes)',out:'[1, 3, 7, 15, 31]'},
+  {type:"p",fr:"<b>Le seuil.</b> Ici on ne sait pas d'avance combien de tours il faudra : c'est le motif 5 du chapitre VIII, avec un <code>while</code> qui avance tant qu'une limite n'est pas dépassée.",
+       en:"<b>The threshold.</b> Here the number of passes is not known in advance: this is pattern 5 from chapter VIII, a <code>while</code> that advances until a limit is crossed."},
+  {type:"d",id:"whileloop",
+    fr:["u ≤ seuil ?","avancer au terme suivant : u = f(u)","compter ce tour : n = n + 1","sans modifier u à chaque tour, la boucle ne s'arrête jamais"],
+    en:["u ≤ threshold?","move to the next term: u = f(u)","count this pass: n = n + 1","without changing u on each pass, the loop never stops"]},
+  {type:"c",code:'u = 1\nn = 0\nwhile u <= 100:\n    u = 2 * u + 1\n    n = n + 1\nprint(n)',out:'6'},
+  {type:"t",fr:"Confondre n et le nombre de tours de boucle est le piège classique. <code>for i in range(n):</code> fait n tours et amène u₀ jusqu'à u<sub>n</sub> — pas jusqu'à u<sub>n+1</sub>. Compte toujours sur un petit exemple à la main avant de faire confiance à ta boucle.",
+       en:"Confusing n with the number of loop passes is the classic trap. <code>for i in range(n):</code> does n passes and brings u₀ up to u<sub>n</sub> — not u<sub>n+1</sub>. Always trace a small example by hand before trusting your loop."},
+  {type:"r",fr:"Trois questions, trois réponses : un terme (boucle for qui écrase la variable), la liste des termes (boucle for qui accumule dans une liste), un seuil (boucle while qui compte les tours). Les cinq motifs du chapitre VIII n'ont pas changé — seul le vocabulaire est nouveau.",
+       en:"Three questions, three answers: one term (a for loop overwriting the variable), the list of terms (a for loop accumulating into a list), a threshold (a while loop counting passes). The five patterns from chapter VIII have not changed — only the vocabulary is new."}
+]};
+
+LESSONS[14]={ title:{fr:"Cours — la dichotomie",en:"Lesson — the bisection method"},
+  desc:{fr:"Couper l'intervalle en deux, encore et encore, jusqu'à encadrer précisément où une fonction s'annule.",en:"Halve the interval, again and again, until precisely bracketing where a function crosses zero."},
+  blocks:[
+  {type:"p",fr:"Le principe ressemble au jeu du chapitre XII : deviner un nombre en se faisant dire « plus grand » ou « plus petit ». Ici, on cherche où une fonction f s'annule (f(x) = 0), en partant d'un intervalle [a, b] où f(a) et f(b) sont de <b>signes opposés</b> — le zéro est forcément quelque part entre les deux.",
+       en:"The principle looks like the chapter XII game: guess a number and get told \"higher\" or \"lower\". Here, we look for where a function f crosses zero (f(x) = 0), starting from an interval [a, b] where f(a) and f(b) have <b>opposite signs</b> — the zero must be somewhere in between."},
+  {type:"p",fr:"À chaque étape, on calcule le <b>milieu</b> m = (a + b) / 2 et on regarde de quel côté est le changement de signe : si f(a) et f(m) sont de signes opposés (ou si l'un des deux est nul), le zéro est dans la moitié gauche [a, m] ; sinon il est dans la moitié droite [m, b].",
+       en:"At each step, compute the <b>midpoint</b> m = (a + b) / 2 and check which side the sign change is on: if f(a) and f(m) have opposite signs (or one of them is zero), the zero is in the left half [a, m]; otherwise it is in the right half [m, b]."},
+  {type:"d",id:"ifelse",
+    fr:["f(a) × f(m) ≤ 0 ?","oui","non","b = m","a = m","on garde la moitié qui contient le zéro","et on recommence avec ce nouvel intervalle, plus petit"],
+    en:["f(a) × f(m) ≤ 0?","yes","no","b = m","a = m","keep the half that contains the zero","then repeat with this new, smaller interval"]},
+  {type:"p",fr:"On répète cette étape tant que l'intervalle est trop large — encore le motif du seuil : <code>while b - a > précision:</code>.",
+       en:"This step repeats as long as the interval is too wide — the threshold pattern again: <code>while b - a > precision:</code>."},
+  {type:"c",code:'def f(x):\n    return x**2 - 2\n\na = 0\nb = 2\nwhile b - a > 0.01:\n    m = (a + b) / 2\n    if f(a) * f(m) <= 0:\n        b = m\n    else:\n        a = m\nprint(round(a, 3), round(b, 3))',out:'1.414 1.422'},
+  {type:"t",fr:"Deux pièges fréquents : oublier que f(a) et f(b) doivent être de signes opposés <b>au départ</b> (sinon la méthode ne garantit rien), et confondre quelle borne mettre à jour — c'est toujours celle qui a le <b>même signe</b> que le milieu qui est remplacée par le milieu.",
+       en:"Two common traps: forgetting that f(a) and f(b) must have opposite signs <b>at the start</b> (otherwise the method guarantees nothing), and mixing up which bound to update — it is always the one with the <b>same sign</b> as the midpoint that gets replaced by the midpoint."},
+  {type:"r",fr:"Chaque tour divise la largeur de l'intervalle par deux : la précision progresse très vite. C'est la même boucle qu'au chapitre VIII (motif du seuil), avec un <code>if</code>/<code>else</code> en plus pour décider quelle moitié garder.",
+       en:"Each round divides the interval width by two: precision improves very fast. It is the same loop as in chapter VIII (threshold pattern), with an extra <code>if</code>/<code>else</code> to decide which half to keep."}
+]};
+
+LESSONS[15]={ title:{fr:"Cours — la méthode de Newton",en:"Lesson — Newton's method"},
+  desc:{fr:"Trouver un zéro d'une fonction en suivant sa tangente, beaucoup plus vite que la dichotomie.",en:"Find a function's zero by following its tangent line, much faster than the bisection method."},
+  blocks:[
+  {type:"p",fr:"La dichotomie coupe l'intervalle en deux, sans regarder la forme de la courbe. La méthode de Newton fait mieux : elle regarde la <b>tangente</b> à la courbe au point où l'on se trouve, et saute directement à l'endroit où cette tangente coupe l'axe des abscisses — souvent bien plus proche du vrai zéro qu'un simple milieu.",
+       en:"The bisection method halves the interval without looking at the curve's shape. Newton's method does better: it looks at the <b>tangent line</b> to the curve at the current point, and jumps straight to where that tangent crosses the x-axis — usually much closer to the true zero than a plain midpoint."},
+  {type:"p",fr:"La formule à retenir est toujours la même : <code>x = x - f(x) / fp(x)</code>, où <code>fp</code> est la <b>dérivée</b> de f. Elle est calculée d'avance ; ce cahier ne demande jamais de la retrouver soi-même, seulement de l'utiliser.",
+       en:"The formula to remember is always the same: <code>x = x - f(x) / fp(x)</code>, where <code>fp</code> is the <b>derivative</b> of f. It is given in advance; this notebook never asks you to find it yourself, only to use it."},
+  {type:"d",id:"whileloop",
+    fr:["tester : |f(x)| > précision ?","calculer f(x) et fp(x)","x = x - f(x) / fp(x)","Sans mise à jour de x, la boucle ne se termine jamais."],
+    en:["test: |f(x)| > precision?","compute f(x) and fp(x)","x = x - f(x) / fp(x)","Without updating x, the loop never ends."]},
+  {type:"p",fr:"Comme pour la dichotomie, on répète tant que ce n'est pas assez précis — encore le motif du seuil, mais cette fois le test porte sur <code>abs(f(x))</code> : tant que la valeur de f au point courant est trop loin de 0, on continue.",
+       en:"As with bisection, the process repeats until it is precise enough — the threshold pattern again, but this time the test is on <code>abs(f(x))</code>: while f's value at the current point is too far from 0, keep going."},
+  {type:"c",code:'def f(x):\n    return x**2 - 5\ndef fp(x):\n    return 2 * x\nx = 2\nwhile abs(f(x)) > 0.0001:\n    x = x - f(x) / fp(x)\nprint(round(x, 4))',out:'2.2361'},
+  {type:"t",fr:"Deux pièges. D'abord, si <code>fp(x)</code> vaut 0 à un moment (tangente horizontale), la division plante : <code>ZeroDivisionError</code> — la dichotomie n'a pas ce risque. Ensuite, la méthode de Newton n'a <b>aucune garantie</b> de converger si le point de départ est mal choisi, contrairement à la dichotomie qui, elle, réussit toujours à condition que f(a) et f(b) soient de signes opposés au départ.",
+       en:"Two traps. First, if <code>fp(x)</code> becomes 0 at some point (a horizontal tangent), the division crashes: <code>ZeroDivisionError</code> — bisection has no such risk. Second, Newton's method has <b>no guarantee</b> of converging if the starting point is poorly chosen, unlike bisection, which always succeeds as long as f(a) and f(b) have opposite signs at the start."},
+  {type:"r",fr:"Newton converge en général bien plus vite que la dichotomie (2 à 3 tours suffisent souvent là où la dichotomie en demande des dizaines), au prix de deux exigences en plus : connaître la dérivée, et accepter le risque de ne pas converger. Deux méthodes, un même objectif — trouver où une fonction s'annule — avec un compromis vitesse contre fiabilité.",
+       en:"Newton generally converges much faster than bisection (2 to 3 rounds are often enough where bisection needs dozens), at the cost of two extra requirements: knowing the derivative, and accepting the risk of not converging. Two methods, one same goal — finding where a function crosses zero — trading speed against reliability."}
 ]};
 
 /* ==========================================================
@@ -1359,6 +1676,35 @@ function viewGuide(){
   return h;
 }
 
+/* ==========================================================
+   MODE RÉVISION — liste des exercices actuellement en échec
+   ========================================================== */
+function viewRevision(){
+  let h='<div class="exhead"><h2>'+t("revisionT")+'</h2><p>'+t("revisionD")+'</p></div>';
+  const failed=state.failed||{};
+  let any=false;
+  COURSES.forEach((c,ci)=>{
+    const rows=[];
+    c.ex.forEach((x,ei)=>{
+      if(x.kind==="lesson")return;
+      if(failed[c.id+"-"+ei])rows.push({x,ei});
+    });
+    if(!rows.length)return;
+    any=true;
+    h+='<h3 class="memoH">'+c.num+' — '+c.title[lang]+'</h3>';
+    rows.forEach(r=>{
+      h+='<div class="rowline" style="align-items:center"><pre style="flex:1;background:var(--paper-card);color:var(--ink);border:1px solid var(--line)">'+
+        esc(r.x.title[lang])+'</pre>'+
+        '<button class="ghost" data-ci="'+ci+'" data-ei="'+r.ei+'" onclick="revisionGo(this)">'+t("revisionRedo")+'</button></div>';
+    });
+  });
+  if(!any)h+='<div class="blk">'+t("revisionEmpty")+'</div>';
+  return h;
+}
+function revisionGo(btn){
+  openEx(+btn.dataset.ci,+btn.dataset.ei);
+}
+
 COURSES.forEach(c=>{
   const L=LESSONS[c.id];
   c.ex.unshift({kind:"lesson",title:L.title,desc:L.desc,blocks:L.blocks});
@@ -1390,6 +1736,10 @@ const T = {
   guideExStep2T:"En français d'abord —", guideExStep2B:"je vais parcourir la liste, et à chaque fois qu'un nombre est pair, je l'ajoute à un total qui commence à 0.",
   guideExStep3T:"Le motif reconnu —", guideExStep3B:"c'est un accumulateur (chapitre VIII) avec une condition à l'intérieur de la boucle.",
   guideExEnd:"8 est pair (total 8), 12 est pair (total 20), 6 est pair (total 26) ; 3 et 5 sont impairs, ignorés. Résultat : 26.",
+  revisionBtn:"Mode révision",
+  revisionT:"Mode révision", revisionD:"Les exercices sur lesquels tu t'es trompée la dernière fois, regroupés par chapitre. Un exercice sort de cette liste dès que tu le réussis.",
+  revisionEmpty:"Rien à réviser pour l'instant — bravo !",
+  revisionRedo:"Refaire cet exercice",
   exTrap:"Le piège classique", exKeep:"À retenir",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
@@ -1455,6 +1805,10 @@ const T = {
   guideExStep2T:"In plain words first —", guideExStep2B:"I will walk the list, and each time a number is even, I add it to a total starting at 0.",
   guideExStep3T:"The pattern recognised —", guideExStep3B:"this is an accumulator (chapter VIII) with a condition inside the loop.",
   guideExEnd:"8 is even (total 8), 12 is even (total 20), 6 is even (total 26); 3 and 5 are odd, skipped. Result: 26.",
+  revisionBtn:"Review mode",
+  revisionT:"Review mode", revisionD:"The exercises you got wrong last time, grouped by chapter. An exercise leaves this list as soon as you get it right.",
+  revisionEmpty:"Nothing to review right now — well done!",
+  revisionRedo:"Redo this exercise",
   exTrap:"The classic trap", exKeep:"Remember",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
@@ -1787,7 +2141,7 @@ function markDiff(a,b){
    ========================================================== */
 const KEY="pythonlearn.v3";
 let lang="fr", storageOK=true;
-let state={name:"",points:0,done:{}};
+let state={name:"",points:0,done:{},failed:{}};
 let cur={c:0,e:0}, attempts=0, orderNow=null, quizPicked=-1;
 let pyodide=null, pyReady=false, pyFailed=false;
 const PTS={code:10,quiz:5,order:5,lesson:0};
@@ -1962,7 +2316,7 @@ function applyStatic(){
   document.documentElement.lang=lang;
 }
 function renderStoreNote(){document.getElementById("storeNote").textContent=storageOK?"":t("noStore");}
-function show(id){["welcome","dash","ex","memo","glossary","guide"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
+function show(id){["welcome","dash","ex","memo","glossary","guide","revision"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id));window.scrollTo(0,0);}
 
 function renderDash(){
   document.getElementById("sPoints").textContent=state.points;
@@ -1980,6 +2334,8 @@ function renderDash(){
     b.onclick=()=>openEx(ci,0);
     box.appendChild(b);
   });
+  const fc=failedCount(),rb=document.getElementById("revisionBtn");
+  rb.textContent=t("revisionBtn")+(fc?" ("+fc+")":"");
   renderStoreNote();show("dash");
 }
 
@@ -2132,11 +2488,21 @@ function card(kind,title,body,sub){
     (sub?'<div class="sub">'+sub+'</div>':'')+'</div>';
 }
 function award(id,kind){
-  if(state.done[id]) return false;
-  state.done[id]=true;state.points+=PTS[kind];save();
+  if(!state.failed)state.failed={};
+  const hadFail=!!state.failed[id];
+  if(state.done[id]){if(hadFail){delete state.failed[id];save();}return false;}
+  state.done[id]=true;state.points+=PTS[kind];
+  if(hadFail)delete state.failed[id];
+  save();
   document.getElementById("tagDone").classList.remove("hidden");
   return true;
 }
+function markFailed(id){
+  if(!state.failed)state.failed={};
+  if(state.done[id])return;
+  if(!state.failed[id]){state.failed[id]=true;save();}
+}
+function failedCount(){return state.failed?Object.keys(state.failed).length:0;}
 function showOut(res){
   const p=document.getElementById("out");if(!p)return;
   const txt=res.err==="TIMEOUT"?"⏱ "+t("timeout")
@@ -2186,6 +2552,7 @@ function doCheck(){
     F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.code}):"");
     return;
   }
+  markFailed(id);
   const d=diagnose(res.out,x.out,code,lang);
   F.innerHTML=card("bad",t("firstDiff").split(" ")[0]==="First"?"Not yet":"Pas encore",d.msg)+
     '<div class="diff"><div><h4>'+t("yours")+'</h4><pre>'+markDiff(res.out,x.out)+'</pre></div>'+
@@ -2209,6 +2576,7 @@ function pickQuiz(i){
     const fresh=award(id,"quiz");
     html=card("ok",t("ok"),x.options[i].why[lang]+(fresh?" "+fmt(t("okPts"),{n:PTS.quiz}):""));
   }else{
+    markFailed(id);
     html=card("bad",t("quizWhy"),x.options[i].why[lang],
       "<b style='display:inline;font-size:inherit'>"+t("quizGood")+" — </b>"+
       "<code>"+esc(x.options[x.answer].txt.replace(/\n/g," ⏎ "))+"</code>. "+x.options[x.answer].why[lang]);
@@ -2230,6 +2598,7 @@ function checkOrder(){
       '<div class="panel"><div class="ph">'+t("orderCode")+'</div><pre class="dark">'+esc(code)+'</pre></div>';
     return;
   }
+  markFailed(id);
   const d=diagnose(res.out,x.out,code,lang);
   F.innerHTML=card("bad",lang==="fr"?"Pas encore":"Not yet",d.msg)+
     '<div class="diff"><div><h4>'+t("yours")+'</h4><pre>'+markDiff(res.out,x.out)+'</pre></div>'+
@@ -2264,8 +2633,11 @@ document.getElementById("glossaryBack").onclick=renderDash;
 document.getElementById("guideBtn").onclick=()=>{
   document.getElementById("guideBody").innerHTML=viewGuide();show("guide");};
 document.getElementById("guideBack").onclick=renderDash;
+document.getElementById("revisionBtn").onclick=()=>{
+  document.getElementById("revisionBody").innerHTML=viewRevision();show("revision");};
+document.getElementById("revisionBack").onclick=renderDash;
 document.getElementById("resetBtn").onclick=()=>{
-  if(confirm(t("confirmReset"))){state.points=0;state.done={};save();renderDash();}};
+  if(confirm(t("confirmReset"))){state.points=0;state.done={};state.failed={};save();renderDash();}};
 document.getElementById("logoutBtn").onclick=()=>{
   state.name="";save();document.getElementById("nameInput").value="";show("welcome");};
 document.getElementById("lang").onchange=e=>{
