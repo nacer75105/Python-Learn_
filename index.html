@@ -375,33 +375,33 @@ const COURSES = [
     {txt:'B\nC', why:{fr:"Dans une chaîne if/elif/else, une seule branche s'exécute.",en:"In an if/elif/else chain, only one branch runs."}}]},
 
  { id:"3-2", kind:"code", diff:"easy", title:{fr:"Grand ou petit",en:"Big or small"},
-   desc:{fr:'Avec x = 10 : si x est supérieur à 5, affiche Big, sinon affiche Small.',en:'With x = 10: if x is greater than 5, print Big, otherwise Small.'},
-   hint:{fr:"N'oublie pas les deux-points et les 4 espaces d'indentation.",en:"Don't forget the colon and the 4-space indentation."},
-   sol:'x = 10\nif x > 5:\n    print("Big")\nelse:\n    print("Small")', out:'Big' },
+   desc:{fr:"Demande un nombre avec x = int(input(\"x? \")), puis affiche Big s'il est supérieur à 5, sinon Small.",en:"Ask for a number with x = int(input(\"x? \")), then print Big if it is greater than 5, otherwise Small."}, inputs:["10"],
+   hint:{fr:"Deux blocs : <code>if</code> + condition + deux-points, puis sa ligne décalée ; ensuite <code>else:</code> aligné sous le <code>if</code>, sans condition, puis sa ligne décalée. Attention : après Entrée, l'éditeur décale la ligne tout seul ; efface ce décalage pour que <code>else:</code> revienne au bord gauche.",en:"Two blocks: <code>if</code> + condition + colon, then its indented line; then <code>else:</code> lined up under the <code>if</code>, with no condition, then its indented line. Careful: after Enter, the editor indents the line by itself; delete that shift so that <code>else:</code> goes back to the left edge."},
+   sol:'x = int(input("x? "))\nif x > 5:\n    print("Big")\nelse:\n    print("Small")', out:'x? 10\nBig', retest:{inputs:["3"],out:'x? 3\nSmall'} },
 
  { id:"3-3", kind:"code", diff:"easy", title:{fr:"Majeur ou mineur",en:"Adult or minor"},
-   desc:{fr:'Avec age = 20 : affiche Adult si age est supérieur ou égal à 18, sinon Minor.',en:'With age = 20: print Adult if age is 18 or more, otherwise Minor.'},
+   desc:{fr:"Demande l'âge avec age = int(input(\"age? \")), puis affiche Adult s'il est supérieur ou égal à 18, sinon Minor.",en:"Ask for the age with age = int(input(\"age? \")), then print Adult if it is 18 or more, otherwise Minor."}, inputs:["20"],
    hint:{fr:"L'opérateur « supérieur ou égal » s'écrit <code>&gt;=</code>.",en:'"Greater or equal" is written <code>&gt;=</code>.'},
-   sol:'age = 20\nif age >= 18:\n    print("Adult")\nelse:\n    print("Minor")', out:'Adult' },
+   sol:'age = int(input("age? "))\nif age >= 18:\n    print("Adult")\nelse:\n    print("Minor")', out:'age? 20\nAdult', retest:{inputs:["15"],out:'age? 15\nMinor'} },
 
  { id:"3-4", kind:"code", diff:"medium", title:{fr:"Trois cas",en:"Three cases"},
-   desc:{fr:'Avec grade = 14 : Excellent si 16 ou plus, Good si 10 ou plus, sinon Poor.',en:'With grade = 14: Excellent if 16 or more, Good if 10 or more, otherwise Poor.'},
-   hint:{fr:"<code>elif</code> teste une deuxième condition si la première est fausse.",en:"<code>elif</code> tests a second condition if the first is false."},
-   sol:'grade = 14\nif grade >= 16:\n    print("Excellent")\nelif grade >= 10:\n    print("Good")\nelse:\n    print("Poor")', out:'Good' },
+   desc:{fr:"Demande la note avec grade = int(input(\"grade? \")), puis affiche Excellent si elle vaut 16 ou plus, Good si elle vaut 10 ou plus, sinon Poor.",en:"Ask for the grade with grade = int(input(\"grade? \")), then print Excellent if it is 16 or more, Good if it is 10 or more, otherwise Poor."}, inputs:["14"],
+   hint:{fr:"<code>elif</code> ne teste sa condition que si les précédentes sont fausses : commence donc par le seuil le plus haut (16), puis 10.",en:"<code>elif</code> only tests its condition if the previous ones are false: so start with the highest threshold (16), then 10."},
+   sol:'grade = int(input("grade? "))\nif grade >= 16:\n    print("Excellent")\nelif grade >= 10:\n    print("Good")\nelse:\n    print("Poor")', out:'grade? 14\nGood', retest:[{inputs:["17"],out:'grade? 17\nExcellent'},{inputs:["8"],out:'grade? 8\nPoor'}] },
 
  { id:"3-5", kind:"code", diff:"medium", title:{fr:"Deux conditions",en:"Two conditions"},
-   desc:{fr:'Avec age = 20 et has_license = True : affiche Drive si les deux sont vrais, sinon No.',en:'With age = 20 and has_license = True: print Drive if both are true, otherwise No.'},
-   hint:{fr:"<code>and</code> exige que les deux conditions soient vraies.",en:"<code>and</code> requires both conditions to be true."},
-   sol:'age = 20\nhas_license = True\nif age >= 18 and has_license:\n    print("Drive")\nelse:\n    print("No")', out:'Drive' },
+   desc:{fr:"Avec age = 20 et has_license = True : affiche Drive si age est supérieur ou égal à 18 et si has_license vaut True, sinon No.",en:"With age = 20 and has_license = True: print Drive if age is 18 or more and has_license is True, otherwise No."},
+   hint:{fr:"Deux conditions reliées par <code>and</code> : la première compare age à 18. Pour la seconde, has_license contient déjà <code>True</code> ou <code>False</code>, comme le résultat d'une comparaison : tu peux l'écrire telle quelle, ou <code>has_license == True</code>.",en:"Two conditions joined by <code>and</code>: the first compares age with 18. For the second, has_license already holds <code>True</code> or <code>False</code>, just like the result of a comparison: you can write it as is, or <code>has_license == True</code>."},
+   sol:'age = 20\nhas_license = True\nif age >= 18 and has_license:\n    print("Drive")\nelse:\n    print("No")', out:'Drive', useVars:["age","has_license"] },
 
  { id:"3-6", kind:"code", diff:"hard", title:{fr:"Pair ou impair",en:"Even or odd"},
-   desc:{fr:'Avec n = 7 : affiche Even si n est pair, sinon Odd.',en:'With n = 7: print Even if n is even, otherwise Odd.'},
-   hint:{fr:"<code>n % 2</code> donne le reste de la division par 2. Il vaut 0 si n est pair.",en:"<code>n % 2</code> gives the remainder of dividing by 2. It is 0 when n is even."},
-   sol:'n = 7\nif n % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")', out:'Odd' },
+   desc:{fr:"Demande un entier avec n = int(input(\"n? \")), puis affiche Even s'il est pair, sinon Odd.",en:"Ask for a whole number with n = int(input(\"n? \")), then print Even if it is even, otherwise Odd."}, inputs:["7"],
+   hint:{fr:"Traduis « n est pair » avec le reste de la division par 2 vu dans le cours. Quel reste doit-on obtenir ?",en:"Translate \"n is even\" using the remainder of dividing by 2 from the lesson. What remainder should you get?"},
+   sol:'n = int(input("n? "))\nif n % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")', out:'n? 7\nOdd', retest:{inputs:["4"],out:'n? 4\nEven'} },
 
  { id:"3-7", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : Adult — attention aux lignes décalées.",en:"This program must print: Adult — mind the indented lines."},
-   hint:{fr:"Une ligne décalée appartient toujours au bloc juste au-dessus d'elle.",en:"An indented line always belongs to the block right above it."},
+   hint:{fr:"Une ligne décalée appartient à la ligne terminée par <code>:</code> juste au-dessus d'elle.",en:"An indented line belongs to the line ending with <code>:</code> right above it."},
    lines:['age = 20','if age >= 18:','    print("Adult")','else:','    print("Minor")'], out:'Adult' }
 ]},
 
@@ -746,20 +746,47 @@ const LESSONS = {
   {type:"d",id:"ifelse",
     fr:["age >= 18","vrai","faux",'print("Adulte")','print("Mineur")',"","Une seule des deux branches s'exécute, jamais les deux."],
     en:["age >= 18","true","false",'print("Adult")','print("Minor")',"","Only one branch runs, never both."]},
-  {type:"p",fr:"Deux règles d'écriture, non négociables. La ligne du <code>if</code> se termine par <b>deux-points</b>. Les lignes qui suivent, celles « à l'intérieur », sont <b>décalées de 4 espaces</b>. C'est ce décalage, et lui seul, qui dit à Python ce qui appartient à la condition.",
-       en:"Two non-negotiable writing rules. The <code>if</code> line ends with a <b>colon</b>. The lines that follow, the ones \"inside\", are <b>indented by 4 spaces</b>. That indentation alone tells Python what belongs to the condition."},
+  {type:"p",fr:"<b>1. Poser une question : ==.</b> Au chapitre I, tu as appris que le <code>=</code> de Python ne veut pas dire « est égal à » : c'est la flèche ← de l'algorithmique, un ordre de rangement. Mais alors, comment demander à Python « x est-il égal à 5 ? », comme dans « si x = 5 » en maths ? Avec un signe <b>double</b> : <code>==</code>. Retiens la correspondance :<br>• la flèche ← de l'algorithmique → <code>=</code> en Python (« range dans ») : c'est un <b>ordre</b> ;<br>• le « est égal à » des maths → <code>==</code> en Python : c'est une <b>question</b>.<br>Imagine un serveur au restaurant. « Pose l'assiette sur la table 5 », c'est <code>=</code> : il agit. « Est-ce bien la table 5 ? », c'est <code>==</code> : il vérifie et répond oui ou non, sans rien déplacer.",
+       en:"<b>1. Asking a question: ==.</b> In chapter I you learnt that Python's <code>=</code> does not mean \"is equal to\": it is the ← arrow from pseudocode, an order to store. So how do you ask Python \"is x equal to 5?\", as in \"if x = 5\" in maths? With a <b>double</b> sign: <code>==</code>. Remember the match:<br>• the ← arrow of pseudocode → <code>=</code> in Python (\"store in\"): an <b>order</b>;<br>• the \"is equal to\" of maths → <code>==</code> in Python: a <b>question</b>.<br>Picture a waiter. \"Put the plate on table 5\" is <code>=</code>: he acts. \"Is this table 5?\" is <code>==</code>: he checks and answers yes or no, moving nothing."},
+  {type:"c",code:'x = 5\nprint(x == 5)\nprint(x == 7)',out:'True\nFalse'},
+  {type:"p",fr:"Une comparaison est donc un petit calcul dont le résultat n'est pas un nombre mais un <b>booléen</b> : <code>True</code> ou <code>False</code>, le quatrième type vu au chapitre I. C'est ce résultat que le <code>if</code> regarde. Les autres comparaisons s'écrivent avec les touches du clavier, faute de touches ≤, ≥ et ≠ : <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code> pour ≤, <code>&gt;=</code> pour ≥, <code>!=</code> pour ≠ (le point d'exclamation veut dire « pas »).",
+       en:"So a comparison is a small calculation whose result is not a number but a <b>boolean</b>: <code>True</code> or <code>False</code>, the fourth type from chapter I. That result is what the <code>if</code> looks at. The other comparisons are typed on the keyboard, since there are no ≤, ≥, ≠ keys: <code>&lt;</code>, <code>&gt;</code>, <code>&lt;=</code> for ≤, <code>&gt;=</code> for ≥, <code>!=</code> for ≠ (the exclamation mark means \"not\")."},
+  {type:"t",fr:"Le piège marche dans les deux sens. <code>if x = 5:</code> provoque une erreur : Python refuse, car on ne pose pas une question avec un ordre de rangement. Tant mieux, tu es prévenue. Le piège inverse est plus sournois : écrire <code>x == 5</code> seul sur une ligne, en croyant ranger 5 dans x. Python pose la question, obtient <code>True</code> ou <code>False</code>, puis jette la réponse. Aucune erreur, et x n'a pas changé. Règle : dans un <code>if</code>, toujours <code>==</code> ; pour ranger, toujours <code>=</code>.",
+       en:"The trap works both ways. <code>if x = 5:</code> raises an error: Python refuses, because you cannot ask a question with a storing order. Good, you are warned. The reverse trap is sneakier: writing <code>x == 5</code> alone on a line, thinking it stores 5 in x. Python asks the question, gets <code>True</code> or <code>False</code>, then throws the answer away. No error, and x has not changed. Rule: in an <code>if</code>, always <code>==</code>; to store, always <code>=</code>."},
+  {type:"c",code:'x = 3\nx == 5\nprint(x)',out:'3'},
+  {type:"p",fr:"<b>2. Si… alors : if et l'indentation.</b> En algorithmique, tu écris « Si age ≥ 18 alors », puis l'action décalée en dessous, puis « FinSi ». Python garde la même idée. Les <b>deux-points</b> à la fin de la ligne <code>if</code> jouent le rôle du « alors » : ils annoncent « voici ce qu'il faut faire ». Les lignes « à l'intérieur » sont décalées vers la droite, comme les sous-parties d'un plan sous leur titre. Ce décalage s'appelle l'<b>indentation</b>, et les lignes décalées ensemble forment un <b>bloc</b>. Il n'y a pas de « FinSi » : c'est le retour au bord gauche qui marque la fin du bloc. Par convention, on décale de 4 espaces (la touche Tab le fait pour toi) ; la vraie règle, c'est que toutes les lignes d'un même bloc aient <b>exactement le même décalage</b>. Ce décalage n'est donc pas une question de présentation : c'est lui, et lui seul, qui dit à Python ce qui dépend de la condition.",
+       en:"<b>2. If… then: if and indentation.</b> In pseudocode you write \"If age ≥ 18 then\", then the action shifted underneath, then \"EndIf\". Python keeps the same idea. The <b>colon</b> at the end of the <code>if</code> line plays the role of \"then\": it announces \"here is what to do\". The lines \"inside\" are shifted to the right, like the sub-points of an outline under their heading. This shift is called <b>indentation</b>, and lines indented together form a <b>block</b>. There is no \"EndIf\": going back to the left edge marks the end of the block. By convention you indent by 4 spaces (the Tab key does it for you); the real rule is that every line of a block has <b>exactly the same shift</b>. So indentation is not decoration: it alone tells Python what depends on the condition."},
   {type:"c",code:'age = 20\nif age >= 18:\n    print("Adulte")\n    print("Tu peux voter")\nprint("Fin")',
     out:'Adulte\nTu peux voter\nFin'},
   {type:"p",fr:"La dernière ligne n'est pas décalée : elle est <b>en dehors</b> de la condition, donc elle s'affiche dans tous les cas. Change <code>age</code> pour 10 et tu ne verras plus que « Fin ».",
        en:"The last line is not indented: it is <b>outside</b> the condition, so it always shows. Change <code>age</code> to 10 and you will only see \"Fin\"."},
-  {type:"p",fr:"Pour comparer, on dispose de <code>==</code> égal, <code>!=</code> différent, <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code>. On combine avec <code>and</code> (les deux) et <code>or</code> (au moins une). Quand il y a plus de deux cas, on enchaîne avec <code>elif</code>.",
-       en:"To compare: <code>==</code> equal, <code>!=</code> different, <code>&lt;</code> <code>&gt;</code> <code>&lt;=</code> <code>&gt;=</code>. Combine with <code>and</code> (both) and <code>or</code> (at least one). For more than two cases, chain with <code>elif</code>."},
-  {type:"c",code:'note = 14\nif note >= 16:\n    print("Excellent")\nelif note >= 10:\n    print("Correct")\nelse:\n    print("A revoir")',
-    out:'Correct'},
-  {type:"t",fr:"<code>=</code> range une valeur, <code>==</code> compare. Dans un <code>if</code>, c'est toujours <code>==</code>. Écrire <code>if x = 5:</code> provoque une erreur — heureusement, car sinon la faute passerait inaperçue.",
-       en:"<code>=</code> stores, <code>==</code> compares. Inside an <code>if</code>, always <code>==</code>. Writing <code>if x = 5:</code> raises an error — fortunately, otherwise the mistake would go unnoticed."},
-  {type:"r",fr:"Dans une chaîne <code>if / elif / else</code>, Python s'arrête à la première condition vraie. Les suivantes ne sont même pas testées.",
-       en:"In an <code>if / elif / else</code> chain, Python stops at the first true condition. The others are not even tested."}
+  {type:"p",fr:"Au chapitre I, Python exécutait toutes les lignes, dans l'ordre. C'est la première fois qu'il peut en <b>sauter</b> : il lit toujours de haut en bas, mais il passe par-dessus un bloc dont la condition est fausse.",
+       en:"In chapter I, Python ran every line in order. This is the first time it can <b>skip</b> some: it still reads top to bottom, but jumps over a block whose condition is false."},
+  {type:"t",fr:"Si tu oublies de décaler la ligne juste après le <code>if</code>, Python refuse le programme (IndentationError). Plus traître : si tu oublies de décaler la <b>deuxième</b> ligne, il n'y a <b>aucune erreur</b>, mais cette ligne sort du bloc et s'exécute toujours. Avec age = 10, on lirait « Tu peux voter » !",
+       en:"If you forget to indent the line right after the <code>if</code>, Python refuses the program (IndentationError). Sneakier: forget to indent the <b>second</b> line and there is <b>no error</b>, but that line leaves the block and always runs. With age = 10 you would read \"Tu peux voter\"!"},
+  {type:"c",code:'age = 10\nif age >= 18:\n    print("Adulte")\nprint("Tu peux voter")\nprint("Fin")',out:'Tu peux voter\nFin'},
+  {type:"p",fr:"<b>3. Sinon : else et elif.</b> En algorithmique : « Si … Alors … Sinon … FinSi ». En Python, « Sinon » s'écrit <code>else:</code>, aligné exactement sous le <code>if</code>. <code>else</code> n'a pas de condition à tester : il ramasse tous les cas où la condition du <code>if</code> est fausse. Il prend quand même deux-points, et son bloc est lui aussi décalé. Le <code>else</code> est facultatif : sans lui, on retombe sur le cas de la section 2 (Python saute le bloc). Voici le code du schéma du début :",
+       en:"<b>3. Otherwise: else and elif.</b> In pseudocode: \"If … Then … Else … EndIf\". In Python, \"Else\" is written <code>else:</code>, lined up exactly under the <code>if</code>. <code>else</code> has no condition to test: it catches every case where the <code>if</code> condition is false. It still takes a colon, and its block is indented too. <code>else</code> is optional: without it, you are back to the section 2 case (Python skips the block). Here is the code from the diagram at the top:"},
+  {type:"c",code:'age = 15\nif age >= 18:\n    print("Adulte")\nelse:\n    print("Mineur")',out:'Mineur'},
+  {type:"p",fr:"Quand il y a plus de deux cas, on ajoute <code>elif</code>, contraction de <i>else if</i> : « sinon, si ». Python lit la chaîne de haut en bas : dès qu'une condition est vraie, il exécute ce bloc et <b>saute tout le reste</b>, <code>else</code> compris. C'est exactement une fonction définie par morceaux, ici selon la température t :<br>f(t) = « Chaud » si t ∈ [30 ; +∞[<br>f(t) = « Doux » si t ∈ [15 ; 30[<br>f(t) = « Froid » si t ∈ ]-∞ ; 15[<br>Remarque : le code écrit seulement <code>t &gt;= 15</code>, pas « 15 ≤ t &lt; 30 ». La borne 30 est sous-entendue : si Python arrive à l'<code>elif</code>, c'est que le test <code>t &gt;= 30</code> a déjà échoué.",
+       en:"When there are more than two cases, add <code>elif</code>, short for <i>else if</i>. Python reads the chain top to bottom: as soon as a condition is true, it runs that block and <b>skips all the rest</b>, <code>else</code> included. It is exactly a piecewise-defined function, here of the temperature t:<br>f(t) = \"Chaud\" (hot) if t ∈ [30, +∞)<br>f(t) = \"Doux\" (mild) if t ∈ [15, 30)<br>f(t) = \"Froid\" (cold) if t ∈ (-∞, 15)<br>Note that the code only writes <code>t &gt;= 15</code>, not \"15 ≤ t &lt; 30\": the bound 30 is implied, because reaching the <code>elif</code> means <code>t &gt;= 30</code> has already failed."},
+  {type:"c",code:'t = 22\nif t >= 30:\n    print("Chaud")\nelif t >= 15:\n    print("Doux")\nelse:\n    print("Froid")',out:'Doux'},
+  {type:"t",fr:"L'ordre des tests compte. Inverse-les, et 35 °C devient « Doux » : 35 ≥ 15 est vrai dès le premier test, donc Python s'arrête là, et la ligne Chaud ne sert plus jamais. Avec des seuils, on teste du <b>plus exigeant au moins exigeant</b>.",
+       en:"The order of the tests matters. Swap them and 35 °C becomes \"Doux\" (mild): 35 ≥ 15 is true at the first test, so Python stops there and the Chaud line can never be reached. With thresholds, test from the <b>most demanding to the least demanding</b>."},
+  {type:"c",code:'t = 35\nif t >= 15:\n    print("Doux")\nelif t >= 30:\n    print("Chaud")',out:'Doux'},
+  {type:"p",fr:"Et deux <code>if</code> séparés ne forment pas une chaîne <code>if / elif</code> : chacun pose sa question sans savoir si le précédent a déjà répondu, donc les deux peuvent s'exécuter. <code>elif</code>, lui, veut dire « seulement si tout ce qui précède a échoué ».",
+       en:"And two separate <code>if</code>s do not form an <code>if / elif</code> chain: each asks its own question without knowing whether the previous one already answered, so both may run. <code>elif</code> means \"only if everything above failed\"."},
+  {type:"c",code:'t = 35\nif t >= 30:\n    print("Chaud")\nif t >= 15:\n    print("Doux")',out:'Chaud\nDoux'},
+  {type:"p",fr:"<b>4. Combiner et calculer : and, or, %.</b> Pour tester « x ∈ [2 ; 5] », il faut deux conditions à la fois : 2 ≤ x ET x ≤ 5. En Python : <code>x &gt;= 2 and x &lt;= 5</code>. <code>and</code> correspond à l'intersection : il faut que les deux conditions soient vraies. <code>or</code> correspond à la réunion : une seule suffit. Par exemple, « x est en dehors de [2 ; 5] » s'écrit <code>x &lt; 2 or x &gt; 5</code>. Avec la valeur absolue : |x| &lt; 3 revient à -3 &lt; x &lt; 3.",
+       en:"<b>4. Combining and computing: and, or, %.</b> To test \"x ∈ [2, 5]\" you need two conditions at once: 2 ≤ x AND x ≤ 5. In Python: <code>x &gt;= 2 and x &lt;= 5</code>. <code>and</code> is the intersection: both conditions must be true. <code>or</code> is the union: one is enough. For instance \"x is outside [2, 5]\" is <code>x &lt; 2 or x &gt; 5</code>. With absolute value: |x| &lt; 3 means -3 &lt; x &lt; 3."},
+  {type:"c",code:'x = -1\nif x > -3 and x < 3:\n    print("|x| < 3")\nelse:\n    print("|x| >= 3")',out:'|x| < 3'},
+  {type:"p",fr:"Une boîte qui contient déjà <code>True</code> ou <code>False</code> est déjà une réponse : tu peux la mettre directement dans le <code>if</code>. <code>if ok:</code> veut dire « si ok vaut True », exactement comme <code>if ok == True:</code>.",
+       en:"A box that already holds <code>True</code> or <code>False</code> is already an answer: you can put it straight into the <code>if</code>. <code>if ok:</code> means \"if ok is True\", exactly like <code>if ok == True:</code>."},
+  {type:"p",fr:"Un opérateur de plus, très utile dans les conditions : <code>%</code> donne le <b>reste</b> de la division euclidienne. Tu la connais : 17 = 5 × 3 + 2, donc <code>17 % 5</code> vaut 2. Un entier n est pair quand il s'écrit 2k, c'est-à-dire quand sa division par 2 ne laisse pas de reste. De même, n est un multiple de 3 quand <code>n % 3 == 0</code>.",
+       en:"One more operator, very useful in conditions: <code>%</code> gives the <b>remainder</b> of Euclidean division. You know it: 17 = 5 × 3 + 2, so <code>17 % 5</code> is 2. An integer n is even when it can be written 2k, that is when dividing it by 2 leaves no remainder. Likewise, n is a multiple of 3 when <code>n % 3 == 0</code>."},
+  {type:"c",code:'print(17 % 5)\nprint(12 % 3)\nprint(13 % 3)',out:'2\n0\n1'},
+  {type:"r",fr:"1) <code>==</code> pose une question (le « = » des maths), réponse <code>True</code> ou <code>False</code> ; <code>=</code> range (le ← de l'algorithmique).<br>2) <code>if condition:</code> puis un bloc décalé (indentation) : même décalage pour toutes les lignes du bloc.<br>3) Une ligne revenue au bord gauche est hors du bloc : elle s'exécute toujours.<br>4) <code>else:</code> = sinon (facultatif, sans condition) ; <code>elif</code> = sinon si.<br>5) Un seul bloc s'exécute, celui de la première condition vraie : teste du plus exigeant au moins exigeant.<br>6) <code>and</code> = les deux (intersection), <code>or</code> = au moins une (réunion) ; <code>%</code> donne le reste : <code>n % 3 == 0</code> teste si n est un multiple de 3.",
+       en:"1) <code>==</code> asks a question (the maths \"=\"), answer <code>True</code> or <code>False</code>; <code>=</code> stores (the ← of pseudocode).<br>2) <code>if condition:</code> then an indented block: the same shift for every line of the block.<br>3) A line back at the left edge is outside the block: it always runs.<br>4) <code>else:</code> = otherwise (optional, no condition); <code>elif</code> = else if.<br>5) Only one block runs, the one of the first true condition: test from the most demanding to the least.<br>6) <code>and</code> = both (intersection), <code>or</code> = at least one (union); <code>%</code> gives the remainder: <code>n % 3 == 0</code> tests whether n is a multiple of 3."}
 ]},
 
 4:{ title:{fr:"Cours — les boucles",en:"Lesson — loops"},
@@ -1794,7 +1821,7 @@ const T = {
   revisionRedo:"Refaire cet exercice",
   exTrap:"Le piège classique", exKeep:"À retenir",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.",
-  retestB:"Ton programme affiche la bonne réponse quand on tape {a}, mais pas quand on tape {b} : il faudrait alors afficher {w}. Calcule le résultat à partir de la boîte où tu as rangé le nombre tapé, au lieu de l'écrire toi-même.",
+  retestB:"Ton programme affiche la bonne réponse quand on tape {a}, mais pas quand on tape {b} : il faudrait alors afficher {w}. Ton programme doit marcher pour n'importe quelle réponse : utilise la boîte où tu as rangé ce qui a été tapé, au lieu d'écrire le résultat toi-même, et vérifie ce que ton programme affiche dans chaque cas possible.",
   thenLine:", puis à la ligne ",
   useVarsT:"Presque !", useVarsB:"La sortie est juste, mais dans ton print tu as retapé la valeur elle-même au lieu du nom de sa boîte. À la place de cette valeur, écris le nom de la boîte, sans guillemets — boîte(s) concernée(s) : {v}. Pourquoi ? Si la valeur de la boîte changeait, ton print afficherait encore l'ancienne.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
@@ -1866,7 +1893,7 @@ const T = {
   revisionRedo:"Redo this exercise",
   exTrap:"The classic trap", exKeep:"Remember",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.",
-  retestB:"Your program shows the right answer when {a} is typed, but not when {b} is typed: it should then show {w}. Compute the result from the box where you stored the typed number, instead of writing it yourself.",
+  retestB:"Your program shows the right answer when {a} is typed, but not when {b} is typed: it should then show {w}. Your program must work for any answer: use the box where you stored what was typed, instead of writing the result yourself, and check what your program prints in every possible case.",
   thenLine:", then on the next line ",
   useVarsT:"Almost!", useVarsB:"The output is right, but in your print you retyped the value itself instead of its box's name. In place of that value, write the box's name, without quotes — box(es) concerned: {v}. Why? If the box's value changed, your print would still show the old one.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
@@ -1950,13 +1977,21 @@ const ERRORS = [
     b:"Text starts with a quote and must end with the same quote, on the same line.",
     d:'Check every <code>"</code> has its twin: <code>"Hello"</code>, not <code>"Hello</code>.'})},
 
-{ re:/^SyntaxError: invalid syntax\. Maybe you meant '=='/,
-  fr:()=>({t:"Confusion entre = et ==",
-    b:"<code>=</code> range une valeur dans une variable. <code>==</code> compare deux valeurs et répond vrai ou faux.",
+{ re:/^SyntaxError: .*Maybe you meant '=='/, when:ctx=>/^\s*(if|elif|while)\b/.test(ctx.src),
+  fr:m=>({t:"Confusion entre = et ==",
+    b:"<code>=</code> range une valeur dans une variable (la flèche ←). <code>==</code> compare deux valeurs et répond <code>True</code> ou <code>False</code> : comme en maths, « est égal à » s'écrit ici <code>==</code>."+(m.input.includes(":=")?" Ignore la suggestion <code>:=</code> du message, elle ne te concerne pas.":""),
     d:"Dans un <code>if</code> ou un <code>while</code>, il faut <code>==</code> : <code>if x == 5:</code>"}),
-  en:()=>({t:"Confusing = and ==",
-    b:"<code>=</code> stores a value in a variable. <code>==</code> compares two values and answers true or false.",
+  en:m=>({t:"Confusing = and ==",
+    b:"<code>=</code> stores a value in a variable (the ← arrow). <code>==</code> compares two values and answers <code>True</code> or <code>False</code>: as in maths, \"is equal to\" is written <code>==</code> here."+(m.input.includes(":=")?" Ignore the <code>:=</code> suggestion in the message.":""),
     d:"Inside an <code>if</code> or <code>while</code>, use <code>==</code>: <code>if x == 5:</code>"})},
+
+{ re:/^SyntaxError: cannot assign to (literal|expression|function call)/,
+  fr:()=>({t:"La boîte doit être à gauche du =",
+    b:"Le <code>=</code> range la valeur de droite dans la boîte de gauche (la flèche ←). À gauche, il faut donc un nom de boîte, pas un nombre, un texte ou un calcul.",
+    d:"Écris par exemple <code>sq = n * n</code>, et non <code>n * n = sq</code>. Si tu voulais comparer, c'est <code>==</code>, dans un <code>if</code>."}),
+  en:()=>({t:"The box must be on the left of =",
+    b:"The <code>=</code> stores the value on the right into the box on the left (the ← arrow). So the left side must be a box name, not a number, a text or a calculation.",
+    d:"Write for instance <code>sq = n * n</code>, not <code>n * n = sq</code>. If you meant to compare, use <code>==</code>, inside an <code>if</code>."})},
 
 { re:/^IndentationError: expected an indented block after '(\w+)' statement on line (\d+)/,
   fr:m=>({t:"Il manque le décalage",
@@ -2141,12 +2176,12 @@ function nearestName(bad,code){
    5. EXPLICATION D'UNE ERREUR PYTHON
    ========================================================== */
 function explainError(err,line,code,lang){
-  const ctx={near:null};
+  const ctx={near:null,src:(code.split("\n")[(line||0)-1]||"")};
   const nm=/^NameError: name '(\w+)' is not defined/.exec(err);
   if(nm) ctx.near=nearestName(nm[1],code);
   for(const e of ERRORS){
     const m=e.re.exec(err);
-    if(m) return Object.assign({line},e[lang](m,ctx));
+    if(m&&(!e.when||e.when(ctx))) return Object.assign({line},e[lang](m,ctx));
   }
   return Object.assign({line},FALLBACK_ERR[lang]());
 }
@@ -2650,12 +2685,13 @@ function doCheck(){
     const miss=(x.useVars||[]).filter(v=>varUses(code,v)<2);
     if(miss.length){markFailed(id);F.innerHTML=card("warn",t("useVarsT"),fmt(t("useVarsB"),{v:miss.join(", ")}))+escalate();return;}
     // Deuxième essai avec une autre réponse simulée : le programme doit calculer, pas recopier le résultat.
-    if(x.retest){const r2=runPy(code,x.retest.inputs);
+    // retest : un ou plusieurs essais avec d'autres réponses simulées (autres branches, calcul réel).
+    for(const rt of [].concat(x.retest||[])){const r2=runPy(code,rt.inputs);
       if(r2.err){markFailed(id);F.innerHTML=errCard(r2,code)+escalate();return;}
-      if(norm(r2.out)!==norm(x.retest.out)){markFailed(id);
+      if(norm(r2.out)!==norm(rt.out)){markFailed(id);
         const q=lang==="fr"?["« "," »"]:["\"","\""];
-        const w=norm(x.retest.out).split("\n").map(l=>q[0]+esc(l)+q[1]).join(t("thenLine"));
-        F.innerHTML=card("warn",t("useVarsT"),fmt(t("retestB"),{a:esc((x.inputs||[]).join(", ")),b:esc(x.retest.inputs.join(", ")),w:w}))+escalate();return;}}
+        const w=norm(rt.out).split("\n").map(l=>q[0]+esc(l)+q[1]).join(t("thenLine"));
+        F.innerHTML=card("warn",t("useVarsT"),fmt(t("retestB"),{a:esc((x.inputs||[]).join(", ")),b:esc(rt.inputs.join(", ")),w:w}))+escalate();return;}}
     const fresh=award(id,"code");
     F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.code}):"");
     return;

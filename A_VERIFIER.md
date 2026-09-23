@@ -128,6 +128,55 @@ du chapitre I, « pourquoi demander », résumé « À retenir », nouvel exerci
 - [ ] **EN, explication d'erreur** (~l.1999) : « Python is adding a int and a
   str » → article et types traduits (« a whole number and text »).
 
+## Chapitre III — Conditions (relecture du 2026-09-23)
+
+Appliqués (points 1 à 12) : `=` / `==` démêlés (← contre « est égal à »,
+image du serveur, piège dans les deux sens), carte d'erreur `=`/`==` élargie,
+`else` enseigné (Si / Alors / Sinon), ordre des `elif` (fonction par
+morceaux, contre-exemple), indentation (même décalage, 4 espaces = convention,
+piège de la 2e ligne non décalée), `%` (reste de la division euclidienne),
+3-2 / 3-3 / 3-4 / 3-6 passés à `input()` avec essais « deuxième réponse »
+(3-4 : deux essais, un par branche), 3-5 consigne + `useVars`, `and`/`or`,
+≤ ≥ ≠, résumé « À retenir », indices 3-2 / 3-4 / 3-7. Restent :
+
+- [ ] **13. 3-3 et 3-7 refont le programme du schéma** (age ≥ 18 → Adult /
+  Minor), qui est aussi l'exemple du `else` dans le cours. Proposition pour
+  3-7 : ajouter une ligne `print("End")` hors du bloc (sortie `Adult` puis
+  `End`, consigne « une ligne n'est pas décalée, elle s'exécute dans tous les
+  cas »). Pour 3-3, choisir un autre seuil ou un autre contexte.
+- [ ] **14. « emprunte l'une des deux voies »** (1er paragraphe) : ajouter
+  « Parfois, la voie « faux » est simplement : ne rien faire et continuer. »
+- [ ] **15. Aide-mémoire, section Conditions** : ajouter la ligne
+  `x = 5  /  x == 5` (« range 5 dans x (←) / demande « x est-il égal à 5 ? » ») ;
+  `elif` « testé seulement si **tous** les précédents sont faux » ; `not` est
+  listé mais n'est enseigné nulle part (l'enseigner en une ligne ou le
+  retirer) ; « Erreurs fréquentes » : ajouter « = au lieu de == ».
+- [ ] **16. Glossaire** : « Booléen » emploie « renvoie » (jargon du chapitre
+  des fonctions) → « C'est le résultat d'une comparaison comme 10 > 5 :
+  oui (True) ou non (False) » ; ajouter « Bloc » et « Comparaison (==) » ;
+  l'exemple de « Condition » double celui d'« Indentation » (en donner un avec
+  `else`).
+- [ ] **17. Carte « Décalage inattendu »** (unexpected indent) : l'explication
+  dit qu'aucune ligne au-dessus n'ouvre de bloc, ce qui est faux quand la
+  ligne est simplement plus décalée que les autres lignes de son bloc. →
+  « Cette ligne est plus décalée que prévu : soit aucune ligne au-dessus
+  n'ouvre de bloc avec `:`, soit elle est plus à droite que les autres lignes
+  de son bloc. »
+- [ ] **3-5 : le cas « faux » n'est jamais testé** (pas d'input ni de
+  retest). `if age and has_license: print("Drive")` est accepté (sans le 18
+  ni le else) ; `useVars` empêche seulement de recopier les valeurs en dur.
+  Piste : `has_license = input("License? ") == "yes"` avec un retest, ou
+  accepter cette limite.
+- [ ] **Image du serveur** (section 1) : prof-pedagogue relève que « Pose
+  l'assiette sur la table 5 » / « Est-ce bien la table 5 ? » mélange les rôles
+  (5 y désigne la boîte, alors que dans `x = 5` c'est le contenu). Variante
+  proposée : « Mets 5 couverts sur la table x » (= `x = 5`) / « Y a-t-il bien
+  5 couverts sur la table x ? » (= `x == 5`). Conservée telle quelle en
+  attendant la décision (image validée explicitement).
+- [ ] **18. Schéma if/else** : étiquettes « vrai (True) » / « faux (False) »,
+  légende « En Python : la branche vrai est sous le if, la branche faux sous
+  le else ».
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
