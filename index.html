@@ -297,18 +297,18 @@ const COURSES = [
 
  { id:"1-4", kind:"code", diff:"medium", title:{fr:"Changer une valeur",en:"Change a value"},
    desc:{fr:"Crée score = 0 et affiche-le. Puis mets score à 100 et affiche-le à nouveau.",en:"Create score = 0 and print it. Then set score to 100 and print it again."},
-   hint:{fr:"Une variable peut être réaffectée : <code>score = 100</code> écrase l'ancienne valeur.",en:"A variable can be reassigned: <code>score = 100</code> overwrites the old value."},
+   hint:{fr:"Pour changer le contenu d'une boîte, range une nouvelle valeur dedans avec <code>=</code> : l'ancienne est remplacée. N'oublie pas d'afficher avant <b>et</b> après.",en:"To change what a box holds, store a new value in it with <code>=</code>: the old one is replaced. Don't forget to print before <b>and</b> after."},
    sol:'score = 0\nprint(score)\nscore = 100\nprint(score)', out:'0\n100' },
 
  { id:"1-5", kind:"code", diff:"medium", title:{fr:"Connaître le type",en:"Check the type"},
    desc:{fr:'Affiche le type de 5, puis de 3.14, puis de "hello", avec la fonction type().',en:'Print the type of 5, then 3.14, then "hello", using type().'},
-   hint:{fr:"<code>print(type(5))</code> affiche la classe de la valeur.",en:"<code>print(type(5))</code> prints the class of the value."},
+   hint:{fr:"Mets la valeur entre les parenthèses de <code>type()</code>, puis entoure le tout de <code>print()</code> pour voir la réponse. Python écrira <code>&lt;class '...'&gt;</code> : c'est normal, le type est le nom entre apostrophes.",en:"Put the value inside the brackets of <code>type()</code>, then wrap it all in <code>print()</code> to see the answer. Python will write <code>&lt;class '...'&gt;</code>: that is normal, the type is the name between the quotes."},
    sol:'print(type(5))\nprint(type(3.14))\nprint(type("hello"))', out:"<class 'int'>\n<class 'float'>\n<class 'str'>" },
 
  { id:"1-6", kind:"code", diff:"hard", title:{fr:"Fiche d'identité",en:"Identity card"},
-   desc:{fr:'Crée name = "Alice" et age = 16. Affiche "Name: Alice" puis "Age: 16".',en:'Create name = "Alice" and age = 16. Print "Name: Alice" then "Age: 16".'},
-   hint:{fr:'<code>print("Name:", name)</code> — la virgule ajoute une espace automatiquement.',en:'<code>print("Name:", name)</code> — the comma adds a space automatically.'},
-   sol:'name = "Alice"\nage = 16\nprint("Name:", name)\nprint("Age:", age)', out:'Name: Alice\nAge: 16' },
+   desc:{fr:'Crée name = "Alice" et age = 16. Affiche "Name: Alice" puis "Age: 16", en utilisant les variables name et age dans tes print (sans recopier Alice ni 16).',en:'Create name = "Alice" and age = 16. Print "Name: Alice" then "Age: 16", using the variables name and age in your prints (do not retype Alice or 16).'},
+   hint:{fr:"Il te faut deux <code>print</code>, un par ligne. Dans chacun, écris entre guillemets le texte à recopier tel quel, puis une virgule, puis le nom de la variable <b>sans</b> guillemets. La virgule ajoute une espace automatiquement.",en:"You need two <code>print</code>s, one per line. In each, put the text to copy as is in quotes, then a comma, then the variable name <b>without</b> quotes. The comma adds a space automatically."},
+   sol:'name = "Alice"\nage = 16\nprint("Name:", name)\nprint("Age:", age)', out:'Name: Alice\nAge: 16', useVars:["name","age"] },
 
  { id:"1-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ces lignes affichent 16, mais elles sont mélangées. Remets-les dans le bon ordre.",en:"These lines print 16, but they are shuffled. Put them back in order."},
@@ -643,26 +643,55 @@ const LESSONS = {
 1:{ title:{fr:"Cours — les variables",en:"Lesson — variables"},
   desc:{fr:"Lis d'abord, tu écriras du code juste après.",en:"Read first, you will write code right after."},
   blocks:[
-  {type:"p",fr:"Une variable est une <b>boîte avec une étiquette</b>. Tu ranges une valeur dedans, tu écris un nom dessus, et tu peux la retrouver plus tard en citant ce nom.",
-       en:"A variable is a <b>labelled box</b>. You put a value inside, write a name on it, and find it later by using that name."},
-  {type:"p",fr:"Le signe <code>=</code> ne veut pas dire « égal » en Python. Il veut dire <b>« range dans »</b>. On lit <code>age = 15</code> de droite à gauche : range 15 dans la boîte appelée age.",
-       en:"The <code>=</code> sign does not mean \"equals\" in Python. It means <b>\"store into\"</b>. Read <code>age = 15</code> right to left: store 15 into the box called age."},
+  {type:"p",fr:"Pourquoi des variables ? Dans un long calcul à la calculatrice, tu notes des résultats intermédiaires au brouillon, ou tu utilises la touche <b>Ans</b>, pour t'en resservir plus loin. Un programme a le même besoin : garder une valeur pour la réutiliser plus tard. C'est le rôle d'une variable — comme quand tu écris « posons a = 3 » au début d'un exercice de maths.",
+       en:"Why variables? In a long calculator computation, you jot intermediate results on scrap paper, or use the <b>Ans</b> key, to reuse them later. A program has the same need: keep a value to use it again later. That is what a variable is for — like writing \"let a = 3\" at the start of a maths exercise."},
+  {type:"p",fr:"<b>1. Ranger une valeur.</b> Une variable est une <b>boîte avec une étiquette</b>. Tu ranges une valeur dedans, tu écris un nom dessus, et tu peux la retrouver plus tard en citant ce nom.",
+       en:"<b>1. Storing a value.</b> A variable is a <b>labelled box</b>. You put a value inside, write a name on it, and find it later by using that name."},
+  {type:"p",fr:"Le signe <code>=</code> ne veut pas dire « égal » comme en maths. En maths, x = 5 est un constat, vrai partout dans l'exercice. En Python, c'est un <b>ordre</b>, exécuté à un instant précis : <b>« range dans »</b>. Tu connais déjà ce sens-là : en algorithmique, tu écris <b>age ← 15</b> ; Python utilise simplement <code>=</code> à la place de la flèche. On lit donc <code>age = 15</code> de droite à gauche : range 15 dans la boîte appelée age.",
+       en:"The <code>=</code> sign does not mean \"equals\" as in maths. In maths, x = 5 is a fact, true throughout the exercise. In Python it is an <b>order</b>, carried out at one precise moment: <b>\"store into\"</b>. You already know this meaning: in pseudocode you write <b>age ← 15</b>; Python simply uses <code>=</code> instead of the arrow. So read <code>age = 15</code> right to left: store 15 into the box called age."},
   {type:"d",id:"varbox",
     fr:["age","15","le nom (l'étiquette)","la valeur (le contenu)","« range 15 dans age »"],
     en:["age","15","the name (the label)","the value (the content)","\"store 15 into age\""]},
   {type:"c",code:'age = 15\nprint(age)',out:'15'},
-  {type:"p",fr:"Une boîte ne contient qu'une chose à la fois. Si tu ranges une nouvelle valeur, l'ancienne est jetée — elle n'existe plus nulle part.",
-       en:"A box holds only one thing at a time. Storing a new value throws the old one away — it exists nowhere anymore."},
-  {type:"c",code:'score = 0\nprint(score)\nscore = 100\nprint(score)',out:'0\n100'},
-  {type:"p",fr:"Python distingue quatre types de valeurs de base : <code>int</code> les nombres entiers, <code>float</code> les nombres à virgule, <code>str</code> le texte (toujours entre guillemets), <code>bool</code> vrai ou faux. La fonction <code>type()</code> te dit lequel tu as.",
-       en:"Python has four basic value types: <code>int</code> whole numbers, <code>float</code> decimal numbers, <code>str</code> text (always in quotes), <code>bool</code> true or false. The <code>type()</code> function tells you which one you have."},
-  {type:"c",code:'print(type(15))\nprint(type(3.14))\nprint(type("15"))\nprint(type(True))',
+  {type:"p",fr:"La ligne <code>print(age)</code> veut dire : <b>affiche à l'écran</b> ce que contient la boîte age (<i>print</i> signifie « imprimer » en anglais). Sans <code>print</code>, Python range bien 15 dans age, mais ne te montre rien — comme une calculatrice qui ferait le calcul sans l'afficher. Tu verras <code>print</code> en détail au chapitre II.",
+       en:"The line <code>print(age)</code> means: <b>show on screen</b> what the box age holds. Without <code>print</code>, Python does store 15 in age but shows you nothing — like a calculator that computes without displaying the result. You will see <code>print</code> in detail in chapter II."},
+  {type:"p",fr:"<b>2. Changer une valeur.</b> Une boîte ne contient qu'une chose à la fois. Si tu ranges une nouvelle valeur dedans, elle <b>remplace</b> l'ancienne : la boîte ne s'en souvient plus.",
+       en:"<b>2. Changing a value.</b> A box holds only one thing at a time. If you store a new value in it, it <b>replaces</b> the old one: the box no longer remembers it."},
+  {type:"c",code:'level = 1\nprint(level)\nlevel = 2\nprint(level)',out:'1\n2'},
+  {type:"p",fr:"Python lit ton programme comme une recette : <b>de haut en bas</b>, une ligne après l'autre. C'est pour ça que le premier <code>print</code> affiche 1 : à ce moment-là, la ligne <code>level = 2</code> n'a pas encore été exécutée. Comme dans un algorithme en maths, les instructions s'exécutent dans l'ordre. Pour l'instant, Python ne revient jamais en arrière ; plus tard, les boucles te permettront de lui faire répéter des lignes.",
+       en:"Python reads your program like a recipe: <b>top to bottom</b>, one line after another. That is why the first <code>print</code> shows 1: at that moment, the line <code>level = 2</code> has not run yet. As in an algorithm in maths class, instructions run in order. For now, Python never goes back; later, loops will let you make it repeat lines."},
+  {type:"p",fr:"Et si une valeur a été rangée dans deux boîtes ? Ci-dessous, <code>b = a</code> range dans b la valeur que contient a à cet instant, c'est-à-dire 5. Changer a ensuite en lui rangeant une nouvelle valeur (<code>a = 7</code>) ne touche pas b : c'est la boîte a qui change de contenu, la boîte b garde le sien.",
+       en:"What if a value is stored in two boxes? Below, <code>b = a</code> stores in b the value a holds at that moment, which is 5. Changing a afterwards by storing a new value in it (<code>a = 7</code>) does not touch b: box a changes its content, box b keeps its own."},
+  {type:"c",code:'a = 5\nb = a\na = 7\nprint(a)\nprint(b)',out:'7\n5'},
+  {type:"p",fr:"Plus surprenant pour une matheuse : une boîte peut se recalculer <b>à partir d'elle-même</b>, par exemple <code>x = x + 3</code>. En maths, ce serait une équation impossible (elle donnerait 0 = 3). En Python, ce n'est pas une équation, c'est un ordre en deux temps : 1) Python calcule d'abord le côté droit avec la valeur <b>actuelle</b> de x ; 2) il range le résultat dans x, à la place de l'ancienne valeur. En algorithmique, tu écrirais <b>x ← x + 3</b>. C'est exactement une suite définie par récurrence, u<sub>n+1</sub> = u<sub>n</sub> + 3 : la nouvelle valeur se calcule à partir de l'ancienne. Exemple ci-dessous avec une boîte points : 10 + 5 = 15.",
+       en:"Even more surprising if you like maths: a box can be recomputed <b>from itself</b>, for example <code>x = x + 3</code>. In maths it would be an impossible equation (it would give 0 = 3). In Python it is not an equation, it is a two-step order: 1) Python first computes the right-hand side using the <b>current</b> value of x; 2) it stores the result in x, replacing the old value. In pseudocode you would write <b>x ← x + 3</b>. It is exactly a sequence defined by recurrence, u<sub>n+1</sub> = u<sub>n</sub> + 3: the new value is computed from the old one. Example below with a box called points: 10 + 5 = 15."},
+  {type:"c",code:'points = 10\nprint(points)\npoints = points + 5\nprint(points)',out:'10\n15'},
+  {type:"p",fr:"<b>3. Les types.</b> Python ne traite pas une valeur de la même façon selon sa nature : <code>15 + 3</code> est un calcul, mais on ne calcule pas avec le mot « chat ». Cette nature s'appelle le <b>type</b>. Pour commencer, tu utiliseras quatre types, dont les noms sont des abréviations anglaises : <code>int</code> (<i>integer</i>, entier : 15, -2 — les nombres de ℤ), <code>float</code> (nombre à virgule, écrit avec un <b>point</b> : 3.14), <code>str</code> (<i>string</i>, chaîne de caractères, c'est-à-dire du texte : \"hello\", toujours entre guillemets), <code>bool</code> (booléen : seulement <code>True</code> ou <code>False</code>, avec une majuscule, comme la réponse à une question vrai/faux).",
+       en:"<b>3. Types.</b> Python does not treat a value the same way depending on its nature: <code>15 + 3</code> is a calculation, but you cannot calculate with the word \"cat\". This nature is called the <b>type</b>. To start with, you will use four types, whose names are abbreviations: <code>int</code> (integer: 15, -2), <code>float</code> (decimal number, written with a <b>dot</b>: 3.14), <code>str</code> (string of characters, i.e. text: \"hello\", always in quotes), <code>bool</code> (boolean: only <code>True</code> or <code>False</code>, capitalised, like the answer to a true/false question)."},
+  {type:"p",fr:"La <b>fonction</b> <code>type()</code> te dit lequel tu as. Elle s'utilise comme une fonction en maths : tu écris <code>type(15)</code> comme tu écris f(15), et tu obtiens une réponse. Dans <code>print(type(15))</code>, deux fonctions sont emboîtées, comme dans g(f(x)) : Python calcule d'abord l'intérieur (le type de 15), puis <code>print</code> affiche ce résultat.",
+       en:"The <code>type()</code> <b>function</b> tells you which one you have. It works like a function in maths: you write <code>type(15)</code> as you write f(15), and you get an answer. In <code>print(type(15))</code>, two functions are nested, as in g(f(x)): Python computes the inside first (the type of 15), then <code>print</code> shows that result."},
+  {type:"c",code:'print(type(-2))\nprint(type(0.5))\nprint(type("15"))\nprint(type(True))',
     out:"<class 'int'>\n<class 'float'>\n<class 'str'>\n<class 'bool'>"},
+  {type:"p",fr:"Python répond sous la forme <code>&lt;class 'int'&gt;</code>. Ne t'arrête pas au mot <i>class</i> : lis simplement « c'est un int » — le type est le nom écrit entre apostrophes.",
+       en:"Python answers in the form <code>&lt;class 'int'&gt;</code>. Don't worry about the word <i>class</i>: just read \"it's an int\" — the type is the name between the quotes."},
   {type:"t",fr:"<code>\"15\"</code> avec des guillemets n'est pas le nombre 15, c'est le texte « 15 ». Sur du texte, <code>+</code> ne calcule pas : il colle. D'où le résultat ci-dessous, qui surprend tout le monde une fois.",
        en:"<code>\"15\"</code> with quotes is not the number 15, it is the text \"15\". On text, <code>+</code> does not compute: it glues. Hence the result below, which surprises everyone once."},
   {type:"c",code:'print(15 + 3)\nprint("15" + "3")',out:'18\n153'},
-  {type:"r",fr:"Un nom de variable s'écrit sans espace ni accent, en minuscules, et décrit ce qu'il contient : <code>age</code>, <code>total_points</code>, <code>nom_eleve</code>.",
-       en:"A variable name has no space and no accent, is lowercase, and describes what it holds: <code>age</code>, <code>total_points</code>, <code>student_name</code>."}
+  {type:"p",fr:"<b>4. Afficher du texte et une boîte ensemble.</b> <code>print</code> peut aussi afficher plusieurs choses d'un coup : sépare-les par des <b>virgules</b>. Il les écrit sur la même ligne, avec une espace entre elles. C'est ainsi qu'on mélange un texte fixe (entre guillemets) et le contenu d'une boîte (sans guillemets).",
+       en:"<b>4. Showing text and a box together.</b> <code>print</code> can also show several things at once: separate them with <b>commas</b>. It writes them on one line, with a space between them. That is how you mix fixed text (in quotes) with the content of a box (no quotes)."},
+  {type:"c",code:'level = 2\nprint("Level:", level)',out:'Level: 2'},
+  {type:"t",fr:"Le piège des guillemets vaut aussi pour les noms. <code>print(age)</code> affiche le <b>contenu</b> de la boîte age ; <code>print(\"age\")</code> affiche le mot age tel quel. Les guillemets disent à Python : ne cherche pas de boîte, recopie ce texte.",
+       en:"The quotes trap also applies to names. <code>print(age)</code> shows the <b>content</b> of the box age; <code>print(\"age\")</code> shows the word age as is. Quotes tell Python: don't look for a box, copy this text."},
+  {type:"c",code:'age = 15\nprint(age)\nprint("age")',out:'15\nage'},
+  {type:"t",fr:"Attention à la virgule des nombres : en Python, un nombre à virgule s'écrit avec un <b>point</b>, <code>3.14</code>. Si tu écris <code>3,14</code>, Python ne signale aucune erreur : il comprend <b>deux nombres</b>, 3 et 14, séparés par une virgule — exactement comme les virgules de <code>print</code> vues plus haut.",
+       en:"Careful with decimals: in Python, a decimal number is written with a <b>dot</b>, <code>3.14</code>. If you write <code>3,14</code>, Python reports no error: it sees <b>two numbers</b>, 3 and 14, separated by a comma — exactly like the commas in <code>print</code> seen above."},
+  {type:"c",code:'print(3.14)\nprint(3,14)',out:'3.14\n3 14'},
+  {type:"p",fr:"<b>5. Bien nommer ses boîtes.</b> Un nom de variable a quelques <b>vraies règles</b> : il n'utilise que des lettres, des chiffres et le tiret bas <code>_</code> (donc ni espace ni tiret <code>-</code>), il ne commence pas par un chiffre (<code>2age = 3</code> provoque une erreur), et ce n'est pas un <b>mot réservé</b>, c'est-à-dire un mot que Python garde pour ses propres instructions (comme <code>if</code>, que tu verras au chapitre III). Évite aussi de nommer une boîte <code>print</code> ou <code>type</code> : Python l'accepte, mais ensuite <code>print(...)</code> ou <code>type(...)</code> ne fonctionne plus.",
+       en:"<b>5. Naming your boxes well.</b> A variable name has a few <b>real rules</b>: it only uses letters, digits and the underscore <code>_</code> (so no space and no hyphen <code>-</code>), it does not start with a digit (<code>2age = 3</code> is an error), and it is not a <b>keyword</b>, i.e. a word Python keeps for its own instructions (such as <code>if</code>, which you will see in chapter III). Also avoid naming a box <code>print</code> or <code>type</code>: Python allows it, but then <code>print(...)</code> or <code>type(...)</code> stops working."},
+  {type:"p",fr:"Le reste est une <b>habitude</b>, pas une règle : on écrit le nom en minuscules, sans accent, avec <code>_</code> entre les mots, et il décrit ce qu'il contient : <code>age</code>, <code>total_points</code>, <code>nom_eleve</code>. Python accepterait <code>Age</code> ou <code>nom_élève</code>, mais tout le monde suit ces habitudes.",
+       en:"The rest is a <b>habit</b>, not a rule: write the name in lowercase, without accents, with <code>_</code> between words, and make it describe what it holds: <code>age</code>, <code>total_points</code>, <code>student_name</code>. Python would accept <code>Age</code>, but everyone follows these habits."},
+  {type:"r",fr:"1) <code>nom = valeur</code> range la valeur dans la boîte (on lit de droite à gauche, comme ←).<br>2) Une nouvelle valeur <b>remplace</b> l'ancienne.<br>3) Python exécute les lignes <b>de haut en bas</b>.<br>4) <code>x = x + 3</code> : calcule avec la valeur actuelle de x, puis range le résultat dans x.<br>5) Quatre types pour commencer : <code>int</code>, <code>float</code> (avec un point), <code>str</code> (entre guillemets), <code>bool</code> (<code>True</code> ou <code>False</code>) ; <code>type(valeur)</code> te dit lequel.<br>6) <code>print(a, b)</code> affiche plusieurs choses sur une ligne, séparées par une espace.<br>7) Avec guillemets : du texte recopié tel quel ; sans guillemets : le contenu d'une boîte.<br>8) Un nom : lettres, chiffres et <code>_</code>, jamais un chiffre au début, jamais un mot réservé comme <code>if</code> ; évite <code>print</code> et <code>type</code>.",
+       en:"1) <code>name = value</code> stores the value in the box (read right to left, like ←).<br>2) A new value <b>replaces</b> the old one.<br>3) Python runs lines <b>top to bottom</b>.<br>4) <code>x = x + 3</code>: compute with the current value of x, then store the result in x.<br>5) Four types to start with: <code>int</code>, <code>float</code> (with a dot), <code>str</code> (in quotes), <code>bool</code> (<code>True</code> or <code>False</code>); <code>type(value)</code> tells you which.<br>6) <code>print(a, b)</code> shows several things on one line, separated by a space.<br>7) In quotes: text copied as is; no quotes: the content of a box.<br>8) A name: letters, digits and <code>_</code>, never a digit first, never a keyword such as <code>if</code>; avoid <code>print</code> and <code>type</code>."}
 ]},
 
 2:{ title:{fr:"Cours — afficher et demander",en:"Lesson — print and input"},
@@ -1456,18 +1485,18 @@ LESSONS[15]={ title:{fr:"Cours — la méthode de Newton",en:"Lesson — Newton'
 const MEMO=[
 {h:{fr:"Variables et types",en:"Variables and types"},rows:[
  ['age = 15',{fr:"range 15 dans la boîte age",en:"store 15 into the box age"}],
- ['prix = 3.5',{fr:"nombre à virgule (float)",en:"decimal number (float)"}],
+ ['prix = 3.5',{fr:"nombre à virgule (float), écrit avec un point",en:"decimal number (float), written with a dot"}],
  ['nom = "Alice"',{fr:"texte (str), toujours entre guillemets",en:"text (str), always in quotes"}],
  ['ok = True',{fr:"booléen (bool) : True ou False",en:"boolean (bool): True or False"}],
- ['type(age)',{fr:"donne le type d'une valeur",en:"gives the type of a value"}],
- ['int("15")',{fr:"convertit du texte en nombre",en:"converts text to a number"}],
- ['str(15)',{fr:"convertit un nombre en texte",en:"converts a number to text"}]]},
+ ['type(age)',{fr:"donne le type d'une valeur",en:"gives the type of a value"}]]},
 {h:{fr:"Afficher et demander",en:"Print and input"},rows:[
  ['print("a", b)',{fr:"la virgule ajoute une espace",en:"the comma adds a space"}],
  ['print("a" + "b")',{fr:"le + colle, sans espace",en:"the + glues, no space"}],
  ['print(x, end="")',{fr:"reste sur la même ligne",en:"stays on the same line"}],
  ['x = input("Nom ? ")',{fr:"renvoie toujours du texte",en:"always returns text"}],
- ['n = int(input("Age ? "))',{fr:"pour pouvoir calculer ensuite",en:"so you can compute afterwards"}]]},
+ ['n = int(input("Age ? "))',{fr:"pour pouvoir calculer ensuite",en:"so you can compute afterwards"}],
+ ['int("15")',{fr:"convertit du texte en nombre",en:"converts text to a number"}],
+ ['str(15)',{fr:"convertit un nombre en texte",en:"converts a number to text"}]]},
 {h:{fr:"Opérations",en:"Operations"},rows:[
  ['+  -  *  /',{fr:"addition, soustraction, multiplication, division",en:"add, subtract, multiply, divide"}],
  ['//',{fr:"division entière : 7 // 2 vaut 3",en:"integer division: 7 // 2 is 3"}],
@@ -1741,7 +1770,8 @@ const T = {
   revisionEmpty:"Rien à réviser pour l'instant — bravo !",
   revisionRedo:"Refaire cet exercice",
   exTrap:"Le piège classique", exKeep:"À retenir",
-  ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.", okPts:"+{n} points.",
+  ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.",
+  useVarsT:"Presque !", useVarsB:"La sortie est juste, mais dans ton print tu as retapé la valeur elle-même au lieu du nom de sa boîte. À la place de cette valeur, écris le nom de la boîte, sans guillemets — boîte(s) concernée(s) : {v}. Pourquoi ? Si la valeur de la boîte changeait, ton print afficherait encore l'ancienne.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
   timeout:"Ton programme tourne trop longtemps.",
   timeoutMsg:"C'est presque toujours une boucle qui ne s'arrête jamais. Vérifie que la variable testée par le <code>while</code> change bien à chaque tour.",
@@ -1810,7 +1840,8 @@ const T = {
   revisionEmpty:"Nothing to review right now — well done!",
   revisionRedo:"Redo this exercise",
   exTrap:"The classic trap", exKeep:"Remember",
-  ok:"That's exactly it.", okAgain:"Still correct — already counted.", okPts:"+{n} points.",
+  ok:"That's exactly it.", okAgain:"Still correct — already counted.",
+  useVarsT:"Almost!", useVarsB:"The output is right, but in your print you retyped the value itself instead of its box's name. In place of that value, write the box's name, without quotes — box(es) concerned: {v}. Why? If the box's value changed, your print would still show the old one.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
   timeout:"Your program runs too long.",
   timeoutMsg:"This is almost always a loop that never ends. Check that the variable tested by the <code>while</code> really changes on each pass.",
@@ -2564,12 +2595,24 @@ function doRun(){
   if(res.err) F.innerHTML=errCard(res,code);
   return res;
 }
+/* Nombre d'utilisations d'un nom de variable dans le code, hors textes entre
+   guillemets et commentaires. Sert aux exercices « useVars » : il faut au moins
+   2 utilisations (la création de la boîte + son emploi), sinon la valeur a été
+   recopiée en dur. */
+function varUses(code,v){
+  const s=code
+    .replace(/\b[fF]("(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*')/g,(m,q)=>" "+(q.match(/\{[^{}]*\}/g)||[]).join(" ")+" ") // f"…{name}…" : garder les {…}
+    .replace(/"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'/g,'""').replace(/#.*$/gm,"");
+  return (s.match(new RegExp("\\b"+v+"\\b","g"))||[]).length;
+}
 function doCheck(){
   const code=document.getElementById("code").value;
   const res=doRun();if(!res)return;
   const c=COURSES[cur.c],x=c.ex[cur.e],id=x.id,F=document.getElementById("feedback");
   if(res.err){F.innerHTML=errCard(res,code)+escalate();return;}
   if(norm(res.out)===norm(x.out)){
+    const miss=(x.useVars||[]).filter(v=>varUses(code,v)<2);
+    if(miss.length){markFailed(id);F.innerHTML=card("warn",t("useVarsT"),fmt(t("useVarsB"),{v:miss.join(", ")}))+escalate();return;}
     const fresh=award(id,"code");
     F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.code}):"");
     return;
