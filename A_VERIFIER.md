@@ -80,12 +80,58 @@ print/type), H (exemple age / "age" juste après son piège). Restent :
   (même liste). Le chapitre I le prépare (« en lui rangeant une nouvelle
   valeur »), mais aucun passage du chapitre V ne le traite : ajouter un piège.
 
+## Chapitre II — Afficher et demander (relecture du 2026-09-23)
+
+Appliqués : `input()` enseigné (3 temps, « Saisir x », réponses simulées),
+piège corrigé (`age + 1` → TypeError, pourquoi du texte), 2-6 (espace des
+questions), 2-7 remplacé (un seul ordre valide sur 24, pratique `int()`),
+`int()` et « renvoie » définis, `str()` enseigné, `end=""` expliqué, rappel
+du chapitre I, « pourquoi demander », résumé « À retenir », nouvel exercice
+2-8 (carré, `int(input())`). Restent :
+
+- [ ] **2-2 et 2-4** : refont ce que le chapitre I a déjà fait faire, et leurs
+  indices donnent la solution. Indices proposés — 2-2 : « Hello est un texte
+  fixe, pas une boîte : qu'est-ce qui dit à Python de le recopier tel quel ? » ;
+  2-4 : « Mélange un texte fixe et le contenu d'une boîte, séparés par une
+  virgule, comme print("Level:", level) au chapitre I. Le nom de la boîte ne
+  prend pas de guillemets. » Ou remplacer 2-4 par un exercice avec `+`
+  (prenom = "Alice", nom = "Martin" → AliceMartin).
+- [ ] **2-5** : `name = input("Name? ")` puis `print("Hi Alice")` en dur est
+  accepté. Ajouter `useVars:["name"]` (comme 1-6 et 2-8).
+- [ ] **ValueError** (explication d'erreur, ~l.2044) : si l'élève tape 2.5,
+  `int("2.5")` plante. Ajouter « Si c'est un nombre à virgule, utilise
+  `float()` au lieu de `int()` », et citer `float(input(...))` une fois dans le
+  cours ou l'aide-mémoire. « uniquement des chiffres » est approximatif
+  (`int(" -7 ")` vaut -7).
+- [x] **TypeError hors collage** (`"7" * "7"`) → carte dédiée ajoutée
+  (« Multiplication impossible avec ce texte »), et la carte « can only
+  concatenate » conseille d'abord `int()` si le texte vient d'`input()`.
+- [ ] **Carte « can only concatenate »** (défaut ancien) : pour `"a" + [1]`, le
+  texte dit « un nombre de l'autre » alors que c'est une liste. N'écrire
+  « un nombre » que si `m[1]` vaut `int` ou `float`, sinon « une valeur de
+  type ${m[1]} ».
+- [ ] **Glossaire** : « Fonction » ne parle que de `def` (contredit les
+  chapitres I et II, qui appellent déjà fonctions `type()`, `print()`, `int()`).
+  Proposition : « Une machine à laquelle on donne des valeurs entre
+  parenthèses, et qui fait une action (print affiche) ou te renvoie un résultat
+  (int("15") donne 15), comme f(x) en maths. Certaines existent déjà ; tu
+  apprendras à construire les tiennes avec def. » Ajouter « Saisie (input) » et
+  « Conversion » ; dans « Retourner », préciser que input() renvoie aussi une
+  valeur.
+- [ ] **Image bouche / oreille** (1er paragraphe du cours) : « il ne voit
+  rien » puis « oreille » → « il n'entend rien et ne dit rien ». Préciser que
+  input pose une question et écoute ce que tu tapes.
+- [ ] **Textes en anglais dans les consignes FR** (« Name? », « Hi », « Line
+  1 ») : ajouter une phrase dans le cours — « Dans les exercices, les textes
+  affichés sont en anglais, pour que la réponse attendue soit la même dans les
+  deux langues. » Dans la version EN du cours, l'exemple garde « Bonjour ».
+- [ ] **EN, explication d'erreur** (~l.1999) : « Python is adding a int and a
+  str » → article et types traduits (« a whole number and text »).
+
 ## Constaté ailleurs dans l'appli
 
-- [ ] **`str()` n'est enseigné dans aucune leçon.** Il n'apparaît que dans
-  l'aide-mémoire (section « Afficher et demander ») et dans les explications
-  d'erreur (TypeError). À introduire dans le cours du chapitre II, qui traite
-  déjà `int(input(...))`.
+- [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
+  (2026-09-23), juste après `int()`.
 - [ ] **Bouton solution** : après l'avoir cliqué, les numéros de ligne restent
   à « 1 » tant que l'élève ne tape rien (`c.value=x.sol` ne déclenche pas
   `input`). Correction : appeler `drawGutter()` dans ce gestionnaire.

@@ -348,14 +348,19 @@ const COURSES = [
    sol:'name = input("Name? ")\nprint("Hi", name)', out:'Name? Alice\nHi Alice' },
 
  { id:"2-6", kind:"code", diff:"hard", title:{fr:"Petit questionnaire",en:"Small questionnaire"}, inputs:["Alice","16"],
-   desc:{fr:'Demande Name? puis Age?, et affiche ensuite : Name: Alice Age: 16',en:'Ask Name? then Age?, then print: Name: Alice Age: 16'},
-   hint:{fr:"Deux <code>input()</code>, puis un seul <code>print</code> avec quatre morceaux.",en:"Two <code>input()</code> calls, then a single <code>print</code> with four pieces."},
+   desc:{fr:"Demande le prénom avec input(\"Name? \") puis l'âge avec input(\"Age? \"), et affiche ensuite sur une seule ligne : Name: Alice Age: 16",en:"Ask for the name with input(\"Name? \") then the age with input(\"Age? \"), then print on one line: Name: Alice Age: 16"},
+   hint:{fr:"Deux <code>input()</code>, puis un seul <code>print</code> avec quatre morceaux. Ici, pas besoin de <code>int()</code> : on affiche l'âge sans calculer avec.",en:"Two <code>input()</code> calls, then a single <code>print</code> with four pieces. No <code>int()</code> needed here: you display the age without computing with it."},
    sol:'name = input("Name? ")\nage = input("Age? ")\nprint("Name:", name, "Age:", age)', out:'Name? Alice\nAge? 16\nName: Alice Age: 16' },
 
- { id:"2-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
-   desc:{fr:"Ce programme doit afficher : Alice Martin",en:"This program must print: Alice Martin"},
-   hint:{fr:"Les deux variables doivent exister avant le print.",en:"Both variables must exist before the print."},
-   lines:['first = "Alice"','last = "Martin"','print(first, last)'], out:'Alice Martin' }
+ { id:"2-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"}, inputs:["15"],
+   desc:{fr:"Ce programme demande ton âge et affiche ton âge l'an prochain. Remets ses lignes dans l'ordre.",en:"This program asks your age and prints your age next year. Put its lines in order."},
+   hint:{fr:"On ne peut convertir une réponse qu'après l'avoir demandée, et on ne peut ajouter 1 qu'à un nombre.",en:"You can only convert an answer after asking for it, and you can only add 1 to a number."},
+   lines:['age = input("Age? ")','age = int(age)','age = age + 1','print("Next year:", age)'], out:'Age? 15\nNext year: 16' },
+
+ { id:"2-8", kind:"code", diff:"hard", title:{fr:"Le carré",en:"The square"}, inputs:["7"],
+   desc:{fr:"Demande un nombre entier avec input(\"n? \"), puis affiche son carré, comme ceci : Square: 49",en:"Ask for a whole number with input(\"n? \"), then print its square, like this: Square: 49"},
+   hint:{fr:"Ce que renvoie <code>input()</code> est du texte : transforme-le en nombre avec <code>int()</code> avant de calculer. Le carré, c'est le nombre fois lui-même, et « fois » s'écrit <code>*</code> en Python.",en:"What <code>input()</code> returns is text: turn it into a number with <code>int()</code> before computing. The square is the number times itself, and \"times\" is written <code>*</code> in Python."},
+   sol:'n = int(input("n? "))\nprint("Square:", n * n)', out:'n? 7\nSquare: 49', retest:{inputs:["5"],out:'n? 5\nSquare: 25'} }
 ]},
 
 { id:3, num:"III", title:{fr:"Conditions",en:"Conditions"}, desc:{fr:"Choisir selon la situation : if, elif, else",en:"Choose depending on the situation: if, elif, else"}, ex:[
@@ -702,17 +707,35 @@ const LESSONS = {
   {type:"d",id:"io",
     fr:["Ton programme","Écran","Clavier","print(...)","input(...)","Sans print, un calcul juste reste invisible."],
     en:["Your program","Screen","Keyboard","print(...)","input(...)","Without print, a correct computation stays invisible."]},
-  {type:"p",fr:"<code>print</code> accepte plusieurs valeurs séparées par des virgules. <b>La virgule ajoute une espace</b>, le <code>+</code> n'en ajoute pas. C'est la source de la moitié des sorties « presque bonnes ».",
-       en:"<code>print</code> accepts several values separated by commas. <b>The comma adds a space</b>, the <code>+</code> does not. This causes half of all \"almost right\" outputs."},
+  {type:"p",fr:"<b>1. Afficher avec print.</b> Rappel du chapitre I : dans <code>print</code>, <b>la virgule ajoute une espace</b>, alors que le <code>+</code> colle deux textes sans rien entre eux. Retiens bien la différence : c'est la cause de la plupart des sorties « presque bonnes », celles où il ne manque qu'une espace.",
+       en:"<b>1. Showing with print.</b> Reminder from chapter I: in <code>print</code>, <b>the comma adds a space</b>, while <code>+</code> glues two texts with nothing in between. Mind the difference: it causes most \"almost right\" outputs, where only a space is missing."},
   {type:"c",code:'print("Bonjour", "Alice")\nprint("Bonjour" + "Alice")',out:'Bonjour Alice\nBonjourAlice'},
-  {type:"p",fr:"Chaque <code>print</code> termine par un passage à la ligne. Pour rester sur la même ligne, on ajoute <code>end=\"\"</code>.",
-       en:"Each <code>print</code> ends with a line break. To stay on the same line, add <code>end=\"\"</code>."},
+  {type:"p",fr:"Chaque <code>print</code> termine par un passage à la ligne, comme s'il appuyait tout seul sur Entrée à la fin. Ce qu'il écrit à la fin est un <b>réglage</b> de <code>print</code>, qui s'appelle <code>end</code> (« fin » en anglais) et vaut « passage à la ligne » si tu ne dis rien. Tu peux le changer : <code>end=\"\"</code> veut dire « à la fin, n'écris rien », donc le <code>print</code> suivant continue sur la même ligne. Attention, ce <code>=</code> écrit entre les parenthèses ne range rien dans une boîte : il sert seulement à choisir la valeur du réglage.",
+       en:"Each <code>print</code> ends with a line break, as if it pressed Enter by itself at the end. What it writes at the end is a <b>setting</b> of <code>print</code>, called <code>end</code>, which is \"line break\" unless you say otherwise. You can change it: <code>end=\"\"</code> means \"write nothing at the end\", so the next <code>print</code> continues on the same line. Careful: this <code>=</code> inside the brackets does not store anything in a box; it only picks the setting's value."},
   {type:"c",code:'print("a")\nprint("b")\nprint("a", end="")\nprint("b")',out:'a\nb\nab'},
-  {type:"t",fr:"<code>input()</code> renvoie <b>toujours du texte</b>, même si l'utilisateur tape des chiffres. Pour calculer avec, il faut convertir avec <code>int()</code>. Sinon <code>+</code> colle au lieu d'additionner.",
-       en:"<code>input()</code> <b>always returns text</b>, even when the user types digits. To compute with it, convert using <code>int()</code>. Otherwise <code>+</code> glues instead of adding."},
-  {type:"c",code:'age = "15"\nprint(age + "1")\nprint(int(age) + 1)',out:'151\n16'},
-  {type:"r",fr:"Le texte affiché par <code>print</code> ne comporte jamais les guillemets. Ils servent uniquement, dans le code, à délimiter le texte.",
-       en:"Text printed by <code>print</code> never shows the quotes. They only delimit text inside the code."}
+  {type:"p",fr:"<b>2. Demander avec input.</b> Pourquoi demander ? Avec <code>age = 15</code> écrit dans le code, ton programme ne marche que pour 15. Avec <code>input</code>, le même programme marche pour n'importe quelle réponse, comme un algorithme qui doit fonctionner pour toutes les valeurs. En algorithmique, tu connais déjà ces deux instructions : <code>print</code> correspond à <b>Afficher</b>, et <code>input</code> à <b>Saisir x</b> (ou « Lire x »).",
+       en:"<b>2. Asking with input.</b> Why ask? With <code>age = 15</code> written in the code, your program only works for 15. With <code>input</code>, the same program works for any answer, like an algorithm that must work for every value. In pseudocode, <code>print</code> is <b>Output</b> and <code>input</code> is <b>Input x</b> (or \"Read x\")."},
+  {type:"p",fr:"En Python, « Saisir prenom » s'écrit <code>prenom = input(\"Ton prénom ? \")</code>. Il se passe trois choses, dans l'ordre : 1) Python <b>affiche la question</b> écrite entre les parenthèses ; 2) il <b>se met en pause</b> et attend que l'utilisateur tape quelque chose puis appuie sur Entrée ; 3) il <b>renvoie</b> ce qui a été tapé, c'est-à-dire qu'il te le donne comme résultat, exactement comme <code>type(15)</code> te donnait une réponse au chapitre I. Ce résultat, tu le ranges dans une boîte avec <code>=</code>, sinon il est perdu.",
+       en:"In Python, \"Input name\" is written <code>name = input(\"Your name? \")</code>. Three things happen, in order: 1) Python <b>shows the question</b> written in the brackets; 2) it <b>pauses</b> and waits for the user to type something and press Enter; 3) it <b>returns</b> what was typed, i.e. gives it back to you as a result, just as <code>type(15)</code> gave you an answer in chapter I. You store that result in a box with <code>=</code>, otherwise it is lost."},
+  {type:"c",code:'prenom = input("Ton prénom ? ")\nprint("Bonjour", prenom)',out:'Ton prénom ? Alice\nBonjour Alice'},
+  {type:"p",fr:"Ici, l'utilisateur a tapé Alice. La première ligne de la sortie montre donc la question <b>suivie de ce qui a été tapé</b>, sur la même ligne : c'est pour ça qu'on termine la question par une espace (<code>\"Ton prénom ? \"</code>), sinon on lirait « Ton prénom ?Alice ». Dans les exercices, personne n'est au clavier : l'appli tape à ta place les <b>réponses simulées</b> indiquées sous la sortie attendue, et elles apparaissent à la suite de la question, comme si tu les avais tapées. Recopie donc toujours la question <b>exactement</b> comme dans la consigne, espaces compris. (Ici, la question est écrite à la française, avec une espace avant « ? » ; dans les exercices, elle n'en a pas.)",
+       en:"Here the user typed Alice. So the first output line shows the question <b>followed by what was typed</b>, on the same line: that is why the question ends with a space (<code>\"Ton prénom ? \"</code>), otherwise you would read \"Ton prénom ?Alice\". In the exercises nobody is at the keyboard: the app types for you the <b>simulated answers</b> shown under the expected output, and they appear right after the question, as if you had typed them. So always copy the question <b>exactly</b> as in the instructions, spaces included. (Here the question follows French style, with a space before \"?\"; in the exercises it has none.)"},
+  {type:"p",fr:"<b>3. Du texte, pas un nombre.</b> <code>input()</code> renvoie <b>toujours du texte</b>, même si l'utilisateur tape 15.",
+       en:"<b>3. Text, not a number.</b> <code>input()</code> <b>always returns text</b>, even if the user types 15."},
+  {type:"t",fr:"Pourquoi ? Le clavier n'envoie que des caractères, les uns après les autres, et Python ne peut pas deviner ce que tu comptes en faire : « 06 12 34 56 78 » est un numéro de téléphone, pas un nombre avec lequel on calcule. Dans le doute, il te rend exactement ce qui a été tapé, sous forme de texte : <code>\"15\"</code>. Conséquence : avec <code>age = input(\"Age? \")</code>, l'instruction <code>age + 1</code> <b>provoque une erreur</b> (TypeError : Python refuse d'ajouter un nombre à un texte), et <code>age + \"1\"</code> colle au lieu d'additionner (151).",
+       en:"Why? The keyboard only sends characters, one after another, and Python cannot guess what you plan to do with them: \"06 12 34 56 78\" is a phone number, not a number you compute with. So it gives you exactly what was typed, as text: <code>\"15\"</code>. As a result, with <code>age = input(\"Age? \")</code>, the instruction <code>age + 1</code> <b>is an error</b> (TypeError: Python refuses to add a number to text), and <code>age + \"1\"</code> glues instead of adding (151)."},
+  {type:"c",code:'age = input("Age? ")\nprint(age + "1")\nprint(int(age) + 1)',out:'Age? 15\n151\n16'},
+  {type:"p",fr:"La dernière ligne de l'exemple ci-dessus utilise la fonction <code>int()</code>, qui porte le nom du type <code>int</code> vu au chapitre I : elle fait la <b>conversion</b>, c'est-à-dire qu'elle lit le texte « 15 » et te renvoie le nombre entier 15, avec lequel on peut calculer. Elle s'utilise comme <code>type()</code>, comme une fonction en maths : <code>int(\"15\")</code> vaut 15. Le plus simple est de convertir dès la saisie, en emboîtant les deux fonctions : <code>age = int(input(\"Age? \"))</code>. Python fait d'abord l'intérieur (demander), puis l'extérieur (convertir).",
+       en:"The last line of the example above uses the <code>int()</code> function, named after the <code>int</code> type from chapter I: it does the <b>conversion</b>, i.e. it reads the text \"15\" and returns the whole number 15, which you can compute with. It is used like <code>type()</code>, like a maths function: <code>int(\"15\")</code> is 15. The simplest way is to convert right at input time, nesting the two functions: <code>age = int(input(\"Age? \"))</code>. Python does the inside first (ask), then the outside (convert)."},
+  {type:"c",code:'age = int(input("Age? "))\nprint(age + 1)',out:'Age? 15\n16'},
+  {type:"p",fr:"<b>4. Calculer avec le nombre obtenu.</b> Une fois la réponse convertie, tu peux calculer avec. Python utilise les signes du clavier : <code>+</code> et <code>-</code> comme en maths, mais <code>*</code> (l'étoile) pour multiplier, car il n'y a pas de touche ×, et <code>/</code> pour diviser. Ainsi, 3 × 4 s'écrit <code>3 * 4</code>. Attention : <code>/</code> donne toujours un nombre à virgule, même quand la division tombe juste : <code>10 / 2</code> affiche <code>5.0</code>.",
+       en:"<b>4. Computing with the number.</b> Once the answer is converted, you can compute with it. Python uses keyboard symbols: <code>+</code> and <code>-</code> as in maths, but <code>*</code> (the star) to multiply, since there is no × key, and <code>/</code> to divide. So 3 × 4 is written <code>3 * 4</code>. Careful: <code>/</code> always gives a decimal number, even when it divides exactly: <code>10 / 2</code> shows <code>5.0</code>."},
+  {type:"c",code:'print(3 * 4)\nprint(10 - 7)\nprint(10 / 2)',out:'12\n3\n5.0'},
+  {type:"p",fr:"Le chemin inverse existe aussi : <code>str()</code> fabrique un <code>str</code>, c'est-à-dire du texte, à partir d'un nombre : <code>str(16)</code> vaut <code>\"16\"</code>. C'est utile pour coller avec <code>+</code> : <code>\"Age: \" + 16</code> provoque la même erreur que plus haut, alors que <code>\"Age: \" + str(16)</code> fonctionne. La virgule de <code>print</code>, elle, accepte tout sans conversion : c'est souvent le plus simple.",
+       en:"The reverse path exists too: <code>str()</code> makes a <code>str</code>, i.e. text, from a number: <code>str(16)</code> is <code>\"16\"</code>. It is useful to glue with <code>+</code>: <code>\"Age: \" + 16</code> gives the same error as above, whereas <code>\"Age: \" + str(16)</code> works. The comma in <code>print</code> accepts anything without conversion: it is often the simplest way."},
+  {type:"c",code:'age = 16\nprint("Age:", age)\nprint("Age: " + str(age))',out:'Age: 16\nAge: 16'},
+  {type:"r",fr:"1) <code>print(...)</code> affiche puis passe à la ligne ; <code>end=\"\"</code> l'en empêche.<br>2) Dans <code>print</code>, la virgule ajoute une espace, le <code>+</code> colle.<br>3) <code>x = input(\"Question? \")</code> affiche la question, attend la frappe et renvoie la réponse, qu'on range dans x (le « Saisir x » de l'algorithmique).<br>4) <code>input</code> renvoie <b>toujours du texte</b> : pour calculer, <code>n = int(input(\"Nombre? \"))</code>.<br>5) Opérations : <code>+ - * /</code> (<code>*</code> = fois ; <code>/</code> donne un nombre à virgule).<br>6) <code>int(texte)</code> donne un nombre, <code>str(nombre)</code> donne un texte.",
+       en:"1) <code>print(...)</code> shows, then moves to the next line; <code>end=\"\"</code> prevents that.<br>2) In <code>print</code>, the comma adds a space, <code>+</code> glues.<br>3) <code>x = input(\"Question? \")</code> shows the question, waits for typing and returns the answer, stored in x (the \"Input x\" of pseudocode).<br>4) <code>input</code> <b>always returns text</b>: to compute, <code>n = int(input(\"Number? \"))</code>.<br>5) Operations: <code>+ - * /</code> (<code>*</code> = times; <code>/</code> gives a decimal).<br>6) <code>int(text)</code> gives a number, <code>str(number)</code> gives text."}
 ]},
 
 3:{ title:{fr:"Cours — les conditions",en:"Lesson — conditions"},
@@ -1493,8 +1516,8 @@ const MEMO=[
  ['print("a", b)',{fr:"la virgule ajoute une espace",en:"the comma adds a space"}],
  ['print("a" + "b")',{fr:"le + colle, sans espace",en:"the + glues, no space"}],
  ['print(x, end="")',{fr:"reste sur la même ligne",en:"stays on the same line"}],
- ['x = input("Nom ? ")',{fr:"renvoie toujours du texte",en:"always returns text"}],
- ['n = int(input("Age ? "))',{fr:"pour pouvoir calculer ensuite",en:"so you can compute afterwards"}],
+ ['x = input("Nom? ")',{fr:"renvoie toujours du texte",en:"always returns text"}],
+ ['n = int(input("Age? "))',{fr:"pour pouvoir calculer ensuite",en:"so you can compute afterwards"}],
  ['int("15")',{fr:"convertit du texte en nombre",en:"converts text to a number"}],
  ['str(15)',{fr:"convertit un nombre en texte",en:"converts a number to text"}]]},
 {h:{fr:"Opérations",en:"Operations"},rows:[
@@ -1771,6 +1794,8 @@ const T = {
   revisionRedo:"Refaire cet exercice",
   exTrap:"Le piège classique", exKeep:"À retenir",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.",
+  retestB:"Ton programme affiche la bonne réponse quand on tape {a}, mais pas quand on tape {b} : il faudrait alors afficher {w}. Calcule le résultat à partir de la boîte où tu as rangé le nombre tapé, au lieu de l'écrire toi-même.",
+  thenLine:", puis à la ligne ",
   useVarsT:"Presque !", useVarsB:"La sortie est juste, mais dans ton print tu as retapé la valeur elle-même au lieu du nom de sa boîte. À la place de cette valeur, écris le nom de la boîte, sans guillemets — boîte(s) concernée(s) : {v}. Pourquoi ? Si la valeur de la boîte changeait, ton print afficherait encore l'ancienne.", okPts:"+{n} points.",
   err:"Python s'est arrêté sur une erreur.",
   timeout:"Ton programme tourne trop longtemps.",
@@ -1841,6 +1866,8 @@ const T = {
   revisionRedo:"Redo this exercise",
   exTrap:"The classic trap", exKeep:"Remember",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.",
+  retestB:"Your program shows the right answer when {a} is typed, but not when {b} is typed: it should then show {w}. Compute the result from the box where you stored the typed number, instead of writing it yourself.",
+  thenLine:", then on the next line ",
   useVarsT:"Almost!", useVarsB:"The output is right, but in your print you retyped the value itself instead of its box's name. In place of that value, write the box's name, without quotes — box(es) concerned: {v}. Why? If the box's value changed, your print would still show the old one.", okPts:"+{n} points.",
   err:"Python stopped on an error.",
   timeout:"Your program runs too long.",
@@ -1984,12 +2011,20 @@ const ERRORS = [
                : `If <code>${m[1]}</code> was meant as text, put it in quotes: <code>"${m[1]}"</code>. Otherwise create the variable before using it.`})},
 
 { re:/^TypeError: can only concatenate str \(not "(\w+)"\) to str/,
-  fr:m=>({t:"On ne peut pas coller du texte et un nombre",
+  fr:m=>({t:"On ne peut pas additionner ni coller du texte et un nombre",
     b:`Avec <code>+</code>, Python veut deux textes ou deux nombres. Ici il trouve du texte d'un côté et un ${m[1]==="int"?"nombre entier":"nombre"} de l'autre.`,
-    d:'Deux solutions : <code>print("age", 15)</code> avec une virgule, ou <code>"age " + str(15)</code> pour convertir le nombre en texte.'}),
-  en:m=>({t:"Cannot join text and a number",
+    d:`Si ce texte vient de <code>input()</code> et que tu veux calculer, convertis-le d'abord en nombre avec <code>int()</code>. Si tu veux coller du texte, utilise la virgule, <code>print("age", 15)</code>, ou <code>str()</code>, <code>"age " + str(15)</code>.`}),
+  en:m=>({t:"Cannot add or join text and a number",
     b:`With <code>+</code>, Python wants two texts or two numbers. Here it finds text on one side and a ${m[1]==="int"?"whole number":"number"} on the other.`,
-    d:'Two options: <code>print("age", 15)</code> with a comma, or <code>"age " + str(15)</code> to convert the number to text.'})},
+    d:`If this text comes from <code>input()</code> and you want to compute, first convert it to a number with <code>int()</code>. If you want to glue text, use the comma, <code>print("age", 15)</code>, or <code>str()</code>, <code>"age " + str(15)</code>.`})},
+
+{ re:/^TypeError: can't multiply sequence by non-int of type '(\w+)'/,
+  fr:m=>({t:"Multiplication impossible avec ce texte",
+    b:`Un des deux côtés du <code>*</code> est du texte (ou une liste), et l'autre n'est pas un nombre entier. Ce qui vient de <code>input()</code> est toujours du texte, même si l'on a tapé des chiffres.`,
+    d:`Si ce texte vient de <code>input()</code>, convertis-le d'abord en nombre avec <code>int()</code>, par exemple <code>x = int(input(...))</code>.`}),
+  en:m=>({t:"Cannot multiply with this text",
+    b:`One side of the <code>*</code> is text (or a list), and the other is not a whole number. What comes from <code>input()</code> is always text, even if digits were typed.`,
+    d:`If this text comes from <code>input()</code>, first convert it to a number with <code>int()</code>, e.g. <code>x = int(input(...))</code>.`})},
 
 { re:/^TypeError: unsupported operand type\(s\) for \+: '(\w+)' and '(\w+)'/,
   fr:m=>({t:"Addition impossible entre ces deux valeurs",
@@ -2459,7 +2494,8 @@ function viewQuiz(x){
   return h+'</div>';
 }
 function viewOrder(x){
-  let h='<div class="panel"><div class="ph">'+t("expected")+'</div><pre>'+esc(x.out)+'</pre></div><div id="rows">';
+  let h='<div class="panel"><div class="ph">'+t("expected")+'</div><pre>'+esc(x.out)+
+    (x.inputs?"\n\n— "+t("simIn")+" "+esc(x.inputs.join(", ")):"")+'</pre></div><div id="rows">';
   orderNow.forEach((l,i)=>{
     h+='<div class="rowline"><div class="mv">'+
       '<button data-mv="up" data-i="'+i+'" aria-label="'+t("up")+'"'+(i===0?" disabled":"")+'>▲</button>'+
@@ -2613,6 +2649,13 @@ function doCheck(){
   if(norm(res.out)===norm(x.out)){
     const miss=(x.useVars||[]).filter(v=>varUses(code,v)<2);
     if(miss.length){markFailed(id);F.innerHTML=card("warn",t("useVarsT"),fmt(t("useVarsB"),{v:miss.join(", ")}))+escalate();return;}
+    // Deuxième essai avec une autre réponse simulée : le programme doit calculer, pas recopier le résultat.
+    if(x.retest){const r2=runPy(code,x.retest.inputs);
+      if(r2.err){markFailed(id);F.innerHTML=errCard(r2,code)+escalate();return;}
+      if(norm(r2.out)!==norm(x.retest.out)){markFailed(id);
+        const q=lang==="fr"?["« "," »"]:["\"","\""];
+        const w=norm(x.retest.out).split("\n").map(l=>q[0]+esc(l)+q[1]).join(t("thenLine"));
+        F.innerHTML=card("warn",t("useVarsT"),fmt(t("retestB"),{a:esc((x.inputs||[]).join(", ")),b:esc(x.retest.inputs.join(", ")),w:w}))+escalate();return;}}
     const fresh=award(id,"code");
     F.innerHTML=card("ok",fresh?t("ok"):t("okAgain"),fresh?fmt(t("okPts"),{n:PTS.code}):"");
     return;
