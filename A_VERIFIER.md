@@ -312,6 +312,47 @@ Restent :
   `print` dans la fonction → renvoie None ; « rend » → « renvoie » ; ligne
   NameError : « … ou variable qui n'existait que dans une fonction ».
 
+## Chapitre VII — Le texte (relecture du 2026-09-24)
+
+Appliqués (points 1 à 15) : « exactement comme une liste » corrigé (se lit
+comme une liste, ne se modifie jamais : classeur scellé, « regarde à gauche
+du = », `mot = "P" + mot[1:]`), les deux familles de méthodes face à face
+(append seul / `mot = mot.upper()`, machine à jus, « peut-on modifier ce
+classeur ? »), `len` = nombre de caractères (espaces compris), casse, rappel
+input / "3" contre 3, indice = rang et IndexError pour les chaînes, tranches
+([a ; b[, bornes omises), `.replace` et `.lower` montrés, parcours lettre par
+lettre, compteur (tirelire conditionnelle) et fréquence = compteur / len,
+palindrome, f-string (texte à trous, piège du f oublié), résumé en 7 points ;
+exercices : 7-2, 7-3, 7-4, 7-6 avec input et retest, useVars / need, 7-3 à
+7-7 distincts du cours, nouvel exercice 7-8 (tranches sur une date) ; cartes
+d'erreur : texte non modifiable, position hors du texte, indice non entier,
+méthode de liste appelée sur un texte. Restent :
+
+- [ ] **16. Aide-mémoire « Texte »** : ajouter `len(mot)` (caractères,
+  espaces compris), `mot[-1]`, `mot[:3]` / `mot[3:]`, `mot = mot.upper()`
+  (« renvoie un nouveau texte : il faut le ranger »), `for lettre in mot:`,
+  `mot[0] = "P"` (« impossible : TypeError ») ; remplacer « renvoie une copie
+  en majuscules » par « renvoie un nouveau texte en majuscules (mot ne change
+  pas) » ; ligne IndexError : « … ou du texte ».
+- [ ] **17. Glossaire** : « Chaîne de caractères » → « on la lit, on ne la
+  modifie jamais (immuable) » ; « Méthode » : l'entrée compare à `upper(mot)`,
+  qui n'existe pas → expliquer les deux familles (liste : modifie sur place et
+  renvoie None ; texte : renvoie un nouveau texte à ranger) ; nouvelles
+  entrées Immuable, Tranche, f-string.
+- [ ] **18. Schéma `strindex`** : les étiquettes « positions » et « positions
+  depuis la fin » commencent probablement sous les premiers chiffres (0 / −6)
+  et les chevauchent (estimé par calcul, pas vu à l'écran). Piste : élargir la
+  zone et décaler les cases, ou raccourcir en « indice » / « depuis la fin ».
+- [ ] **« L'indice est le rang, il commence à 0 »** (chapitres V et VII) :
+  prof-pedagogue note qu'en français courant le rang commence à 1 (« 1er
+  rang »). Proposition : « l'indice donne la place, comptée à partir de 0 : la
+  1re lettre est à l'indice 0, comme le rez-de-chaussée est l'étage 0 ». À
+  décider pour les deux chapitres ensemble (le mot « rang » y est utilisé
+  partout, en lien avec uₙ).
+- [ ] **19. EN** : le FR dit maintenant « tranche », l'EN « slice » (cohérent) ;
+  les phrases d'exercice restent en français dans la version EN (7-5 le
+  signale ; « Alice a 16 ans » du cours ne le signale pas).
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
