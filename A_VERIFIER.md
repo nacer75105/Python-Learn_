@@ -175,6 +175,40 @@ piège de la 2e ligne non décalée), `%` (reste de la division euclidienne),
   légende « En Python : la branche vrai est sous le if, la branche faux sous
   le else ».
 
+## Chapitre IV — Boucles (relecture du 2026-09-23)
+
+Appliqués (points 1 à 13) : exercices 4-2 à 4-6 passés à `n = int(input())`
+avec essais « deuxième réponse » (une réponse en dur ne passe plus), nouveaux
+contrôles `need` / `ban` (4-4 : while exigé, for interdit), syntaxe du `for`
+(« Pour i allant de »), `range` = intervalle [a ; b[, `range(n)`, `while` =
+« Tant que » (condition pour continuer), tableau d'état, boucle infinie,
+tirelire, `print` dans / après la boucle, boucles imbriquées, suites (terme
+de rang n, seuil 7 → 128, somme vérifiée par n(n+1)/2), nouvel exercice 4-8
+« Seuil », 4-7 sans liste, résumé en 6 points. Restent :
+
+- [ ] **14. Indices** : relire ceux de 4-2 et 4-4 une fois les exercices
+  stabilisés (ils ont été réécrits avec les nouveaux exercices).
+- [ ] **15. Aide-mémoire, section Boucles** : « `i = i + 1` indispensable dans
+  un while » est trop étroit (les while suivants modifient `essai`, `u`…) →
+  « dans un while, modifier la variable testée (ex. i = i + 1), sinon boucle
+  infinie » ; ajouter `for i in range(n):` (n tours, i de 0 à n − 1) et
+  l'accumulateur ; `for x in liste:` relève du chapitre V.
+- [ ] **16. Glossaire** : ajouter Range, Compteur (employé plus loin sans
+  définition), Accumulateur, Boucle infinie ; entrée Boucle : « for =
+  Pour … allant de, while = Tant que ».
+- [ ] **17. Carte d'erreur `range(n / 2)`** (`'float' object cannot be
+  interpreted as an integer`) : elle conseille « range(3) et non range("3") »,
+  hors sujet. Tester `m[1]==="float"` → « tu as donné un nombre à virgule ;
+  `/` donne toujours un float, convertis avec int(...) ».
+- [ ] **18. TIMEOUT** : afficher les ~20 premières lignes de la sortie sous le
+  message (voir « 1 1 1 1… » est le meilleur indice d'une boucle infinie) ;
+  envisager de plafonner le tampon de sortie (plusieurs Mo en 5 s).
+- [ ] **19. Détails** : schéma whileloop sans flèche de sortie (« faux → on
+  sort ») et étiquette « 3. modifier la variable » peut-être trop large pour
+  sa boîte ; second quiz sur un `print` décalé dans la boucle ;
+  `range(a, b, pas)` jamais enseigné (pourrait illustrer une suite
+  arithmétique de raison 2).
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
