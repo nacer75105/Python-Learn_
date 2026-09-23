@@ -254,6 +254,64 @@ Restent :
   précisent « sans utiliser sum », et que la liste des termes du chapitre XIII
   ne fait pas doublon.
 
+## Chapitre VI — Fonctions (relecture du 2026-09-24)
+
+Appliqués (points 1 à 12) : pont f(x) ↔ def (tableau maths/Python, rappel
+de type() et input()), définir / appeler (def = define, « Soit f… » ne
+calcule rien), paramètre / argument, variable muette, return ou print (machine
+à jus / haut-parleur, fonction sans return → None, lien avec append), deux
+paramètres (moyenne), portée corrigée (brouillon ; une fonction peut lire le
+dehors, ce qui est créé dedans n'existe pas dehors), suites u = f(u),
+résumé en 6 points ; exercices : def / return exigés (6-2 à 6-6), 6-4 avec
+add(3, 4) * 10, 6-5 « False sinon », 6-6 devenu « Tableau de valeurs »
+(f(x) = x² − 2x) ; cartes d'erreur : calcul avec None (plus de conseil
+str()/int()), fonction appelée avant sa définition, variable locale utilisée
+dehors, argument manquant (nomme le paramètre), décalage manquant après def.
+Restent :
+
+- [ ] **13. Cartes secondaires** : trop d'arguments (`square(5, 9)` →
+  « takes 1 positional argument but 2 were given » : la regex actuelle exige
+  « takes 0 ») ; `return` hors d'une fonction (« 'return' outside function »,
+  carte générique trompeuse) ; `UnboundLocalError` (modifier une variable du
+  dehors dans une fonction) → carte « passe la valeur en paramètre et renvoie
+  le résultat » (ne pas enseigner `global`). Compléter aussi la carte générale
+  None : « … par exemple une fonction sans return ». Dans `diagnose` : si la
+  sortie contient une ligne `None` inattendue et que le code a un `def` sans
+  `return`, afficher le même conseil.
+- [ ] **Réponses en dur encore possibles en 6-4 et 6-5** : `def add(a, b):
+  return 7` suivi des deux appels, ou la bonne fonction suivie de `print(7)` /
+  `print(70)`, passent (`need def, return` ne suffit pas). Piste : exiger que le
+  nom de la fonction apparaisse au moins 3 fois (définition + deux appels),
+  avec un message dédié (le message `useVarsB` parle de « boîte »).
+- [ ] **`nearestName`** propose à tort un nom d'une lettre (`print(y)` → « Tu
+  as peut-être voulu écrire f ») : ne proposer que si la distance est
+  strictement inférieure à la longueur du nom.
+- [ ] **Rappels type() / input() du 1er paragraphe** : prof-pedagogue suggère
+  de les sortir dans une phrase après le premier exemple de code (paragraphe
+  dense) ; conservé tel quel car validé par la mère.
+- [ ] **14. Schéma de la machine** : « le paramètre entre » → « la valeur 5
+  entre dans n » ; la flèche `print` part d'une fonction qui ne contient aucun
+  print → « print, seulement s'il est dans le bloc » ; la flèche `return` ne
+  mène nulle part → « return renvoie 25 au programme » ; en EN, `square(n)`
+  alors que le code dit `carre` (mettre `carre` dans les deux langues).
+- [ ] **15. Niveaux et noms** : 6-1 « hard » (c'est la démonstration du
+  cours), 6-7 « hard » pour trois lignes ; noms anglais (greet, add, is_even)
+  dans les consignes FR — ou une phrase dans le cours : « les noms de fonctions
+  sont libres ; les exercices utilisent des noms anglais ». 6-7 : indice avec
+  le pourquoi (« Python lit de haut en bas, une fonction pas encore définie lui
+  est inconnue ») ; 6-3 recopie presque l'exemple `bonjour(nom)` du cours ;
+  quiz manquant sur le piège None (`def f(x): print(x + 1)` puis
+  `y = f(2); print(y)` → 3 puis None).
+- [ ] **16. Glossaire et aide-mémoire** : « Fonction » (ne parle que de def)
+  → « machine qui reçoit une valeur et en renvoie une autre, comme f en
+  maths » ; « Paramètre » : variable muette, le x de f(x) ; « Argument » : en
+  maths, le nombre dont on calcule l'image ; « Retourner » → « Renvoyer
+  (return) », « c'est l'image f(x) ; sans return, la fonction renvoie None » ;
+  « Portée » : ajouter « ainsi que toute variable créée dans la fonction ».
+  Aide-mémoire : `def f(x): return x*x + 1` ↔ f(x) = x² + 1 ; `y = f(3)` ;
+  `print` dans la fonction → renvoie None ; « rend » → « renvoie » ; ligne
+  NameError : « … ou variable qui n'existait que dans une fonction ».
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II

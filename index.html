@@ -519,27 +519,27 @@ const COURSES = [
  { id:"6-2", kind:"code", diff:"easy", title:{fr:"Une fonction simple",en:"A simple function"},
    desc:{fr:'Écris une fonction greet() qui affiche Hello, puis appelle-la.',en:'Write a function greet() that prints Hello, then call it.'},
    hint:{fr:"Définir ne suffit pas : il faut aussi écrire <code>greet()</code> pour l'exécuter.",en:"Defining is not enough: you must also write <code>greet()</code> to run it."},
-   sol:'def greet():\n    print("Hello")\n\ngreet()', out:'Hello' },
+   sol:'def greet():\n    print("Hello")\n\ngreet()', out:'Hello', need:["def"] },
 
  { id:"6-3", kind:"code", diff:"easy", title:{fr:"Avec un paramètre",en:"With a parameter"},
    desc:{fr:'Écris greet(name) qui affiche Hello suivi du prénom, puis appelle-la avec "Alice".',en:'Write greet(name) printing Hello then the name, then call it with "Alice".'},
    hint:{fr:"Le paramètre se met entre les parenthèses de la définition.",en:"The parameter goes inside the parentheses of the definition."},
-   sol:'def greet(name):\n    print("Hello", name)\n\ngreet("Alice")', out:'Hello Alice' },
+   sol:'def greet(name):\n    print("Hello", name)\n\ngreet("Alice")', out:'Hello Alice', need:["def"], useVars:["name"] },
 
  { id:"6-4", kind:"code", diff:"medium", title:{fr:"Renvoyer un résultat",en:"Return a result"},
-   desc:{fr:'Écris add(a, b) qui renvoie la somme, puis affiche add(3, 4).',en:'Write add(a, b) returning the sum, then print add(3, 4).'},
-   hint:{fr:"<code>return</code> renvoie la valeur ; c'est <code>print</code> qui l'affiche.",en:"<code>return</code> gives the value back; <code>print</code> displays it."},
-   sol:'def add(a, b):\n    return a + b\n\nprint(add(3, 4))', out:'7' },
+   desc:{fr:'Écris add(a, b) qui renvoie la somme (avec return). Affiche add(3, 4), puis add(3, 4) * 10.',en:'Write add(a, b) returning the sum (with return). Print add(3, 4), then add(3, 4) * 10.'},
+   hint:{fr:"<code>return</code> renvoie la valeur ; c'est <code>print</code>, à l'extérieur, qui l'affiche. Si ta fonction fait <code>print</code> au lieu de <code>return</code>, <code>add(3, 4) * 10</code> plantera : c'est la machine à jus contre le haut-parleur.",en:"<code>return</code> gives the value back; <code>print</code>, outside, displays it. If your function prints instead of returning, <code>add(3, 4) * 10</code> will crash: juice machine versus loudspeaker."},
+   sol:'def add(a, b):\n    return a + b\n\nprint(add(3, 4))\nprint(add(3, 4) * 10)', out:'7\n70', need:["def","return"] },
 
  { id:"6-5", kind:"code", diff:"medium", title:{fr:"Vrai ou faux",en:"True or false"},
-   desc:{fr:'Écris is_even(n) qui renvoie True si n est pair. Affiche is_even(4) puis is_even(7).',en:'Write is_even(n) returning True when n is even. Print is_even(4) then is_even(7).'},
-   hint:{fr:"<code>return n % 2 == 0</code> renvoie directement True ou False.",en:"<code>return n % 2 == 0</code> returns True or False directly."},
-   sol:'def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))\nprint(is_even(7))', out:'True\nFalse' },
+   desc:{fr:'Écris is_even(n) qui renvoie True si n est pair, False sinon. Affiche is_even(4) puis is_even(7).',en:'Write is_even(n) returning True when n is even, False otherwise. Print is_even(4) then is_even(7).'},
+   hint:{fr:"Commence par un <code>if</code>/<code>else</code> qui renvoie True ou False. Remarque ensuite que la comparaison <code>n % 2 == 0</code> vaut déjà True ou False : tu pourrais la mettre directement après <code>return</code>.",en:"Start with an <code>if</code>/<code>else</code> that returns True or False. Then notice that the comparison <code>n % 2 == 0</code> is already True or False: you could put it straight after <code>return</code>."},
+   sol:'def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))\nprint(is_even(7))', out:'True\nFalse', need:["def","return"] },
 
- { id:"6-6", kind:"code", diff:"hard", title:{fr:"Carré d'un nombre",en:"Square of a number"},
-   desc:{fr:'Écris square(n) qui renvoie n multiplié par lui-même. Affiche square(5) puis square(9).',en:'Write square(n) returning n times itself. Print square(5) then square(9).'},
-   hint:{fr:"<code>return n * n</code>",en:"<code>return n * n</code>"},
-   sol:'def square(n):\n    return n * n\n\nprint(square(5))\nprint(square(9))', out:'25\n81' },
+ { id:"6-6", kind:"code", diff:"hard", title:{fr:"Tableau de valeurs",en:"Table of values"},
+   desc:{fr:"Écris la fonction f définie par f(x) = x² − 2x (avec def et return). Puis, avec une boucle for, affiche le tableau de valeurs de f pour x allant de −1 à 3 : une ligne par x, écrite avec print(x, f(x)) (x, une espace, puis f(x)). Question à te poser ensuite, sans l'afficher : pour quelle valeur de x f est-elle la plus petite ?",en:"Write the function f defined by f(x) = x² − 2x (with def and return). Then, with a for loop, print the table of values of f for x from −1 to 3: one line per x, written with print(x, f(x)) (x, a space, then f(x)). Question to ask yourself afterwards, without printing it: for which x is f smallest?"},
+   hint:{fr:"Commence par traduire f(x) = x² − 2x comme dans la correspondance maths → Python du début du cours. Pour « x de −1 à 3 », souviens-toi que <code>range</code> s'arrête avant sa borne de fin (chapitre IV).",en:"First translate f(x) = x² − 2x as in the maths → Python match at the start of the lesson. For \"x from −1 to 3\", remember <code>range</code> stops before its end value (chapter IV)."},
+   sol:'def f(x):\n    return x * x - 2 * x\n\nfor x in range(-1, 4):\n    print(x, f(x))', out:'-1 3\n0 0\n1 -1\n2 0\n3 3', need:["def","return","for"] },
 
  { id:"6-7", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : 5",en:"This program must print: 5"},
@@ -916,24 +916,44 @@ const LESSONS = {
 6:{ title:{fr:"Cours — les fonctions",en:"Lesson — functions"},
   desc:{fr:"Écrire une fois, réutiliser partout.",en:"Write once, reuse everywhere."},
   blocks:[
-  {type:"p",fr:"Une fonction est une <b>machine</b> : on lui donne quelque chose à l'entrée, elle travaille, elle rend un résultat. Une fois construite, on l'utilise autant de fois qu'on veut sans réécrire son contenu.",
-       en:"A function is a <b>machine</b>: you feed it something, it works, it hands back a result. Once built, use it as often as you like without rewriting its content."},
+  {type:"p",fr:"Une fonction est une <b>machine</b> : on lui donne quelque chose à l'entrée, elle travaille, et le plus souvent elle renvoie un résultat. Une fois construite, on l'utilise autant de fois qu'on veut sans réécrire son contenu.",
+       en:"A function is a <b>machine</b>: you feed it something, it works, and most of the time it returns a result. Once built, use it as often as you like without rewriting its content."},
   {type:"d",id:"machine",
     fr:["le paramètre entre","def carre(n):","return rend la valeur","print écrit à l'écran","Écran"],
     en:["the parameter goes in","def square(n):","return hands the value back","print writes to the screen","Screen"]},
-  {type:"p",fr:"On la construit avec <code>def</code>, deux-points, et un bloc décalé. <b>Définir ne l'exécute pas.</b> Il faut ensuite l'appeler en écrivant son nom suivi de parenthèses.",
-       en:"You build it with <code>def</code>, a colon, and an indented block. <b>Defining does not run it.</b> You must then call it by writing its name followed by parentheses."},
+  {type:"p",fr:"<b>1. La fonction f(x) des maths, en Python.</b> Tu connais déjà les fonctions : en maths, tu écris « Soit f la fonction définie par f(x) = x² + 1 », puis tu calcules f(3) = 10. Et tu en as déjà utilisé en Python : au chapitre I, <code>type(15)</code> s'écrivait comme f(15), et au chapitre II, <code>input()</code> te <b>renvoyait</b> une réponse. Maintenant, tu vas fabriquer les tiennes. La correspondance est directe :<br>• « Soit f la fonction définie par f(x) = x² + 1 » → <code>def f(x):</code> puis, en dessous et décalé, <code>return x * x + 1</code><br>• la variable x → le <b>paramètre</b> x<br>• calculer f(3) → écrire <code>f(3)</code> (on dit <b>appeler</b> f)<br>• l'image de 3 par f, soit 10 → la valeur <b>renvoyée</b> par <code>return</code><br>• y = f(3) → <code>y = f(3)</code>",
+       en:"<b>1. The maths function f(x), in Python.</b> You already know functions: in maths you write \"Let f be the function defined by f(x) = x² + 1\", then you compute f(3) = 10. And you have already used some in Python: in chapter I, <code>type(15)</code> was written like f(15), and in chapter II, <code>input()</code> <b>returned</b> an answer. Now you will build your own. The match is direct:<br>• \"Let f be defined by f(x) = x² + 1\" → <code>def f(x):</code> then, below and indented, <code>return x * x + 1</code><br>• the variable x → the <b>parameter</b> x<br>• compute f(3) → write <code>f(3)</code> (we say you <b>call</b> f)<br>• the image of 3 under f, i.e. 10 → the value <b>returned</b> by <code>return</code><br>• y = f(3) → <code>y = f(3)</code>"},
+  {type:"c",code:'def f(x):\n    return x * x + 1\n\nprint(f(3))\nprint(f(-2))\nprint(f(3) + f(-2))',out:'10\n5\n15'},
+  {type:"p",fr:"<b>2. Définir, puis appeler.</b> On construit une fonction avec <code>def</code> (pour <i>define</i>, « définir »), puis son nom, les parenthèses avec le paramètre, et les <b>deux-points</b> : comme après <code>if</code> ou <code>for</code>, ils annoncent un bloc décalé, le « corps » de la fonction. <b>Définir ne calcule rien</b>. En maths non plus : écrire « Soit f(x) = x² + 1 » ne calcule aucune image, cela donne seulement la recette. Pour faire tourner la recette, on <b>appelle</b> la fonction : son nom suivi de parenthèses, avec la valeur voulue dedans, comme f(3).",
+       en:"<b>2. Define, then call.</b> You build a function with <code>def</code> (short for <i>define</i>), then its name, the parentheses with the parameter, and a <b>colon</b>: as after <code>if</code> or <code>for</code>, it announces an indented block, the function's \"body\". <b>Defining computes nothing</b>. In maths either: writing \"Let f(x) = x² + 1\" computes no image, it only gives the recipe. To run the recipe you <b>call</b> the function: its name followed by parentheses with the value inside, like f(3)."},
   {type:"c",code:'def bonjour(nom):\n    print("Salut", nom)\n\nbonjour("Alice")\nbonjour("Karim")',
     out:'Salut Alice\nSalut Karim'},
-  {type:"p",fr:"Voici la distinction la plus importante du chapitre. <code>print</code> <b>écrit à l'écran</b> et ne rend rien. <code>return</code> <b>rend une valeur</b> à celui qui a appelé, et n'écrit rien. Ce ne sont pas deux façons de dire la même chose.",
-       en:"Here is the most important distinction of this chapter. <code>print</code> <b>writes to the screen</b> and returns nothing. <code>return</code> <b>hands a value back</b> to the caller and writes nothing. They are not two ways of saying the same thing."},
+  {type:"p",fr:"<code>nom</code> est le <b>paramètre</b> : une case vide dans la définition, comme le x de f(x). À chaque appel, la valeur entre parenthèses (\"Alice\", puis \"Karim\") vient la remplir : cette valeur s'appelle l'<b>argument</b> (en maths, c'est le nombre dont on calcule l'image). Différence avec les maths : une fonction Python peut aussi simplement <b>agir</b>, comme <code>bonjour</code> qui affiche, sans rien renvoyer. Elle peut même n'avoir aucun paramètre : on garde alors les parenthèses vides, <code>def salut():</code>, et on l'appelle avec <code>salut()</code>.",
+       en:"<code>nom</code> is the <b>parameter</b>: an empty slot in the definition, like the x in f(x). On each call, the value in the parentheses (\"Alice\", then \"Karim\") fills it: that value is called the <b>argument</b> (in maths, the number whose image you compute). Difference from maths: a Python function can also just <b>act</b>, like <code>bonjour</code> which prints, without returning anything. It can even have no parameter at all: keep the parentheses empty, <code>def salut():</code>, and call it with <code>salut()</code>."},
+  {type:"p",fr:"Le nom du paramètre n'a aucune importance, exactement comme en maths : f(x) = x² et f(t) = t² définissent la même fonction. On dit que x est une <b>variable muette</b>.",
+       en:"The parameter's name does not matter, exactly as in maths: f(x) = x² and f(t) = t² define the same function. x is called a <b>dummy variable</b>."},
+  {type:"c",code:'def f(x):\n    return x * x\n\ndef g(t):\n    return t * t\n\nprint(f(4), g(4))',out:'16 16'},
+  {type:"p",fr:"<b>3. return ou print : la distinction la plus importante du chapitre.</b> <code>print</code> <b>écrit à l'écran</b> et ne renvoie rien. <code>return</code> <b>renvoie une valeur</b> à l'endroit où on a écrit l'appel, et n'écrit rien : tout se passe comme si <code>carre(5)</code> était remplacé par 25 dans la ligne. Ce ne sont pas deux façons de dire la même chose.",
+       en:"<b>3. return or print: the most important distinction of this chapter.</b> <code>print</code> <b>writes to the screen</b> and returns nothing. <code>return</code> <b>hands a value back</b> to the place where the call was written, and writes nothing: it is as if <code>carre(5)</code> were replaced by 25 in that line. They are not two ways of saying the same thing."},
   {type:"c",code:'def carre(n):\n    return n * n\n\ncarre(5)\nprint(carre(5))\nprint(carre(5) + 1)',out:'25\n26'},
-  {type:"p",fr:"La ligne <code>carre(5)</code> seule calcule bien 25… puis jette le résultat, car rien ne l'attrape. C'est pourquoi la sortie ne commence qu'à la ligne suivante. Avec <code>return</code>, le résultat est réutilisable dans un calcul : la dernière ligne le prouve.",
-       en:"The lone <code>carre(5)</code> line does compute 25… then throws it away, because nothing catches it. That is why the output only starts on the next line. With <code>return</code>, the result is reusable in a computation: the last line proves it."},
-  {type:"t",fr:"Une fonction qui affiche avec <code>print</code> au lieu de renvoyer avec <code>return</code> semble marcher — jusqu'au jour où tu veux réutiliser son résultat. Là, tu n'as rien entre les mains.",
-       en:"A function that prints instead of returning seems to work — until the day you want to reuse its result. Then you are holding nothing."},
-  {type:"r",fr:"Les paramètres sont des variables qui n'existent qu'à l'intérieur de la fonction. Le <code>n</code> de <code>carre(n)</code> ne connaît rien du reste du programme, et c'est une bonne chose.",
-       en:"Parameters are variables that exist only inside the function. The <code>n</code> in <code>carre(n)</code> knows nothing of the rest of the program, and that is a good thing."}
+  {type:"p",fr:"La ligne <code>carre(5)</code> seule calcule bien 25… puis jette le résultat, car rien ne l'attrape, comme la réponse d'<code>input()</code> non rangée au chapitre II. C'est pourquoi la sortie ne commence qu'à la ligne suivante. Avec <code>return</code>, le résultat est réutilisable dans un calcul : la dernière ligne le prouve.",
+       en:"The lone <code>carre(5)</code> line does compute 25… then throws it away, because nothing catches it, like an <code>input()</code> answer not stored in chapter II. That is why the output only starts on the next line. With <code>return</code>, the result is reusable in a computation: the last line proves it."},
+  {type:"p",fr:"Pense à deux appareils. Une <b>machine à jus</b> te rend un verre : tu peux le boire, le ranger ou le verser dans un autre plat. Un <b>haut-parleur</b> annonce un nombre à voix haute : tu l'as entendu, mais tu ne peux pas t'en resservir. <code>return</code>, c'est la machine à jus ; <code>print</code>, c'est le haut-parleur. En maths aussi, f(3) <i>est</i> un nombre, et on peut écrire f(3) + 1. Une fonction qui ne fait que <code>print</code> n'a rien à rendre : elle renvoie <code>None</code>, le « rien » déjà vu avec <code>append</code> au chapitre V. Plus généralement, <b>toute fonction sans <code>return</code> renvoie <code>None</code></b>.",
+       en:"Picture two devices. A <b>juice machine</b> hands you a glass: you can drink it, store it, or pour it into something else. A <b>loudspeaker</b> announces a number out loud: you heard it, but you cannot use it again. <code>return</code> is the juice machine; <code>print</code> is the loudspeaker. In maths, too, f(3) <i>is</i> a number, so you can write f(3) + 1. A function that only prints has nothing to hand back: it returns <code>None</code>, the same \"nothing\" you met with <code>append</code> in chapter V. More generally, <b>any function without <code>return</code> returns <code>None</code></b>."},
+  {type:"c",code:'def f_affiche(x):\n    print(x * x + 1)\n\ny = f_affiche(3)\nprint(y)',out:'10\nNone'},
+  {type:"t",fr:"Le 10 s'affiche, donc tout a l'air de marcher. Mais y vaut <code>None</code> : le haut-parleur a parlé, et il n'a rien rendu. Et <code>f_affiche(3) + 1</code> plante (TypeError), comme si tu calculais « rien + 1 ». Règle : dans une fonction de calcul, écris <code>return</code> ; garde <code>print</code> pour l'extérieur : <code>print(f(3))</code>.",
+       en:"The 10 shows up, so everything looks fine. But y is <code>None</code>: the loudspeaker spoke and handed nothing back. And <code>f_affiche(3) + 1</code> crashes (TypeError), as if you computed \"nothing + 1\". Rule: in a computing function, write <code>return</code>; keep <code>print</code> outside: <code>print(f(3))</code>."},
+  {type:"p",fr:"<b>4. Plusieurs paramètres.</b> Une fonction peut recevoir plusieurs valeurs, comme une fonction de deux variables. On sépare les paramètres par des virgules ; à l'appel, la 1<sup>re</sup> valeur va dans le 1<sup>er</sup> paramètre, la 2<sup>e</sup> dans le 2<sup>e</sup>. Ici, <code>moyenne(12, 15)</code> range 12 dans a et 15 dans b.",
+       en:"<b>4. Several parameters.</b> A function can receive several values, like a function of two variables. Parameters are separated by commas; in the call, the 1st value goes into the 1st parameter, the 2nd into the 2nd. Here, <code>moyenne(12, 15)</code> stores 12 in a and 15 in b."},
+  {type:"c",code:'def moyenne(a, b):\n    return (a + b) / 2\n\nprint(moyenne(12, 15))',out:'13.5'},
+  {type:"p",fr:"<b>5. Le brouillon de la fonction.</b> Une fonction travaille sur un <b>brouillon</b>. Tout ce qu'elle crée à l'intérieur (son paramètre, ses variables) est écrit sur ce brouillon, qui est jeté à la fin du calcul. Seule la réponse, celle du <code>return</code>, sort de la fonction. C'est comme en contrôle : le correcteur ne voit que le résultat encadré, pas tes calculs de côté. On dit que ces variables sont <b>locales</b> : leur <b>portée</b> (l'endroit où elles existent) s'arrête à la fonction. Avantage : tu peux appeler une variable x dans ta fonction sans écraser un autre x de ton programme. Dans l'autre sens, une fonction <b>peut lire</b> une boîte créée en dehors d'elle, mais pas la modifier : <code>total = total + x</code> écrit dans la fonction plante (UnboundLocalError). Pour changer une valeur, renvoie-la avec <code>return</code> et range-la dehors : <code>total = ajoute(total, 3)</code>.",
+       en:"<b>5. The function's scrap paper.</b> A function works on <b>scrap paper</b>. Everything it creates inside (its parameter, its variables) is written on that scrap paper, which is thrown away once the computation is done. Only the answer, the <code>return</code>, comes out. It is like a test: the marker only sees your boxed result, not your side calculations. These variables are called <b>local</b>: their <b>scope</b> (where they exist) ends with the function. Bonus: you can name a variable x inside your function without overwriting another x in your program. The other way round, a function <b>can read</b> a box created outside it, but not change it: <code>total = total + x</code> written inside the function crashes (UnboundLocalError). To change a value, return it and store it outside: <code>total = ajoute(total, 3)</code>."},
+  {type:"c",code:'def f(x):\n    brouillon = x * x\n    return brouillon + 1\n\nprint(f(3))\nprint(brouillon)',out:"10\nNameError: name 'brouillon' is not defined"},
+  {type:"p",fr:"<b>6. Fonctions et suites.</b> Au chapitre IV, tu calculais une suite avec <code>u = u + 3</code>. Beaucoup de suites de Première s'écrivent u<sub>n+1</sub> = f(u<sub>n</sub>). Avec une fonction, le code se lit comme la formule : <code>u = f(u)</code> traduit exactement u<sub>n+1</sub> = f(u<sub>n</sub>). Ici, avec f(x) = 2x + 1 et u<sub>0</sub> = 0 :",
+       en:"<b>6. Functions and sequences.</b> In chapter IV you computed a sequence with <code>u = u + 3</code>. Many sequences are written u<sub>n+1</sub> = f(u<sub>n</sub>). With a function, the code reads like the formula: <code>u = f(u)</code> is exactly u<sub>n+1</sub> = f(u<sub>n</sub>). Here, with f(x) = 2x + 1 and u<sub>0</sub> = 0:"},
+  {type:"c",code:'def f(x):\n    return 2 * x + 1\n\nu = 0\nfor n in range(4):\n    u = f(u)\n    print(u)',out:'1\n3\n7\n15'},
+  {type:"r",fr:"1) <code>def f(x):</code> + bloc décalé = « Soit f définie par… » : définir ne calcule rien.<br>2) <code>f(3)</code> appelle la fonction : l'argument 3 remplit le paramètre x (variable muette : f(x) et f(t), même fonction).<br>3) <code>return</code> renvoie l'image : <code>y = f(3)</code>, <code>f(3) + 1</code>.<br>4) Une fonction sans <code>return</code> renvoie <code>None</code>, le « rien » (par exemple <code>bonjour</code>, ou une fonction qui ne fait que <code>print</code>) : <code>y = bonjour(\"Alice\")</code> donne y = None.<br>5) Plusieurs paramètres : séparés par des virgules, remplis dans l'ordre.<br>6) Ce qui est créé dans la fonction reste sur son brouillon (portée locale) ; seul le <code>return</code> sort.<br>7) <code>u = f(u)</code> dans une boucle traduit u<sub>n+1</sub> = f(u<sub>n</sub>).",
+       en:"1) <code>def f(x):</code> + indented block = \"Let f be defined by…\": defining computes nothing.<br>2) <code>f(3)</code> calls the function: the argument 3 fills the parameter x (dummy variable: f(x) and f(t), same function).<br>3) <code>return</code> hands back the image: <code>y = f(3)</code>, <code>f(3) + 1</code>.<br>4) A function without <code>return</code> returns <code>None</code>, \"nothing\" (e.g. <code>bonjour</code>, or a function that only prints): <code>y = bonjour(\"Alice\")</code> makes y None.<br>5) Several parameters: separated by commas, filled in order.<br>6) What is created inside stays on its scrap paper (local scope); only the <code>return</code> comes out.<br>7) <code>u = f(u)</code> in a loop is u<sub>n+1</sub> = f(u<sub>n</sub>)."}
 ]}
 };
 
@@ -2069,12 +2089,12 @@ const ERRORS = [
     b:"The <code>=</code> stores the value on the right into the box on the left (the ← arrow). So the left side must be a box name, not a number, a text or a calculation.",
     d:"Write for instance <code>sq = n * n</code>, not <code>n * n = sq</code>. If you meant to compare, use <code>==</code>, inside an <code>if</code>."})},
 
-{ re:/^IndentationError: expected an indented block after '(\w+)' statement on line (\d+)/,
+{ re:/^IndentationError: expected an indented block after (?:'(\w+)' statement|function definition) on line (\d+)/,
   fr:m=>({t:"Il manque le décalage",
-    b:`Après <code>${m[1]}</code> et ses deux-points (ligne ${m[2]}), Python attend au moins une ligne décalée vers la droite. C'est ce décalage qui indique ce qui est « à l'intérieur ».`,
+    b:`Après <code>${m[1]||"def"}</code> et ses deux-points (ligne ${m[2]}), Python attend au moins une ligne décalée vers la droite. C'est ce décalage qui indique ce qui est « à l'intérieur ».`,
     d:"Ajoute 4 espaces au début de la ligne suivante (la touche Tab les met pour toi)."}),
   en:m=>({t:"Missing indentation",
-    b:`After <code>${m[1]}</code> and its colon (line ${m[2]}), Python expects at least one line shifted to the right. That shift is what marks the "inside".`,
+    b:`After <code>${m[1]||"def"}</code> and its colon (line ${m[2]}), Python expects at least one line shifted to the right. That shift is what marks the "inside".`,
     d:"Add 4 spaces at the start of the next line (the Tab key inserts them for you)."})},
 
 { re:/^IndentationError: unexpected indent/,
@@ -2109,6 +2129,30 @@ const ERRORS = [
     b:"There is a grammar mistake somewhere: an extra sign, a missing sign, or a misspelled word.",
     d:"Re-read the reported line and the one just above. Check parentheses, quotes, commas and colons."})},
 
+{ re:/^UnboundLocalError: cannot access local variable '(\w+)'/,
+  fr:m=>({t:`${m[1]} ne peut pas être modifiée dans la fonction`,
+    b:`Dans une fonction, écrire <code>${m[1]} = ...</code> crée une nouvelle boîte <code>${m[1]}</code> propre à la fonction (sur son brouillon), qui cache celle du dehors. Du coup, <code>${m[1]} + ...</code> lit une boîte locale encore vide. Une fonction peut lire une boîte du dehors, mais pas la modifier.`,
+    d:`Passe la valeur en paramètre et renvoie le résultat, puis range-le dehors, par exemple : <code>def ajoute(t, x): return t + x</code>, puis <code>${m[1]} = ajoute(${m[1]}, 3)</code>.`}),
+  en:m=>({t:`${m[1]} cannot be changed inside the function`,
+    b:`Inside a function, writing <code>${m[1]} = ...</code> creates a new box <code>${m[1]}</code> of the function's own (on its scrap paper), hiding the outer one. So <code>${m[1]} + ...</code> reads a local box that is still empty. A function can read an outer box, but not change it.`,
+    d:`Pass the value as a parameter and return the result, then store it outside, for instance: <code>def ajoute(t, x): return t + x</code>, then <code>${m[1]} = ajoute(${m[1]}, 3)</code>.`})},
+
+{ re:/^NameError: name '(\w+)' is not defined/, when:ctx=>ctx.defLater,
+  fr:m=>({t:`${m[1]} est appelée avant d'être définie`,
+    b:`Python lit ton programme de haut en bas : au moment de cette ligne, le bloc <code>def ${m[1]}(...)</code> n'a pas encore été lu, donc <code>${m[1]}</code> n'existe pas encore. Comme en maths, on écrit « Soit f… » avant de calculer f(3).`,
+    d:`Place le bloc <code>def ${m[1]}(...)</code> au-dessus de l'appel.`}),
+  en:m=>({t:`${m[1]} is called before being defined`,
+    b:`Python reads your program top to bottom: at this line, the <code>def ${m[1]}(...)</code> block has not been read yet, so <code>${m[1]}</code> does not exist yet. As in maths, you write "Let f…" before computing f(3).`,
+    d:`Put the <code>def ${m[1]}(...)</code> block above the call.`})},
+
+{ re:/^NameError: name '(\w+)' is not defined/, when:ctx=>ctx.local,
+  fr:m=>({t:`${m[1]} n'existe que dans la fonction`,
+    b:`<code>${m[1]}</code> a été créée à l'intérieur d'une fonction (comme paramètre ou dans son bloc). Elle est restée sur le brouillon de la fonction, jeté à la fin de l'appel : dehors, elle n'existe pas.`,
+    d:`Pour récupérer sa valeur dehors, renvoie-la avec <code>return ${m[1]}</code>, puis range le résultat de l'appel, par exemple <code>${m[1]} = f(3)</code>.`}),
+  en:m=>({t:`${m[1]} only exists inside the function`,
+    b:`<code>${m[1]}</code> was created inside a function (as a parameter or in its block). It stayed on the function's scrap paper, thrown away when the call ended: outside, it does not exist.`,
+    d:`To get its value outside, return it with <code>return ${m[1]}</code>, then store the call's result, for instance <code>${m[1]} = f(3)</code>.`})},
+
 { re:/^NameError: name '(\w+)' is not defined/,
   fr:(m,ctx)=>({t:`Python ne connaît pas ${m[1]}`,
     b:ctx.near ? `Ce nom n'existe pas. Tu as peut-être voulu écrire <code>${ctx.near}</code>.`
@@ -2137,6 +2181,22 @@ const ERRORS = [
     b:`One side of the <code>*</code> is text (or a list), and the other is not a whole number. What comes from <code>input()</code> is always text, even if digits were typed.`,
     d:`If this text comes from <code>input()</code>, first convert it to a number with <code>int()</code>, e.g. <code>x = int(input(...))</code>.`})},
 
+{ re:/^TypeError: unsupported operand type\(s\) for .*'NoneType'/, when:ctx=>ctx.listMethodStored,
+  fr:()=>({t:"Un calcul avec None (rien)",
+    b:"Une des valeurs du calcul vaut <code>None</code>, c'est-à-dire « rien ». Cause probable : une méthode de liste comme <code>append()</code> modifie la liste sur place et ne renvoie rien ; en écrivant <code>notes = notes.append(5)</code>, tu as rangé ce « rien » dans notes.",
+    d:"Écris <code>notes.append(5)</code> seul, sans <code>notes =</code> devant."}),
+  en:()=>({t:"A calculation with None (nothing)",
+    b:"One value in the calculation is <code>None</code>, i.e. \"nothing\". Likely cause: a list method like <code>append()</code> changes the list in place and returns nothing; by writing <code>notes = notes.append(5)</code>, you stored that \"nothing\" in notes.",
+    d:"Write <code>notes.append(5)</code> alone, without <code>notes =</code> in front."})},
+
+{ re:/^TypeError: unsupported operand type\(s\) for .*'NoneType'/,
+  fr:()=>({t:"Un calcul avec None (rien)",
+    b:"Une des valeurs du calcul vaut <code>None</code>, c'est-à-dire « rien ». Le plus souvent, c'est le résultat d'une fonction qui affiche avec <code>print</code> mais ne renvoie rien avec <code>return</code> : le haut-parleur a parlé, mais n'a rien rendu.",
+    d:"Dans la fonction, remplace <code>print(...)</code> par <code>return ...</code>, puis affiche le résultat à l'extérieur : <code>print(f(3) + 1)</code>."}),
+  en:()=>({t:"A calculation with None (nothing)",
+    b:"One value in the calculation is <code>None</code>, i.e. \"nothing\". Most often it is the result of a function that prints with <code>print</code> but returns nothing with <code>return</code>: the loudspeaker spoke, but handed nothing back.",
+    d:"In the function, replace <code>print(...)</code> with <code>return ...</code>, then print the result outside: <code>print(f(3) + 1)</code>."})},
+
 { re:/^TypeError: unsupported operand type\(s\) for \+: '(\w+)' and '(\w+)'/,
   fr:m=>({t:"Addition impossible entre ces deux valeurs",
     b:`Python essaie d'additionner un ${m[1]==="int"?"nombre":m[1]} et un ${m[2]==="str"?"texte":m[2]}. L'opération n'a pas de sens pour lui.`,
@@ -2153,13 +2213,13 @@ const ERRORS = [
     b:`You defined <code>def ${m[1]}():</code> with empty parentheses, but you call it with ${m[2]} value(s).`,
     d:`Either call <code>${m[1]}()</code> with nothing, or add a parameter in the definition: <code>def ${m[1]}(x):</code>`})},
 
-{ re:/^TypeError: (\w+)\(\) missing (\d+) required positional argument/,
+{ re:/^TypeError: (\w+)\(\) missing (\d+) required positional arguments?:?\s*(.*)/,
   fr:m=>({t:`Il manque ${m[2]} valeur(s) à ${m[1]}`,
-    b:`La définition de <code>${m[1]}</code> attend des paramètres, mais l'appel ne fournit rien.`,
-    d:`Appelle la fonction en donnant les valeurs entre les parenthèses, par exemple <code>${m[1]}(3)</code>.`}),
+    b:`<code>${m[1]}</code> a été définie avec plus de paramètres que de valeurs données à l'appel.`+(m[3]?` Il manque la valeur de : ${m[3].replace(/'/g,"").replace(/ and /," et ")}.`:""),
+    d:`Donne une valeur par paramètre, séparées par des virgules, dans le même ordre que dans la définition <code>def ${m[1]}(...)</code>.`}),
   en:m=>({t:`${m[1]} is missing ${m[2]} value(s)`,
-    b:`The definition of <code>${m[1]}</code> expects parameters, but the call provides none.`,
-    d:`Call it with the values inside the parentheses, for example <code>${m[1]}(3)</code>.`})},
+    b:`<code>${m[1]}</code> was defined with more parameters than values given in the call.`+(m[3]?` Missing value for: ${m[3].replace(/'/g,"")}.`:""),
+    d:`Give one value per parameter, separated by commas, in the same order as in the definition <code>def ${m[1]}(...)</code>.`})},
 
 { re:/^TypeError: '(\w+)' object is not callable/,
   fr:m=>({t:"Ce nom n'est pas une fonction",
@@ -2277,7 +2337,23 @@ function explainError(err,line,code,lang){
   const ctx={near:null,src:(code.split("\n")[(line||0)-1]||""),
     listMethodStored:/=\s*\w+\.(append|sort|extend|insert|remove|reverse)\(/.test(code)};
   const nm=/^NameError: name '(\w+)' is not defined/.exec(err);
-  if(nm) ctx.near=nearestName(nm[1],code);
+  if(nm){
+    const n=nm[1], after=code.split("\n").slice(line||0).join("\n");
+    // Fonction appelée avant sa définition (le def arrive plus bas).
+    ctx.defLater=new RegExp("^\\s*def\\s+"+n+"\\s*\\(","m").test(after);
+    // Nom qui n'existe que dans une fonction : paramètre, ou rangé dans un bloc décalé, jamais au bord gauche.
+    let isParam=false; const re=/def\s+\w+\s*\(([^)]*)\)/g; let d;
+    while((d=re.exec(code))) if(d[1].split(",").map(s=>s.trim()).includes(n)) isParam=true;
+    // Seules comptent les affectations dans le bloc d'un def (pas dans un if, un for ou un while du programme).
+    let inDef=false, inside=false;
+    for(const l of code.split("\n")){
+      if(/^\S/.test(l)) inDef=/^def\s/.test(l);
+      else if(inDef&&new RegExp("^\\s+(?:"+n+"\\s*=(?!=)|for\\s+"+n+"\\s+in\\b)").test(l)) inside=true;
+    }
+    const top=new RegExp("^"+n+"\\s*=(?!=)","m").test(code);
+    ctx.local=!ctx.defLater&&(isParam||inside)&&!top;
+    if(!ctx.defLater&&!ctx.local) ctx.near=nearestName(n,code);
+  }
   for(const e of ERRORS){
     const m=e.re.exec(err);
     if(m&&(!e.when||e.when(ctx))) return Object.assign({line},e[lang](m,ctx));
