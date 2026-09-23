@@ -76,9 +76,9 @@ print/type), H (exemple age / "age" juste après son piège). Restent :
 - [ ] **N. Consigne de 1-6** : `Affiche "Name: Alice"` — une débutante peut
   recopier les guillemets dans la sortie. → « Affiche la ligne Name: Alice
   puis la ligne Age: 16 ».
-- [ ] **Listes (chapitre V)** : `b = a` puis `a.append(...)` modifie aussi `b`
-  (même liste). Le chapitre I le prépare (« en lui rangeant une nouvelle
-  valeur »), mais aucun passage du chapitre V ne le traite : ajouter un piège.
+- [x] **Listes (chapitre V)** : `b = a` puis `a.append(...)` modifie aussi `b`
+  → traité au chapitre V (image du classeur et des étiquettes, `.copy()`,
+  quiz 5-8), avec un renvoi d'une phrase au chapitre I (2026-09-24).
 
 ## Chapitre II — Afficher et demander (relecture du 2026-09-23)
 
@@ -208,6 +208,51 @@ de rang n, seuil 7 → 128, somme vérifiée par n(n+1)/2), nouvel exercice 4-8
   sa boîte ; second quiz sur un `print` décalé dans la boucle ;
   `range(a, b, pas)` jamais enseigné (pourrait illustrer une suite
   arithmétique de raison 2).
+
+## Chapitre V — Listes (relecture du 2026-09-24)
+
+Appliqués (points 1 à 13) : `b = a` et les listes (classeur, étiquettes,
+classeur scellé, réaffecter ≠ modifier, `.copy()`, renvoi au chapitre I,
+quiz 5-8), indice = rang (u₀, rez-de-chaussée), IndexError (u₅ jamais
+calculé, `range(len(L))`, `L[-1]`), `L[i] = v`, `append` et la notation
+« méthode » (piège `L = L.append(x)` → None), listes en compréhension
+({x² | x ∈ …}, filtre `if`), séries statistiques (effectif, moyenne, max,
+min) et termes d'une suite gardés, `for x in L` relié à `range`, cartes
+d'erreur « None » et « texte + liste », `useVars` / `need` sur 5-2 à 5-6,
+5-3 et 5-4 autonomes, 5-3 et 5-7 distincts du cours, résumé en 6 points.
+Restent :
+
+- [ ] **14. Fruits en anglais dans les exercices FR** (`"apple"`) alors que le
+  cours FR dit « pomme » ; le schéma EN affiche `["apple", …]` alors que le
+  code (commun aux deux langues) utilise `"pomme"`.
+- [ ] **15. Quiz 5-1** : l'option `["b"]` → `['b']` (Python n'affiche jamais
+  de guillemets doubles pour une liste) ; son explication « Les crochets
+  simples renvoient… » est obscure → « fruits[1] donne le contenu de la case
+  1, c'est-à-dire b tout seul ; print n'affiche des crochets que pour une
+  liste entière ».
+- [ ] **16. 5-6 classé « hard »** alors qu'il est le plus facile du chapitre
+  (surtout maintenant que le cours montre `len` et `sum`) : le passer en
+  « easy », ou le transformer en moyenne d'une série (notes = [12, 15, 9, 14]
+  → effectif puis moyenne, sortie `4` puis `12.5`).
+- [ ] **17. Cartes d'erreur manquantes** : `L["0"]` / `L[input()]` / `L[n/2]`
+  (« list indices must be integers or slices, not str/float ») → « Un indice
+  doit être un nombre entier ; s'il vient de input(), convertis-le avec int() ;
+  pour une moitié, utilise // » ; `L = L + 3` (« can only concatenate list
+  (not "int") to list ») → « Pour ajouter un élément, utilise L.append(3) ».
+- [ ] **18. Aide-mémoire et glossaire** : `l` se confond avec `1` (utiliser
+  `L` ou `notes`) ; ajouter `L[i] = v`, `b = L.copy()`,
+  `[n * n for n in range(5)]` ; la ligne TypeError « entre un texte et un
+  nombre » → « … ou une liste » ; glossaire : entrée « Liste » avec l'image du
+  classeur et `.copy()`, « Indice » = le rang comme n dans uₙ, entrées
+  Élément, append, len, Liste en compréhension ; l'exemple de « Méthode »
+  (`mot.upper()`) renvoie à un chapitre ultérieur et ne prévient pas que
+  certaines méthodes modifient la valeur (append) et d'autres en renvoient une
+  nouvelle (upper).
+- [ ] **Chapitre XIII et exercice ~l.1000** : le chapitre V montre maintenant
+  la liste des termes d'une suite (u₀ = 2, +3) et `sum(L) / len(L)` ; vérifier
+  que les exercices ultérieurs qui demandent une moyenne par accumulateur
+  précisent « sans utiliser sum », et que la liste des termes du chapitre XIII
+  ne fait pas doublon.
 
 ## Constaté ailleurs dans l'appli
 
