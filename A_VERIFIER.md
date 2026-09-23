@@ -167,12 +167,10 @@ piège de la 2e ligne non décalée), `%` (reste de la division euclidienne),
   ni le else) ; `useVars` empêche seulement de recopier les valeurs en dur.
   Piste : `has_license = input("License? ") == "yes"` avec un retest, ou
   accepter cette limite.
-- [ ] **Image du serveur** (section 1) : prof-pedagogue relève que « Pose
-  l'assiette sur la table 5 » / « Est-ce bien la table 5 ? » mélange les rôles
-  (5 y désigne la boîte, alors que dans `x = 5` c'est le contenu). Variante
-  proposée : « Mets 5 couverts sur la table x » (= `x = 5`) / « Y a-t-il bien
-  5 couverts sur la table x ? » (= `x == 5`). Conservée telle quelle en
-  attendant la décision (image validée explicitement).
+- [x] **Image du serveur** (section 1) : l'ancienne version (« la table 5 »)
+  faisait de 5 la boîte au lieu du contenu → remplacée par « Mets 5 couverts
+  sur la table x » (`x = 5`) / « Y a-t-il bien 5 couverts sur la table x ? »
+  (`x == 5`).
 - [ ] **18. Schéma if/else** : étiquettes « vrai (True) » / « faux (False) »,
   légende « En Python : la branche vrai est sous le if, la branche faux sous
   le else ».
