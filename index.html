@@ -276,41 +276,41 @@ pre.dark{background:var(--screen);color:var(--screen-ink)}
 const COURSES = [
 { id:1, num:"I", title:{fr:"Variables",en:"Variables"}, desc:{fr:"Stocker une valeur et lui donner un nom",en:"Store a value and give it a name"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"1-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Lis le programme dans ta tête avant de répondre. Ne l'exécute pas.",en:"Read the program in your head before answering."},
-   code:'x = 5\nx = x + 3\nprint(x)', answer:1,
+   code:'x = 5\nx = x + 3\nprint(x)', answer:3,
    options:[
     {txt:'5', why:{fr:"C'était la valeur de départ, mais la ligne 2 l'a remplacée. Une variable ne garde que sa dernière valeur.",en:"That was the starting value, but line 2 replaced it. A variable only keeps its latest value."}},
-    {txt:'8', why:{fr:"La ligne 2 lit x (5), ajoute 3, et range le résultat dans x.",en:"Line 2 reads x (5), adds 3, and stores the result back in x."}},
     {txt:'53', why:{fr:"Ce serait le cas si x et 3 étaient du texte. Ici ce sont des nombres, donc + additionne.",en:"That would happen if x and 3 were text. Here they are numbers, so + adds."}},
-    {txt:'Erreur', why:{fr:"C'est autorisé : une variable peut se recalculer à partir d'elle-même.",en:"This is allowed: a variable can be recomputed from itself."}}]},
+    {txt:'Erreur', why:{fr:"C'est autorisé : une variable peut se recalculer à partir d'elle-même.",en:"This is allowed: a variable can be recomputed from itself."}},
+    {txt:'8', why:{fr:"La ligne 2 lit x (5), ajoute 3, et range le résultat dans x.",en:"Line 2 reads x (5), adds 3, and stores the result back in x."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Une première variable",en:"A first variable"},
+ { id:"1-2", kind:"code", diff:"easy", title:{fr:"Une première variable",en:"A first variable"},
    desc:{fr:"Crée une variable age qui vaut 15, puis affiche-la.",en:"Create a variable age equal to 15, then print it."},
    hint:{fr:"On écrit <code>age = 15</code> puis <code>print(age)</code>.",en:"Write <code>age = 15</code> then <code>print(age)</code>."},
    sol:'age = 15\nprint(age)', out:'15' },
 
- { kind:"code", diff:"easy", title:{fr:"Trois types",en:"Three types"},
+ { id:"1-3", kind:"code", diff:"easy", title:{fr:"Trois types",en:"Three types"},
    desc:{fr:'Crée x = 5, y = 3.14, z = "hello", puis affiche les trois avec print(x, y, z).',en:'Create x = 5, y = 3.14, z = "hello", then print all three with print(x, y, z).'},
    hint:{fr:"<code>print</code> peut recevoir plusieurs valeurs séparées par des virgules.",en:"<code>print</code> can take several values separated by commas."},
    sol:'x = 5\ny = 3.14\nz = "hello"\nprint(x, y, z)', out:'5 3.14 hello' },
 
- { kind:"code", diff:"medium", title:{fr:"Changer une valeur",en:"Change a value"},
+ { id:"1-4", kind:"code", diff:"medium", title:{fr:"Changer une valeur",en:"Change a value"},
    desc:{fr:"Crée score = 0 et affiche-le. Puis mets score à 100 et affiche-le à nouveau.",en:"Create score = 0 and print it. Then set score to 100 and print it again."},
    hint:{fr:"Une variable peut être réaffectée : <code>score = 100</code> écrase l'ancienne valeur.",en:"A variable can be reassigned: <code>score = 100</code> overwrites the old value."},
    sol:'score = 0\nprint(score)\nscore = 100\nprint(score)', out:'0\n100' },
 
- { kind:"code", diff:"medium", title:{fr:"Connaître le type",en:"Check the type"},
+ { id:"1-5", kind:"code", diff:"medium", title:{fr:"Connaître le type",en:"Check the type"},
    desc:{fr:'Affiche le type de 5, puis de 3.14, puis de "hello", avec la fonction type().',en:'Print the type of 5, then 3.14, then "hello", using type().'},
    hint:{fr:"<code>print(type(5))</code> affiche la classe de la valeur.",en:"<code>print(type(5))</code> prints the class of the value."},
    sol:'print(type(5))\nprint(type(3.14))\nprint(type("hello"))', out:"<class 'int'>\n<class 'float'>\n<class 'str'>" },
 
- { kind:"code", diff:"hard", title:{fr:"Fiche d'identité",en:"Identity card"},
+ { id:"1-6", kind:"code", diff:"hard", title:{fr:"Fiche d'identité",en:"Identity card"},
    desc:{fr:'Crée name = "Alice" et age = 16. Affiche "Name: Alice" puis "Age: 16".',en:'Create name = "Alice" and age = 16. Print "Name: Alice" then "Age: 16".'},
    hint:{fr:'<code>print("Name:", name)</code> — la virgule ajoute une espace automatiquement.',en:'<code>print("Name:", name)</code> — the comma adds a space automatically.'},
    sol:'name = "Alice"\nage = 16\nprint("Name:", name)\nprint("Age:", age)', out:'Name: Alice\nAge: 16' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"1-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ces lignes affichent 16, mais elles sont mélangées. Remets-les dans le bon ordre.",en:"These lines print 16, but they are shuffled. Put them back in order."},
    hint:{fr:"Une variable doit exister avant qu'on puisse la lire ou la modifier.",en:"A variable must exist before it can be read or changed."},
    lines:['age = 15','age = age + 1','print(age)'], out:'16' }
@@ -318,41 +318,41 @@ const COURSES = [
 
 { id:2, num:"II", title:{fr:"Afficher et demander",en:"Print and input"}, desc:{fr:"Parler à l'utilisateur avec print() et input()",en:"Talk to the user with print() and input()"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"2-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Attention à la mise en page de la sortie.",en:"Watch the layout of the output."},
-   code:'print("Hello")\nprint("World")', answer:1,
+   code:'print("Hello")\nprint("World")', answer:0,
    options:[
-    {txt:'Hello World', why:{fr:"Ce serait le cas avec un seul print : print(\"Hello\", \"World\").",en:"That would need a single print: print(\"Hello\", \"World\")."}},
     {txt:'Hello\nWorld', why:{fr:"Chaque print termine par un passage à la ligne. Deux print donnent deux lignes.",en:"Each print ends with a line break. Two prints give two lines."}},
+    {txt:'Hello World', why:{fr:"Ce serait le cas avec un seul print : print(\"Hello\", \"World\").",en:"That would need a single print: print(\"Hello\", \"World\")."}},
     {txt:'HelloWorld', why:{fr:"Il faudrait print(\"Hello\", end=\"\") pour supprimer le passage à la ligne.",en:"You would need print(\"Hello\", end=\"\") to remove the line break."}},
     {txt:'"Hello"\n"World"', why:{fr:"Les guillemets délimitent le texte dans le code ; ils ne sont pas affichés.",en:"Quotes delimit text in the code; they are not printed."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Bonjour",en:"Hello"},
+ { id:"2-2", kind:"code", diff:"easy", title:{fr:"Bonjour",en:"Hello"},
    desc:{fr:'Affiche exactement le mot Hello.',en:'Print exactly the word Hello.'},
    hint:{fr:'Le texte va entre guillemets : <code>print("Hello")</code>.',en:'Text goes in quotes: <code>print("Hello")</code>.'},
    sol:'print("Hello")', out:'Hello' },
 
- { kind:"code", diff:"easy", title:{fr:"Trois lignes",en:"Three lines"},
+ { id:"2-3", kind:"code", diff:"easy", title:{fr:"Trois lignes",en:"Three lines"},
    desc:{fr:'Affiche Line 1, Line 2 et Line 3, chacune sur sa propre ligne.',en:'Print Line 1, Line 2 and Line 3, each on its own line.'},
    hint:{fr:"Chaque <code>print</code> passe automatiquement à la ligne suivante.",en:"Each <code>print</code> moves to the next line automatically."},
    sol:'print("Line 1")\nprint("Line 2")\nprint("Line 3")', out:'Line 1\nLine 2\nLine 3' },
 
- { kind:"code", diff:"medium", title:{fr:"Texte et variable",en:"Text and variable"},
+ { id:"2-4", kind:"code", diff:"medium", title:{fr:"Texte et variable",en:"Text and variable"},
    desc:{fr:'Crée name = "Alice" puis affiche Hello Alice en utilisant la variable.',en:'Create name = "Alice" then print Hello Alice using the variable.'},
    hint:{fr:'<code>print("Hello", name)</code> — sans guillemets autour de name.',en:'<code>print("Hello", name)</code> — no quotes around name.'},
    sol:'name = "Alice"\nprint("Hello", name)', out:'Hello Alice' },
 
- { kind:"code", diff:"medium", title:{fr:"Demander le prénom",en:"Ask for a name"}, inputs:["Alice"],
+ { id:"2-5", kind:"code", diff:"medium", title:{fr:"Demander le prénom",en:"Ask for a name"}, inputs:["Alice"],
    desc:{fr:'Demande le prénom avec input("Name? ") puis affiche Hi suivi du prénom.',en:'Ask for a name with input("Name? ") then print Hi followed by the name.'},
    hint:{fr:"<code>input()</code> renvoie ce que l'utilisateur tape. Range-le dans une variable.",en:"<code>input()</code> returns what the user types. Store it in a variable."},
    sol:'name = input("Name? ")\nprint("Hi", name)', out:'Name? Alice\nHi Alice' },
 
- { kind:"code", diff:"hard", title:{fr:"Petit questionnaire",en:"Small questionnaire"}, inputs:["Alice","16"],
+ { id:"2-6", kind:"code", diff:"hard", title:{fr:"Petit questionnaire",en:"Small questionnaire"}, inputs:["Alice","16"],
    desc:{fr:'Demande Name? puis Age?, et affiche ensuite : Name: Alice Age: 16',en:'Ask Name? then Age?, then print: Name: Alice Age: 16'},
    hint:{fr:"Deux <code>input()</code>, puis un seul <code>print</code> avec quatre morceaux.",en:"Two <code>input()</code> calls, then a single <code>print</code> with four pieces."},
    sol:'name = input("Name? ")\nage = input("Age? ")\nprint("Name:", name, "Age:", age)', out:'Name? Alice\nAge? 16\nName: Alice Age: 16' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"2-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : Alice Martin",en:"This program must print: Alice Martin"},
    hint:{fr:"Les deux variables doivent exister avant le print.",en:"Both variables must exist before the print."},
    lines:['first = "Alice"','last = "Martin"','print(first, last)'], out:'Alice Martin' }
@@ -360,41 +360,41 @@ const COURSES = [
 
 { id:3, num:"III", title:{fr:"Conditions",en:"Conditions"}, desc:{fr:"Choisir selon la situation : if, elif, else",en:"Choose depending on the situation: if, elif, else"}, ex:[
 
- { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"3-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Suis les conditions une par une, de haut en bas.",en:"Follow the conditions one by one, top to bottom."},
-   code:'x = 3\nif x > 10:\n    print("A")\nelif x > 1:\n    print("B")\nelse:\n    print("C")', answer:1,
+   code:'x = 3\nif x > 10:\n    print("A")\nelif x > 1:\n    print("B")\nelse:\n    print("C")', answer:2,
    options:[
     {txt:'A', why:{fr:"3 n'est pas supérieur à 10, donc cette branche est ignorée.",en:"3 is not greater than 10, so this branch is skipped."}},
-    {txt:'B', why:{fr:"La première condition est fausse, la deuxième est vraie : on s'arrête là.",en:"The first condition is false, the second is true: it stops there."}},
     {txt:'C', why:{fr:"else ne s'exécute que si toutes les conditions précédentes sont fausses.",en:"else only runs when every previous condition is false."}},
+    {txt:'B', why:{fr:"La première condition est fausse, la deuxième est vraie : on s'arrête là.",en:"The first condition is false, the second is true: it stops there."}},
     {txt:'B\nC', why:{fr:"Dans une chaîne if/elif/else, une seule branche s'exécute.",en:"In an if/elif/else chain, only one branch runs."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Grand ou petit",en:"Big or small"},
+ { id:"3-2", kind:"code", diff:"easy", title:{fr:"Grand ou petit",en:"Big or small"},
    desc:{fr:'Avec x = 10 : si x est supérieur à 5, affiche Big, sinon affiche Small.',en:'With x = 10: if x is greater than 5, print Big, otherwise Small.'},
    hint:{fr:"N'oublie pas les deux-points et les 4 espaces d'indentation.",en:"Don't forget the colon and the 4-space indentation."},
    sol:'x = 10\nif x > 5:\n    print("Big")\nelse:\n    print("Small")', out:'Big' },
 
- { kind:"code", diff:"easy", title:{fr:"Majeur ou mineur",en:"Adult or minor"},
+ { id:"3-3", kind:"code", diff:"easy", title:{fr:"Majeur ou mineur",en:"Adult or minor"},
    desc:{fr:'Avec age = 20 : affiche Adult si age est supérieur ou égal à 18, sinon Minor.',en:'With age = 20: print Adult if age is 18 or more, otherwise Minor.'},
    hint:{fr:"L'opérateur « supérieur ou égal » s'écrit <code>&gt;=</code>.",en:'"Greater or equal" is written <code>&gt;=</code>.'},
    sol:'age = 20\nif age >= 18:\n    print("Adult")\nelse:\n    print("Minor")', out:'Adult' },
 
- { kind:"code", diff:"medium", title:{fr:"Trois cas",en:"Three cases"},
+ { id:"3-4", kind:"code", diff:"medium", title:{fr:"Trois cas",en:"Three cases"},
    desc:{fr:'Avec grade = 14 : Excellent si 16 ou plus, Good si 10 ou plus, sinon Poor.',en:'With grade = 14: Excellent if 16 or more, Good if 10 or more, otherwise Poor.'},
    hint:{fr:"<code>elif</code> teste une deuxième condition si la première est fausse.",en:"<code>elif</code> tests a second condition if the first is false."},
    sol:'grade = 14\nif grade >= 16:\n    print("Excellent")\nelif grade >= 10:\n    print("Good")\nelse:\n    print("Poor")', out:'Good' },
 
- { kind:"code", diff:"medium", title:{fr:"Deux conditions",en:"Two conditions"},
+ { id:"3-5", kind:"code", diff:"medium", title:{fr:"Deux conditions",en:"Two conditions"},
    desc:{fr:'Avec age = 20 et has_license = True : affiche Drive si les deux sont vrais, sinon No.',en:'With age = 20 and has_license = True: print Drive if both are true, otherwise No.'},
    hint:{fr:"<code>and</code> exige que les deux conditions soient vraies.",en:"<code>and</code> requires both conditions to be true."},
    sol:'age = 20\nhas_license = True\nif age >= 18 and has_license:\n    print("Drive")\nelse:\n    print("No")', out:'Drive' },
 
- { kind:"code", diff:"hard", title:{fr:"Pair ou impair",en:"Even or odd"},
+ { id:"3-6", kind:"code", diff:"hard", title:{fr:"Pair ou impair",en:"Even or odd"},
    desc:{fr:'Avec n = 7 : affiche Even si n est pair, sinon Odd.',en:'With n = 7: print Even if n is even, otherwise Odd.'},
    hint:{fr:"<code>n % 2</code> donne le reste de la division par 2. Il vaut 0 si n est pair.",en:"<code>n % 2</code> gives the remainder of dividing by 2. It is 0 when n is even."},
    sol:'n = 7\nif n % 2 == 0:\n    print("Even")\nelse:\n    print("Odd")', out:'Odd' },
 
- { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"3-7", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : Adult — attention aux lignes décalées.",en:"This program must print: Adult — mind the indented lines."},
    hint:{fr:"Une ligne décalée appartient toujours au bloc juste au-dessus d'elle.",en:"An indented line always belongs to the block right above it."},
    lines:['age = 20','if age >= 18:','    print("Adult")','else:','    print("Minor")'], out:'Adult' }
@@ -402,7 +402,7 @@ const COURSES = [
 
 { id:4, num:"IV", title:{fr:"Boucles",en:"Loops"}, desc:{fr:"Répéter sans réécrire : for et while",en:"Repeat without rewriting: for and while"}, ex:[
 
- { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"4-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Compte bien les tours de boucle.",en:"Count the loop passes carefully."},
    code:'for i in range(3):\n    print(i)', answer:1,
    options:[
@@ -411,33 +411,33 @@ const COURSES = [
     {txt:'0\n1\n2\n3', why:{fr:"range(3) s'arrête AVANT 3. Le 3 n'est jamais atteint.",en:"range(3) stops BEFORE 3. The 3 is never reached."}},
     {txt:'3', why:{fr:"La boucle affiche i à chaque tour, pas le nombre de tours.",en:"The loop prints i on each pass, not the number of passes."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Compter de 1 à 5",en:"Count 1 to 5"},
+ { id:"4-2", kind:"code", diff:"easy", title:{fr:"Compter de 1 à 5",en:"Count 1 to 5"},
    desc:{fr:'Affiche les nombres de 1 à 5, un par ligne.',en:'Print the numbers 1 to 5, one per line.'},
    hint:{fr:"<code>range(1, 6)</code> s'arrête avant 6.",en:"<code>range(1, 6)</code> stops before 6."},
    sol:'for i in range(1, 6):\n    print(i)', out:'1\n2\n3\n4\n5' },
 
- { kind:"code", diff:"easy", title:{fr:"Table de 3",en:"Times table of 3"},
+ { id:"4-3", kind:"code", diff:"easy", title:{fr:"Table de 3",en:"Times table of 3"},
    desc:{fr:'Affiche la table de 3 de 1 à 10, au format : 3 x 1 = 3',en:'Print the 3 times table from 1 to 10, formatted as: 3 x 1 = 3'},
    hint:{fr:'<code>print("3 x", i, "=", 3 * i)</code>',en:'<code>print("3 x", i, "=", 3 * i)</code>'},
    sol:'for i in range(1, 11):\n    print("3 x", i, "=", 3 * i)',
    out:'3 x 1 = 3\n3 x 2 = 6\n3 x 3 = 9\n3 x 4 = 12\n3 x 5 = 15\n3 x 6 = 18\n3 x 7 = 21\n3 x 8 = 24\n3 x 9 = 27\n3 x 10 = 30' },
 
- { kind:"code", diff:"medium", title:{fr:"Boucle while",en:"While loop"},
+ { id:"4-4", kind:"code", diff:"medium", title:{fr:"Boucle while",en:"While loop"},
    desc:{fr:'Affiche 1 à 5 avec une boucle while (pas de for).',en:'Print 1 to 5 using a while loop (no for).'},
    hint:{fr:"Il faut augmenter i à l'intérieur de la boucle, sinon elle ne s'arrête jamais.",en:"You must increase i inside the loop, otherwise it never stops."},
    sol:'i = 1\nwhile i <= 5:\n    print(i)\n    i = i + 1', out:'1\n2\n3\n4\n5' },
 
- { kind:"code", diff:"medium", title:{fr:"Somme de 1 à 10",en:"Sum 1 to 10"},
+ { id:"4-5", kind:"code", diff:"medium", title:{fr:"Somme de 1 à 10",en:"Sum 1 to 10"},
    desc:{fr:"Calcule la somme des nombres de 1 à 10 et affiche seulement le résultat.",en:"Add up the numbers from 1 to 10 and print only the result."},
    hint:{fr:"Crée <code>total = 0</code> avant la boucle, puis ajoute i à chaque tour.",en:"Create <code>total = 0</code> before the loop, then add i on each pass."},
    sol:'total = 0\nfor i in range(1, 11):\n    total = total + i\nprint(total)', out:'55' },
 
- { kind:"code", diff:"hard", title:{fr:"Carré d'étoiles",en:"Square of stars"},
+ { id:"4-6", kind:"code", diff:"hard", title:{fr:"Carré d'étoiles",en:"Square of stars"},
    desc:{fr:'Affiche un carré de 3 lignes sur 3 étoiles.',en:'Print a square of 3 rows of 3 stars.'},
    hint:{fr:'<code>print("*", end="")</code> reste sur la même ligne. Un <code>print()</code> vide passe à la ligne.',en:'<code>print("*", end="")</code> stays on the same line. An empty <code>print()</code> starts a new line.'},
    sol:'for i in range(3):\n    for j in range(3):\n        print("*", end="")\n    print()', out:'***\n***\n***' },
 
- { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"4-7", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : 6",en:"This program must print: 6"},
    hint:{fr:"L'accumulateur doit valoir 0 avant la boucle, et on l'affiche après.",en:"The accumulator must be 0 before the loop, and printed after."},
    lines:['total = 0','for n in [1, 2, 3]:','    total = total + n','print(total)'], out:'6' }
@@ -445,41 +445,41 @@ const COURSES = [
 
 { id:5, num:"V", title:{fr:"Listes",en:"Lists"}, desc:{fr:"Ranger plusieurs valeurs dans une seule variable",en:"Keep several values in one variable"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"5-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Fais attention à la façon dont Python numérote les éléments.",en:"Watch how Python numbers the elements."},
-   code:'fruits = ["a", "b", "c"]\nprint(fruits[1])', answer:1,
+   code:'fruits = ["a", "b", "c"]\nprint(fruits[1])', answer:2,
    options:[
     {txt:'a', why:{fr:"a est en position 0. La numérotation commence à 0, pas à 1.",en:"a is at position 0. Numbering starts at 0, not 1."}},
-    {txt:'b', why:{fr:"Position 0 = a, position 1 = b. On demande bien le deuxième élément.",en:"Position 0 = a, position 1 = b. We are asking for the second element."}},
     {txt:'c', why:{fr:"c est en position 2, la dernière.",en:"c is at position 2, the last one."}},
+    {txt:'b', why:{fr:"Position 0 = a, position 1 = b. On demande bien le deuxième élément.",en:"Position 0 = a, position 1 = b. We are asking for the second element."}},
     {txt:'["b"]', why:{fr:"Les crochets simples renvoient l'élément lui-même, pas une liste.",en:"Single brackets return the element itself, not a list."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Créer une liste",en:"Create a list"},
+ { id:"5-2", kind:"code", diff:"easy", title:{fr:"Créer une liste",en:"Create a list"},
    desc:{fr:'Crée une liste fruits contenant "apple", "banana", "orange" et affiche la liste entière.',en:'Create a list fruits containing "apple", "banana", "orange" and print the whole list.'},
    hint:{fr:"Une liste s'écrit entre crochets, valeurs séparées par des virgules.",en:"A list is written in square brackets, values separated by commas."},
    sol:'fruits = ["apple", "banana", "orange"]\nprint(fruits)', out:"['apple', 'banana', 'orange']" },
 
- { kind:"code", diff:"easy", title:{fr:"Accéder à un élément",en:"Access an element"},
+ { id:"5-3", kind:"code", diff:"easy", title:{fr:"Accéder à un élément",en:"Access an element"},
    desc:{fr:'Avec la même liste fruits, affiche le premier élément, puis le troisième.',en:'With the same fruits list, print the first element, then the third.'},
    hint:{fr:"La numérotation commence à 0 : le premier est <code>fruits[0]</code>.",en:"Numbering starts at 0: the first one is <code>fruits[0]</code>."},
    sol:'fruits = ["apple", "banana", "orange"]\nprint(fruits[0])\nprint(fruits[2])', out:'apple\norange' },
 
- { kind:"code", diff:"medium", title:{fr:"Parcourir une liste",en:"Loop over a list"},
+ { id:"5-4", kind:"code", diff:"medium", title:{fr:"Parcourir une liste",en:"Loop over a list"},
    desc:{fr:'Affiche chaque fruit de la liste sur sa propre ligne.',en:'Print each fruit of the list on its own line.'},
    hint:{fr:"<code>for fruit in fruits:</code> prend les éléments un par un.",en:"<code>for fruit in fruits:</code> takes the elements one by one."},
    sol:'fruits = ["apple", "banana", "orange"]\nfor fruit in fruits:\n    print(fruit)', out:'apple\nbanana\norange' },
 
- { kind:"code", diff:"medium", title:{fr:"Ajouter un élément",en:"Add an element"},
+ { id:"5-5", kind:"code", diff:"medium", title:{fr:"Ajouter un élément",en:"Add an element"},
    desc:{fr:'Crée nums = [1, 2, 3], ajoute 4, affiche la liste puis sa longueur.',en:'Create nums = [1, 2, 3], add 4, print the list then its length.'},
    hint:{fr:"<code>nums.append(4)</code> ajoute à la fin ; <code>len(nums)</code> compte.",en:"<code>nums.append(4)</code> adds at the end; <code>len(nums)</code> counts."},
    sol:'nums = [1, 2, 3]\nnums.append(4)\nprint(nums)\nprint(len(nums))', out:'[1, 2, 3, 4]\n4' },
 
- { kind:"code", diff:"hard", title:{fr:"Longueur et somme",en:"Length and sum"},
+ { id:"5-6", kind:"code", diff:"hard", title:{fr:"Longueur et somme",en:"Length and sum"},
    desc:{fr:'Avec nums = [1, 2, 3, 4, 5], affiche la longueur puis la somme.',en:'With nums = [1, 2, 3, 4, 5], print the length then the sum.'},
    hint:{fr:"<code>len()</code> et <code>sum()</code> travaillent directement sur la liste.",en:"<code>len()</code> and <code>sum()</code> work directly on the list."},
    sol:'nums = [1, 2, 3, 4, 5]\nprint(len(nums))\nprint(sum(nums))', out:'5\n15' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"5-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : [3, 1, 5]",en:"This program must print: [3, 1, 5]"},
    hint:{fr:"append modifie la liste ; il faut donc que la liste existe déjà.",en:"append changes the list, so the list must already exist."},
    lines:['nums = [3, 1]','nums.append(5)','print(nums)'], out:'[3, 1, 5]' }
@@ -487,41 +487,41 @@ const COURSES = [
 
 { id:6, num:"VI", title:{fr:"Fonctions",en:"Functions"}, desc:{fr:"Écrire une fois, réutiliser partout",en:"Write once, reuse everywhere"}, ex:[
 
- { kind:"quiz", diff:"hard", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"6-1", kind:"quiz", diff:"hard", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Piège classique. Regarde bien la dernière ligne.",en:"A classic trap. Look closely at the last line."},
-   code:'def double(n):\n    return n * 2\n\ndouble(4)', answer:2,
+   code:'def double(n):\n    return n * 2\n\ndouble(4)', answer:3,
    options:[
     {txt:'8', why:{fr:"La fonction calcule bien 8, mais rien ne l'affiche. return renvoie la valeur à l'appelant, il ne l'imprime pas.",en:"The function does compute 8, but nothing prints it. return hands the value back, it does not print it."}},
     {txt:'4', why:{fr:"4 est l'argument fourni, pas le résultat.",en:"4 is the argument given, not the result."}},
-    {txt:"Rien n'est affiché", why:{fr:"Exact. Il manque print autour de l'appel : print(double(4)).",en:"Correct. A print around the call is missing: print(double(4))."}},
-    {txt:'Erreur', why:{fr:"Le programme est valide, il ne produit simplement aucune sortie.",en:"The program is valid, it just produces no output."}}]},
+    {txt:'Erreur', why:{fr:"Le programme est valide, il ne produit simplement aucune sortie.",en:"The program is valid, it just produces no output."}},
+    {txt:"Rien n'est affiché", why:{fr:"Exact. Il manque print autour de l'appel : print(double(4)).",en:"Correct. A print around the call is missing: print(double(4))."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Une fonction simple",en:"A simple function"},
+ { id:"6-2", kind:"code", diff:"easy", title:{fr:"Une fonction simple",en:"A simple function"},
    desc:{fr:'Écris une fonction greet() qui affiche Hello, puis appelle-la.',en:'Write a function greet() that prints Hello, then call it.'},
    hint:{fr:"Définir ne suffit pas : il faut aussi écrire <code>greet()</code> pour l'exécuter.",en:"Defining is not enough: you must also write <code>greet()</code> to run it."},
    sol:'def greet():\n    print("Hello")\n\ngreet()', out:'Hello' },
 
- { kind:"code", diff:"easy", title:{fr:"Avec un paramètre",en:"With a parameter"},
+ { id:"6-3", kind:"code", diff:"easy", title:{fr:"Avec un paramètre",en:"With a parameter"},
    desc:{fr:'Écris greet(name) qui affiche Hello suivi du prénom, puis appelle-la avec "Alice".',en:'Write greet(name) printing Hello then the name, then call it with "Alice".'},
    hint:{fr:"Le paramètre se met entre les parenthèses de la définition.",en:"The parameter goes inside the parentheses of the definition."},
    sol:'def greet(name):\n    print("Hello", name)\n\ngreet("Alice")', out:'Hello Alice' },
 
- { kind:"code", diff:"medium", title:{fr:"Renvoyer un résultat",en:"Return a result"},
+ { id:"6-4", kind:"code", diff:"medium", title:{fr:"Renvoyer un résultat",en:"Return a result"},
    desc:{fr:'Écris add(a, b) qui renvoie la somme, puis affiche add(3, 4).',en:'Write add(a, b) returning the sum, then print add(3, 4).'},
    hint:{fr:"<code>return</code> renvoie la valeur ; c'est <code>print</code> qui l'affiche.",en:"<code>return</code> gives the value back; <code>print</code> displays it."},
    sol:'def add(a, b):\n    return a + b\n\nprint(add(3, 4))', out:'7' },
 
- { kind:"code", diff:"medium", title:{fr:"Vrai ou faux",en:"True or false"},
+ { id:"6-5", kind:"code", diff:"medium", title:{fr:"Vrai ou faux",en:"True or false"},
    desc:{fr:'Écris is_even(n) qui renvoie True si n est pair. Affiche is_even(4) puis is_even(7).',en:'Write is_even(n) returning True when n is even. Print is_even(4) then is_even(7).'},
    hint:{fr:"<code>return n % 2 == 0</code> renvoie directement True ou False.",en:"<code>return n % 2 == 0</code> returns True or False directly."},
    sol:'def is_even(n):\n    return n % 2 == 0\n\nprint(is_even(4))\nprint(is_even(7))', out:'True\nFalse' },
 
- { kind:"code", diff:"hard", title:{fr:"Carré d'un nombre",en:"Square of a number"},
+ { id:"6-6", kind:"code", diff:"hard", title:{fr:"Carré d'un nombre",en:"Square of a number"},
    desc:{fr:'Écris square(n) qui renvoie n multiplié par lui-même. Affiche square(5) puis square(9).',en:'Write square(n) returning n times itself. Print square(5) then square(9).'},
    hint:{fr:"<code>return n * n</code>",en:"<code>return n * n</code>"},
    sol:'def square(n):\n    return n * n\n\nprint(square(5))\nprint(square(9))', out:'25\n81' },
 
- { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"6-7", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : 5",en:"This program must print: 5"},
    hint:{fr:"Une fonction doit être définie avant d'être appelée, et son corps est décalé.",en:"A function must be defined before it is called, and its body is indented."},
    lines:['def add(a, b):','    return a + b','print(add(2, 3))'], out:'5' }
@@ -829,7 +829,7 @@ COURSES.push(
 { id:7, num:"VII", title:{fr:"Le texte",en:"Text"},
   desc:{fr:"Découper, transformer et parcourir des chaînes de caractères",en:"Slicing, transforming and walking through strings"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"7-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Les lettres d'un mot sont numérotées comme les cases d'une liste.",en:"The letters of a word are numbered like list slots."},
    code:'mot = "Python"\nprint(mot[1])', answer:1,
    options:[
@@ -838,32 +838,32 @@ COURSES.push(
     {txt:'t', why:{fr:"t est en position 2.",en:"t is at position 2."}},
     {txt:'Erreur', why:{fr:"L'accès par position fonctionne sur une chaîne exactement comme sur une liste.",en:"Position access works on a string exactly as on a list."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Longueur d'un mot",en:"Length of a word"},
+ { id:"7-2", kind:"code", diff:"easy", title:{fr:"Longueur d'un mot",en:"Length of a word"},
    desc:{fr:'Crée mot = "ordinateur" et affiche le nombre de lettres.',en:'Create mot = "ordinateur" and print the number of letters.'},
    hint:{fr:"<code>len()</code> compte les caractères d'une chaîne comme il compte les éléments d'une liste.",en:"<code>len()</code> counts characters of a string just as it counts list items."},
    sol:'mot = "ordinateur"\nprint(len(mot))', out:'10' },
 
- { kind:"code", diff:"easy", title:{fr:"Première et dernière lettre",en:"First and last letter"},
+ { id:"7-3", kind:"code", diff:"easy", title:{fr:"Première et dernière lettre",en:"First and last letter"},
    desc:{fr:'Avec mot = "python", affiche la première lettre puis la dernière.',en:'With mot = "python", print the first letter then the last.'},
    hint:{fr:"La première est <code>mot[0]</code>. Pour la dernière, <code>mot[-1]</code> évite de compter.",en:"The first is <code>mot[0]</code>. For the last, <code>mot[-1]</code> saves you counting."},
    sol:'mot = "python"\nprint(mot[0])\nprint(mot[-1])', out:'p\nn' },
 
- { kind:"code", diff:"medium", title:{fr:"Majuscules",en:"Uppercase"},
+ { id:"7-4", kind:"code", diff:"medium", title:{fr:"Majuscules",en:"Uppercase"},
    desc:{fr:'Avec mot = "python", affiche le mot en majuscules, puis le mot d\'origine.',en:'With mot = "python", print the word in uppercase, then the original word.'},
    hint:{fr:"<code>mot.upper()</code> renvoie une nouvelle chaîne ; <code>mot</code> n'est pas modifié.",en:"<code>mot.upper()</code> returns a new string; <code>mot</code> is unchanged."},
    sol:'mot = "python"\nprint(mot.upper())\nprint(mot)', out:'PYTHON\npython' },
 
- { kind:"code", diff:"medium", title:{fr:"Une phrase avec des variables",en:"A sentence with variables"},
+ { id:"7-5", kind:"code", diff:"medium", title:{fr:"Une phrase avec des variables",en:"A sentence with variables"},
    desc:{fr:'Avec nom = "Alice" et age = 16, affiche : Alice a 16 ans',en:'With nom = "Alice" and age = 16, print: Alice a 16 ans'},
    hint:{fr:'Un f-string s\'écrit <code>f"…"</code> et les variables se glissent entre accolades.',en:'An f-string is written <code>f"…"</code> and variables go inside braces.'},
    sol:'nom = "Alice"\nage = 16\nprint(f"{nom} a {age} ans")', out:'Alice a 16 ans' },
 
- { kind:"code", diff:"hard", title:{fr:"Compter une lettre",en:"Count a letter"},
+ { id:"7-6", kind:"code", diff:"hard", title:{fr:"Compter une lettre",en:"Count a letter"},
    desc:{fr:'Compte combien de fois la lettre o apparaît dans "ordinateur portable", et affiche ce nombre.',en:'Count how many times the letter o appears in "ordinateur portable", and print that number.'},
    hint:{fr:"Un compteur à 0 avant la boucle, une boucle sur les lettres, un <code>if</code> à l'intérieur.",en:"A counter at 0 before the loop, a loop over the letters, an <code>if</code> inside."},
    sol:'phrase = "ordinateur portable"\ncompteur = 0\nfor lettre in phrase:\n    if lettre == "o":\n        compteur = compteur + 1\nprint(compteur)', out:'2' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"7-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : PYTHON",en:"This program must print: PYTHON"},
    hint:{fr:"<code>.upper()</code> ne modifie rien : il faut ranger son résultat quelque part.",en:"<code>.upper()</code> changes nothing: you must store its result somewhere."},
    lines:['mot = "python"','mot = mot.upper()','print(mot)'], out:'PYTHON' }
@@ -872,41 +872,41 @@ COURSES.push(
 { id:8, num:"VIII", title:{fr:"Algorithmes classiques",en:"Classic algorithms"},
   desc:{fr:"Les cinq motifs qui reviennent partout : compter, cumuler, chercher le maximum, rechercher, atteindre un seuil",en:"The five patterns that come back everywhere: count, accumulate, find the maximum, search, reach a threshold"}, ex:[
 
- { kind:"quiz", diff:"hard", title:{fr:"Cet algorithme a un défaut",en:"This algorithm has a flaw"},
+ { id:"8-1", kind:"quiz", diff:"hard", title:{fr:"Cet algorithme a un défaut",en:"This algorithm has a flaw"},
    desc:{fr:"Il cherche le maximum. Que va-t-il réellement afficher ?",en:"It looks for the maximum. What will it actually print?"},
-   code:'notes = [-3, -7, -1]\nmaxi = 0\nfor n in notes:\n    if n > maxi:\n        maxi = n\nprint(maxi)', answer:1,
+   code:'notes = [-3, -7, -1]\nmaxi = 0\nfor n in notes:\n    if n > maxi:\n        maxi = n\nprint(maxi)', answer:0,
    options:[
-    {txt:'-1', why:{fr:"C'est bien le maximum de la liste, mais l'algorithme ne le trouve pas : aucun nombre négatif n'est supérieur à 0, donc maxi n'est jamais remplacé.",en:"That is indeed the maximum, but the algorithm never finds it: no negative number is greater than 0, so maxi is never replaced."}},
     {txt:'0', why:{fr:"Exact — et c'est un bug. 0 n'appartient même pas à la liste. Il ne faut jamais initialiser maxi à 0, mais avec le premier élément : maxi = notes[0].",en:"Correct — and it is a bug. 0 is not even in the list. Never initialise maxi to 0; use the first element instead: maxi = notes[0]."}},
+    {txt:'-1', why:{fr:"C'est bien le maximum de la liste, mais l'algorithme ne le trouve pas : aucun nombre négatif n'est supérieur à 0, donc maxi n'est jamais remplacé.",en:"That is indeed the maximum, but the algorithm never finds it: no negative number is greater than 0, so maxi is never replaced."}},
     {txt:'-7', why:{fr:"-7 est le plus petit. La condition cherche les plus grands.",en:"-7 is the smallest. The condition looks for larger values."}},
     {txt:'Erreur', why:{fr:"Le programme est valide. Il donne simplement une réponse fausse, ce qui est plus dangereux qu'une erreur.",en:"The program is valid. It simply gives a wrong answer, which is more dangerous than an error."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Compter",en:"Count"},
+ { id:"8-2", kind:"code", diff:"easy", title:{fr:"Compter",en:"Count"},
    desc:{fr:'Dans nombres = [4, 7, 10, 3, 8], compte les nombres pairs et affiche le résultat.',en:'In nombres = [4, 7, 10, 3, 8], count the even numbers and print the result.'},
    hint:{fr:"Compteur à 0, boucle sur la liste, <code>if n % 2 == 0:</code> à l'intérieur.",en:"Counter at 0, loop over the list, <code>if n % 2 == 0:</code> inside."},
    sol:'nombres = [4, 7, 10, 3, 8]\ncompteur = 0\nfor n in nombres:\n    if n % 2 == 0:\n        compteur = compteur + 1\nprint(compteur)', out:'3' },
 
- { kind:"code", diff:"medium", title:{fr:"La moyenne",en:"The average"},
+ { id:"8-3", kind:"code", diff:"medium", title:{fr:"La moyenne",en:"The average"},
    desc:{fr:'Calcule et affiche la moyenne de notes = [12, 15, 9].',en:'Compute and print the average of notes = [12, 15, 9].'},
    hint:{fr:"Cumule tout dans <code>total</code>, puis divise par <code>len(notes)</code>.",en:"Accumulate into <code>total</code>, then divide by <code>len(notes)</code>."},
    sol:'notes = [12, 15, 9]\ntotal = 0\nfor n in notes:\n    total = total + n\nprint(total / len(notes))', out:'12.0' },
 
- { kind:"code", diff:"medium", title:{fr:"Le maximum",en:"The maximum"},
+ { id:"8-4", kind:"code", diff:"medium", title:{fr:"Le maximum",en:"The maximum"},
    desc:{fr:'Trouve le plus grand nombre de nombres = [3, 17, 8, 12] sans utiliser max(), et affiche-le.',en:'Find the largest number in nombres = [3, 17, 8, 12] without using max(), and print it.'},
    hint:{fr:"Initialise avec le premier élément, jamais avec 0.",en:"Initialise with the first element, never with 0."},
    sol:'nombres = [3, 17, 8, 12]\nmaxi = nombres[0]\nfor n in nombres:\n    if n > maxi:\n        maxi = n\nprint(maxi)', out:'17' },
 
- { kind:"code", diff:"medium", title:{fr:"La recherche",en:"The search"},
+ { id:"8-5", kind:"code", diff:"medium", title:{fr:"La recherche",en:"The search"},
    desc:{fr:'Cherche si 17 se trouve dans nombres = [3, 17, 8] et affiche True ou False.',en:'Check whether 17 is in nombres = [3, 17, 8] and print True or False.'},
    hint:{fr:"Un drapeau <code>trouve = False</code> avant la boucle, qui passe à <code>True</code> si on tombe dessus.",en:"A flag <code>trouve = False</code> before the loop, set to <code>True</code> when found."},
    sol:'nombres = [3, 17, 8]\ntrouve = False\nfor n in nombres:\n    if n == 17:\n        trouve = True\nprint(trouve)', out:'True' },
 
- { kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
+ { id:"8-6", kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
    desc:{fr:'Trouve le plus petit nombre n tel que 1 + 2 + … + n dépasse 50, et affiche ce n.',en:'Find the smallest n such that 1 + 2 + … + n exceeds 50, and print that n.'},
    hint:{fr:"On ne sait pas combien de tours : c'est un <code>while</code>. On avance tant que le total ne dépasse pas 50.",en:"You don't know the number of passes: use a <code>while</code>. Keep going while the total does not exceed 50."},
    sol:'total = 0\nn = 0\nwhile total <= 50:\n    n = n + 1\n    total = total + n\nprint(n)', out:'10' },
 
- { kind:"order", diff:"hard", title:{fr:"Remets l'algorithme dans l'ordre",en:"Put the algorithm in order"},
+ { id:"8-7", kind:"order", diff:"hard", title:{fr:"Remets l'algorithme dans l'ordre",en:"Put the algorithm in order"},
    desc:{fr:"Cet algorithme cherche le maximum. Il doit afficher : 17",en:"This algorithm finds the maximum. It must print: 17"},
    hint:{fr:"Deux niveaux de décalage : le <code>if</code> est dans la boucle, et l'affectation est dans le <code>if</code>.",en:"Two indentation levels: the <code>if</code> is inside the loop, and the assignment is inside the <code>if</code>."},
    lines:['nombres = [3, 17, 8]','maxi = nombres[0]','for n in nombres:','    if n > maxi:','        maxi = n','print(maxi)'], out:'17' }
@@ -1008,41 +1008,41 @@ COURSES.push(
 { id:9, num:"IX", title:{fr:"Les dictionnaires",en:"Dictionaries"},
   desc:{fr:"Retrouver une valeur par son nom, pas par sa position",en:"Finding a value by its name, not its position"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"9-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Un dictionnaire se lit par clé, pas par position.",en:"A dictionary is read by key, not position."},
-   code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["age"])', answer:1,
+   code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["age"])', answer:0,
    options:[
-    {txt:'"age"', why:{fr:"« age » est la clé qu'on utilise pour chercher, pas ce qui est affiché.",en:"\"age\" is the key used to search, not what gets printed."}},
     {txt:'16', why:{fr:'eleve["age"] va chercher la valeur rangée sous la clé age, qui vaut 16.',en:'eleve["age"] looks up the value stored under the key age, which is 16.'}},
+    {txt:'"age"', why:{fr:"« age » est la clé qu'on utilise pour chercher, pas ce qui est affiché.",en:"\"age\" is the key used to search, not what gets printed."}},
     {txt:'Alice', why:{fr:"C'est la valeur de la clé nom, pas de la clé age.",en:"That is the value of the key nom, not age."}},
     {txt:'Erreur', why:{fr:"La clé age existe bel et bien dans ce dictionnaire.",en:"The key age does exist in this dictionary."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Créer un dictionnaire",en:"Create a dictionary"},
+ { id:"9-2", kind:"code", diff:"easy", title:{fr:"Créer un dictionnaire",en:"Create a dictionary"},
    desc:{fr:'Crée un dictionnaire eleve avec les clés "nom" valant "Alice" et "age" valant 16, puis affiche-le en entier.',en:'Create a dictionary eleve with keys "nom" set to "Alice" and "age" set to 16, then print it whole.'},
    hint:{fr:'Un dictionnaire s\'écrit entre accolades, avec des paires <code>clé: valeur</code> séparées par des virgules.',en:'A dictionary is written in curly braces, with <code>key: value</code> pairs separated by commas.'},
    sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
 
- { kind:"code", diff:"easy", title:{fr:"Lire une valeur",en:"Read a value"},
+ { id:"9-3", kind:"code", diff:"easy", title:{fr:"Lire une valeur",en:"Read a value"},
    desc:{fr:'Avec le même dictionnaire eleve, affiche seulement la valeur de "nom", puis seulement celle de "age".',en:'With the same eleve dictionary, print only the value of "nom", then only "age".'},
    hint:{fr:'<code>eleve["nom"]</code> — la clé se met entre crochets, comme une position de liste, mais avec un mot.',en:'<code>eleve["nom"]</code> — the key goes in brackets, like a list position, but with a word.'},
    sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["nom"])\nprint(eleve["age"])', out:'Alice\n16' },
 
- { kind:"code", diff:"medium", title:{fr:"Ajouter une clé",en:"Add a key"},
+ { id:"9-4", kind:"code", diff:"medium", title:{fr:"Ajouter une clé",en:"Add a key"},
    desc:{fr:'Crée eleve = {"nom": "Alice"}, ajoute une clé "age" valant 16, puis affiche le dictionnaire.',en:'Create eleve = {"nom": "Alice"}, add a key "age" set to 16, then print the dictionary.'},
    hint:{fr:'<code>eleve["age"] = 16</code> ajoute la clé si elle n\'existe pas encore.',en:'<code>eleve["age"] = 16</code> adds the key if it does not exist yet.'},
    sol:'eleve = {"nom": "Alice"}\neleve["age"] = 16\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
 
- { kind:"code", diff:"medium", title:{fr:"Modifier une valeur",en:"Change a value"},
+ { id:"9-5", kind:"code", diff:"medium", title:{fr:"Modifier une valeur",en:"Change a value"},
    desc:{fr:'Avec score = {"Alice": 12}, change la valeur de "Alice" pour 15, puis affiche le dictionnaire.',en:'With score = {"Alice": 12}, change the value of "Alice" to 15, then print the dictionary.'},
    hint:{fr:'La même écriture <code>score["Alice"] = 15</code> sert à ajouter ET à modifier : si la clé existe déjà, sa valeur est remplacée.',en:'The same <code>score["Alice"] = 15</code> both adds and changes: if the key already exists, its value is replaced.'},
    sol:'score = {"Alice": 12}\nscore["Alice"] = 15\nprint(score)', out:"{'Alice': 15}" },
 
- { kind:"code", diff:"hard", title:{fr:"Parcourir un dictionnaire",en:"Loop over a dictionary"},
+ { id:"9-6", kind:"code", diff:"hard", title:{fr:"Parcourir un dictionnaire",en:"Loop over a dictionary"},
    desc:{fr:'Avec ages = {"Alice": 16, "Karim": 15}, affiche une ligne par personne au format : Alice a 16 ans',en:'With ages = {"Alice": 16, "Karim": 15}, print one line per person, formatted: Alice a 16 ans'},
    hint:{fr:'<code>for nom, age in ages.items():</code> donne à la fois la clé et la valeur à chaque tour.',en:'<code>for nom, age in ages.items():</code> gives both the key and the value on each pass.'},
    sol:'ages = {"Alice": 16, "Karim": 15}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")', out:'Alice a 16 ans\nKarim a 15 ans' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"9-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : {'nom': 'Alice', 'age': 17}",en:"This program must print: {'nom': 'Alice', 'age': 17}"},
    hint:{fr:"Le dictionnaire doit exister avant qu'on puisse y ajouter une clé.",en:"The dictionary must exist before a key can be added to it."},
    lines:['eleve = {"nom": "Alice"}','eleve["age"] = 17','print(eleve)'], out:"{'nom': 'Alice', 'age': 17}" }
@@ -1051,36 +1051,36 @@ COURSES.push(
 { id:10, num:"X", title:{fr:"Gérer les erreurs",en:"Handling errors"},
   desc:{fr:"Empêcher une erreur prévisible d'arrêter tout le programme",en:"Stopping a foreseeable error from crashing the whole program"}, ex:[
 
- { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"10-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Repère quel bloc s'exécute selon qu'il y a une erreur ou non.",en:"Spot which block runs depending on whether there is an error."},
    code:'try:\n    x = 10 / 0\n    print("Calcul ok")\nexcept ZeroDivisionError:\n    print("Division impossible")\nprint("La suite")', answer:2,
    options:[
     {txt:'Calcul ok\nLa suite', why:{fr:"10 / 0 provoque une erreur avant cette ligne : elle ne s'exécute jamais.",en:"10 / 0 raises an error before this line: it never runs."}},
     {txt:'Division impossible\nCalcul ok\nLa suite', why:{fr:"Dès qu'une erreur survient dans le bloc try, Python saute directement à except : le reste du try est abandonné.",en:"As soon as an error occurs in the try block, Python jumps straight to except: the rest of try is abandoned."}},
-    {txt:'Division impossible\nLa suite', why:{fr:"10 / 0 déclenche une ZeroDivisionError, le bloc except l'attrape et l'affiche, puis le programme continue normalement après.",en:"10 / 0 raises a ZeroDivisionError, the except block catches it and prints its message, then the program continues normally afterwards."}},
+    {txt:'Division impossible\nLa suite', why:{fr:"10 / 0 déclenche une ZeroDivisionError, le bloc except l'attrape et exécute son print, qui affiche le texte Division impossible (pas le message de l'erreur), puis le programme continue normalement après.",en:"10 / 0 raises a ZeroDivisionError, the except block catches it and runs its print, which displays the text Division impossible (not the error's own message), then the program continues normally afterwards."}},
     {txt:"Le programme s'arrête avec une erreur", why:{fr:"C'est justement le rôle de try/except : empêcher l'erreur d'arrêter le programme.",en:"That is exactly the point of try/except: stopping the error from ending the program."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Protéger une division",en:"Protect a division"},
+ { id:"10-2", kind:"code", diff:"easy", title:{fr:"Protéger une division",en:"Protect a division"},
    desc:{fr:'Essaie de calculer 10 / 0 dans un bloc try. Si ça échoue, affiche Impossible de diviser par zero.',en:'Try computing 10 / 0 inside a try block. If it fails, print Impossible de diviser par zero.'},
    hint:{fr:"<code>try:</code> puis le calcul décalé, <code>except ZeroDivisionError:</code> puis le print décalé.",en:"<code>try:</code> then the indented calculation, <code>except ZeroDivisionError:</code> then the indented print."},
    sol:'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Impossible de diviser par zero")', out:'Impossible de diviser par zero' },
 
- { kind:"code", diff:"medium", title:{fr:"Conversion ratée",en:"Failed conversion"},
+ { id:"10-3", kind:"code", diff:"medium", title:{fr:"Conversion ratée",en:"Failed conversion"},
    desc:{fr:'Essaie de convertir "quinze" en nombre avec int(). Si ça échoue, affiche Ce n\'est pas un nombre.',en:'Try converting "quinze" to a number with int(). If it fails, print Ce n\'est pas un nombre.'},
    hint:{fr:'<code>int("quinze")</code> échoue avec une <code>ValueError</code> : c\'est cette erreur qu\'il faut attraper.',en:'<code>int("quinze")</code> fails with a <code>ValueError</code>: that is the error to catch.'},
    sol:'try:\n    n = int("quinze")\n    print(n)\nexcept ValueError:\n    print("Ce n\'est pas un nombre")', out:"Ce n'est pas un nombre" },
 
- { kind:"code", diff:"medium", title:{fr:"Deux erreurs possibles",en:"Two possible errors"},
+ { id:"10-4", kind:"code", diff:"medium", title:{fr:"Deux erreurs possibles",en:"Two possible errors"},
    desc:{fr:'Avec notes = [12, 0, 8], calcule 100 / notes[3] dans un try. Attrape IndexError et affiche Cette note n\'existe pas.',en:'With notes = [12, 0, 8], compute 100 / notes[3] inside a try. Catch IndexError and print Cette note n\'existe pas.'},
    hint:{fr:"notes n'a que 3 éléments (positions 0, 1, 2) : la position 3 déclenche une IndexError, pas une division par zéro.",en:"notes only has 3 items (positions 0, 1, 2): position 3 raises an IndexError, not a division by zero."},
    sol:'notes = [12, 0, 8]\ntry:\n    print(100 / notes[3])\nexcept IndexError:\n    print("Cette note n\'existe pas")', out:"Cette note n'existe pas" },
 
- { kind:"code", diff:"hard", title:{fr:"Compter les conversions réussies",en:"Count successful conversions"},
+ { id:"10-5", kind:"code", diff:"hard", title:{fr:"Compter les conversions réussies",en:"Count successful conversions"},
    desc:{fr:'Avec valeurs = ["3", "dix", "7", "x"], compte combien se convertissent en nombre sans erreur, et affiche ce compte.',en:'With valeurs = ["3", "dix", "7", "x"], count how many convert to a number without error, and print that count.'},
    hint:{fr:"Un compteur à 0, une boucle sur la liste, un try/except autour de la conversion à l'intérieur de la boucle.",en:"A counter at 0, a loop over the list, a try/except around the conversion inside the loop."},
    sol:'valeurs = ["3", "dix", "7", "x"]\ncompteur = 0\nfor v in valeurs:\n    try:\n        int(v)\n        compteur = compteur + 1\n    except ValueError:\n        pass\nprint(compteur)', out:'2' },
 
- { kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"10-6", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : Erreur evitee",en:"This program must print: Erreur evitee"},
    hint:{fr:"Le except doit être aligné avec le try, et son contenu décalé de 4 espaces.",en:"except must line up with try, and its content indented by 4 spaces."},
    lines:['try:','    x = 1 / 0','except ZeroDivisionError:','    print("Erreur evitee")'], out:'Erreur evitee' }
@@ -1093,45 +1093,45 @@ COURSES.push(
 { id:11, num:"XI", title:{fr:"Modules : random et math",en:"Modules: random and math"},
   desc:{fr:"Utiliser du code déjà écrit par d'autres, avec import",en:"Using code already written by others, with import"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"11-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"math.sqrt renvoie toujours le même type de valeur, quel que soit le nombre.",en:"math.sqrt always returns the same kind of value, whatever the number."},
-   code:'import math\nprint(math.sqrt(16))', answer:1,
+   code:'import math\nprint(math.sqrt(16))', answer:3,
    options:[
     {txt:'4', why:{fr:"4 est un entier. math.sqrt renvoie toujours un nombre à virgule, même quand le résultat tombe juste.",en:"4 is an integer. math.sqrt always returns a decimal number, even when the result is exact."}},
-    {txt:'4.0', why:{fr:"math.sqrt renvoie toujours un float (nombre à virgule), même quand la racine carrée est un nombre entier.",en:"math.sqrt always returns a float (decimal number), even when the square root is a whole number."}},
     {txt:'16', why:{fr:"16 est l'argument fourni à la fonction, pas son résultat.",en:"16 is the argument given to the function, not its result."}},
-    {txt:'Erreur', why:{fr:"Le module math est bien importé, et sqrt(16) est un calcul valide.",en:"The math module is correctly imported, and sqrt(16) is a valid calculation."}}]},
+    {txt:'Erreur', why:{fr:"Le module math est bien importé, et sqrt(16) est un calcul valide.",en:"The math module is correctly imported, and sqrt(16) is a valid calculation."}},
+    {txt:'4.0', why:{fr:"math.sqrt renvoie toujours un float (nombre à virgule), même quand la racine carrée est un nombre entier.",en:"math.sqrt always returns a float (decimal number), even when the square root is a whole number."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Racine carrée",en:"Square root"},
+ { id:"11-2", kind:"code", diff:"easy", title:{fr:"Racine carrée",en:"Square root"},
    desc:{fr:'Importe le module math et affiche la racine carrée de 81.',en:'Import the math module and print the square root of 81.'},
    hint:{fr:'<code>import math</code> en première ligne, puis <code>math.sqrt(81)</code>.',en:'<code>import math</code> on the first line, then <code>math.sqrt(81)</code>.'},
    sol:'import math\nprint(math.sqrt(81))', out:'9.0' },
 
- { kind:"code", diff:"medium", title:{fr:"Aire d'un cercle",en:"Area of a circle"},
+ { id:"11-3", kind:"code", diff:"medium", title:{fr:"Aire d'un cercle",en:"Area of a circle"},
    desc:{fr:'Avec r = 3, calcule l\'aire d\'un cercle (math.pi * r ** 2), arrondis à 2 décimales avec round(), et affiche le résultat.',en:'With r = 3, compute the area of a circle (math.pi * r ** 2), round it to 2 decimals with round(), and print the result.'},
    hint:{fr:'<code>math.pi</code> est la valeur de π toute prête. <code>round(valeur, 2)</code> arrondit à 2 décimales.',en:'<code>math.pi</code> is the ready-made value of π. <code>round(value, 2)</code> rounds to 2 decimals.'},
    sol:'import math\nr = 3\naire = round(math.pi * r ** 2, 2)\nprint(aire)', out:'28.27' },
 
- { kind:"code", diff:"medium", title:{fr:"Un tirage reproductible",en:"A repeatable draw"},
+ { id:"11-4", kind:"code", diff:"medium", title:{fr:"Un tirage reproductible",en:"A repeatable draw"},
    desc:{fr:'Importe random. Utilise random.seed(0), puis affiche trois nombres tirés avec random.randint(1, 6), un par ligne.',en:'Import random. Use random.seed(0), then print three numbers drawn with random.randint(1, 6), one per line.'},
    hint:{fr:'<code>random.seed(0)</code> fixe le point de départ du hasard : avec la même graine, on retrouve toujours la même suite de nombres.',en:'<code>random.seed(0)</code> fixes the starting point of randomness: with the same seed, you always get the same sequence of numbers.'},
    sol:'import random\nrandom.seed(0)\nprint(random.randint(1, 6))\nprint(random.randint(1, 6))\nprint(random.randint(1, 6))', out:'4\n4\n1' },
 
- { kind:"code", diff:"medium", title:{fr:"Choisir dans une liste",en:"Choosing from a list"},
+ { id:"11-5", kind:"code", diff:"medium", title:{fr:"Choisir dans une liste",en:"Choosing from a list"},
    desc:{fr:'Crée choix = ["pierre", "feuille", "ciseaux"]. Utilise random.seed(2), puis affiche random.choice(choix).',en:'Create choix = ["pierre", "feuille", "ciseaux"]. Use random.seed(2), then print random.choice(choix).'},
    hint:{fr:'<code>random.choice(liste)</code> tire un élément au hasard dans la liste.',en:'<code>random.choice(list)</code> draws one random element from the list.'},
    sol:'import random\nchoix = ["pierre", "feuille", "ciseaux"]\nrandom.seed(2)\nprint(random.choice(choix))', out:'pierre' },
 
- { kind:"quiz", diff:"hard", title:{fr:"Que se passe-t-il ?",en:"What happens?"},
+ { id:"11-6", kind:"quiz", diff:"hard", title:{fr:"Que se passe-t-il ?",en:"What happens?"},
    desc:{fr:"Un module doit être importé avant d'être utilisé — sur toute la longueur du programme.",en:"A module must be imported before it is used — for the whole program."},
    code:'print(math.sqrt(16))', answer:1,
    options:[
     {txt:'4.0', why:{fr:"Python ne connaît pas math tant qu'aucun import math n'a été exécuté, même si le module existe.",en:"Python does not know math until an import math has run, even though the module exists."}},
-    {txt:"NameError : name 'math' is not defined", why:{fr:"Exact. math n'a jamais été importé dans ce programme, donc son nom est inconnu.",en:"Correct. math was never imported in this program, so its name is unknown."}},
+    {txt:"NameError: name 'math' is not defined", why:{fr:"Exact. math n'a jamais été importé dans ce programme, donc son nom est inconnu.",en:"Correct. math was never imported in this program, so its name is unknown."}},
     {txt:'SyntaxError', why:{fr:"La ligne est syntaxiquement correcte. Le problème n'apparaît qu'à l'exécution.",en:"The line is syntactically correct. The problem only appears when it runs."}},
     {txt:'0.0', why:{fr:"Le programme ne calcule rien : il s'arrête avant, sur une erreur.",en:"The program computes nothing: it stops before that, on an error."}}]},
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"11-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : 5.0",en:"This program must print: 5.0"},
    hint:{fr:"Le module doit être importé avant d'être utilisé, et la variable doit exister avant d'être passée à la fonction.",en:"The module must be imported before use, and the variable must exist before being passed to the function."},
    lines:['import math','x = 25','print(math.sqrt(x))'], out:'5.0' }
@@ -1140,43 +1140,43 @@ COURSES.push(
 { id:12, num:"XII", title:{fr:"Mini-projet : le nombre mystère",en:"Mini-project: the mystery number"},
   desc:{fr:"Assembler variables, boucles et conditions dans un vrai petit programme",en:"Combining variables, loops and conditions into a real small program"}, ex:[
 
- { kind:"code", diff:"easy", title:{fr:"Étape 1 — Choisir le nombre secret",en:"Step 1 — Pick the secret number"},
+ { id:"12-1", kind:"code", diff:"easy", title:{fr:"Étape 1 — Choisir le nombre secret",en:"Step 1 — Pick the secret number"},
    desc:{fr:'Importe random, utilise random.seed(3), crée secret = random.randint(1, 20) et affiche-le. (On triche pour l\'instant, juste pour vérifier que ça marche — le vrai jeu ne l\'affichera plus.)',en:"Import random, use random.seed(3), create secret = random.randint(1, 20) and print it. (We're peeking for now, just to check it works — the real game won't print it.)"},
    hint:{fr:'<code>random.seed(3)</code> puis <code>random.randint(1, 20)</code>.',en:'<code>random.seed(3)</code> then <code>random.randint(1, 20)</code>.'},
    sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nprint(secret)', out:'8' },
 
- { kind:"code", diff:"easy", title:{fr:"Étape 2 — Demander un essai",en:"Step 2 — Ask for a guess"}, inputs:["10"],
+ { id:"12-2", kind:"code", diff:"easy", title:{fr:"Étape 2 — Demander un essai",en:"Step 2 — Ask for a guess"}, inputs:["10"],
    desc:{fr:'Demande un essai avec input("Ton essai (1-20) ? "), convertis-le tout de suite en entier avec int(), range-le dans essai, puis affiche essai.',en:'Ask for a guess with input("Ton essai (1-20) ? "), convert it right away to an integer with int(), store it in essai, then print essai.'},
    hint:{fr:"Sans int(), essai serait du texte, et on ne pourrait pas le comparer à un nombre plus loin.",en:"Without int(), essai would be text, and it could not be compared to a number later on."},
    sol:'essai = int(input("Ton essai (1-20) ? "))\nprint(essai)', out:'Ton essai (1-20) ? 10\n10' },
 
- { kind:"code", diff:"medium", title:{fr:"Étape 3 — Comparer (trop petit)",en:"Step 3 — Compare (too low)"}, inputs:["5"],
+ { id:"12-3", kind:"code", diff:"medium", title:{fr:"Étape 3 — Comparer (trop petit)",en:"Step 3 — Compare (too low)"}, inputs:["5"],
    desc:{fr:'Reprends l\'étape 1 (seed 3), demande un essai comme à l\'étape 2, puis affiche Bravo, tu as trouve ! si essai == secret, Trop petit si essai < secret, sinon Trop grand.',en:'Redo step 1 (seed 3), ask for a guess like in step 2, then print Bravo, tu as trouve ! if essai == secret, Trop petit if essai < secret, otherwise Trop grand.'},
    hint:{fr:"Un if / elif / else classique, avec la comparaison == en premier.",en:"A classic if / elif / else, with the == comparison first."},
    sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nif essai == secret:\n    print("Bravo, tu as trouve !")\nelif essai < secret:\n    print("Trop petit")\nelse:\n    print("Trop grand")',
    out:'Ton essai (1-20) ? 5\nTrop petit' },
 
- { kind:"code", diff:"medium", title:{fr:"Étape 4 — Comparer (trop grand)",en:"Step 4 — Compare (too high)"}, inputs:["20"],
+ { id:"12-4", kind:"code", diff:"medium", title:{fr:"Étape 4 — Comparer (trop grand)",en:"Step 4 — Compare (too high)"}, inputs:["20"],
    desc:{fr:'Le même programme qu\'à l\'étape 3, mais l\'utilisatrice tape 20 cette fois.',en:'The same program as step 3, but this time the user types 20.'},
    hint:{fr:"Le code ne change pas : seule la valeur tapée change, et donc la branche qui s'exécute.",en:"The code does not change: only the typed value changes, and so does the branch that runs."},
    sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nif essai == secret:\n    print("Bravo, tu as trouve !")\nelif essai < secret:\n    print("Trop petit")\nelse:\n    print("Trop grand")',
    out:'Ton essai (1-20) ? 20\nTrop grand' },
 
- { kind:"quiz", diff:"medium", title:{fr:"Pourquoi fixer la graine ici ?",en:"Why fix the seed here?"},
+ { id:"12-5", kind:"quiz", diff:"medium", title:{fr:"Pourquoi fixer la graine ici ?",en:"Why fix the seed here?"},
    desc:{fr:"random.seed n'est pas là par hasard dans ces exercices.",en:"random.seed is not here by accident in these exercises."},
-   code:'random.seed(3)\nsecret = random.randint(1, 20)', answer:0,
+   code:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)', answer:1,
    options:[
-    {txt:"Pour que le nombre secret soit toujours le même, et que la sortie de l'exercice puisse être vérifiée automatiquement", why:{fr:"Exact. Sans seed, secret changerait à chaque exécution, et l'exercice ne pourrait jamais comparer ta sortie à une réponse fixe.",en:"Correct. Without a seed, secret would change every run, and the exercise could never compare your output to one fixed answer."}},
     {txt:"Parce que random.randint ne fonctionne pas sans seed", why:{fr:"random.randint fonctionne très bien sans seed — c'est même comme ça qu'on l'utilise dans un vrai jeu, pour un vrai hasard.",en:"random.randint works perfectly without a seed — that is actually how you use it in a real game, for real randomness."}},
+    {txt:"Pour que le nombre secret soit toujours le même, et que la sortie de l'exercice puisse être vérifiée automatiquement", why:{fr:"Exact. Sans seed, secret changerait à chaque exécution, et l'exercice ne pourrait jamais comparer ta sortie à une réponse fixe.",en:"Correct. Without a seed, secret would change every run, and the exercise could never compare your output to one fixed answer."}},
     {txt:"Pour rendre le jeu plus facile", why:{fr:"seed ne change pas la difficulté, seulement la reproductibilité du résultat.",en:"seed does not change the difficulty, only whether the result is reproducible."}},
     {txt:"C'est une obligation du langage Python", why:{fr:"random.seed est optionnel. On l'utilise ici uniquement pour pouvoir corriger l'exercice automatiquement.",en:"random.seed is optional. It is used here only so the exercise can be checked automatically."}}]},
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"12-6", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Ce programme doit afficher : Trop petit",en:"This program must print: Trop petit"},
    hint:{fr:"Le nombre secret doit exister avant la comparaison, et le bloc if doit être décalé de 4 espaces.",en:"The secret number must exist before the comparison, and the if block must be indented by 4 spaces."},
    lines:['import random','random.seed(3)','secret = random.randint(1, 20)','guess = 5','if guess < secret:','    print("Trop petit")'], out:'Trop petit' },
 
- { kind:"code", diff:"hard", title:{fr:"Étape 5 — Le vrai jeu, avec une boucle",en:"Step 5 — The real game, with a loop"}, inputs:["5","20","8"],
+ { id:"12-7", kind:"code", diff:"hard", title:{fr:"Étape 5 — Le vrai jeu, avec une boucle",en:"Step 5 — The real game, with a loop"}, inputs:["5","20","8"],
    desc:{fr:'Assemble tout : tant que essai est différent de secret, affiche Trop petit ou Trop grand puis redemande un essai. Quand essai == secret, sors de la boucle et affiche Bravo, tu as trouve !',en:'Put it all together: while essai is different from secret, print Trop petit or Trop grand then ask for another guess. When essai == secret, exit the loop and print Bravo, tu as trouve !'},
    hint:{fr:"Un while essai != secret: qui redemande un essai à l'intérieur de la boucle, sinon elle ne s'arrête jamais. Voir le guide « Comment résoudre un exercice » si tu ne sais pas par où commencer.",en:"A while essai != secret: that asks for another guess inside the loop, otherwise it never stops. See the \"How to solve an exercise\" guide if you don't know where to start."},
    sol:'import random\nrandom.seed(3)\nsecret = random.randint(1, 20)\nessai = int(input("Ton essai (1-20) ? "))\nwhile essai != secret:\n    if essai < secret:\n        print("Trop petit")\n    else:\n        print("Trop grand")\n    essai = int(input("Ton essai (1-20) ? "))\nprint("Bravo, tu as trouve !")',
@@ -1189,36 +1189,36 @@ COURSES.push(
 { id:13, num:"XIII", title:{fr:"Suites numériques",en:"Numeric sequences"},
   desc:{fr:"Calculer un terme, la liste des termes, ou le premier terme qui dépasse un seuil",en:"Compute a term, the list of terms, or the first term crossing a threshold"}, ex:[
 
- { kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"13-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"u₀ = 2, et chaque terme suivant vaut le précédent plus 3.",en:"u₀ = 2, and each next term is the previous one plus 3."},
-   code:'u = 2\nfor i in range(3):\n    u = u + 3\nprint(u)', answer:0,
+   code:'u = 2\nfor i in range(3):\n    u = u + 3\nprint(u)', answer:3,
    options:[
-    {txt:'11', why:{fr:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11 : trois tours de boucle font passer de u₀ à u₃.",en:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11: three loop passes move from u₀ to u₃."}},
     {txt:'2', why:{fr:"C'est u₀, la valeur de départ. La boucle avance jusqu'à u₃.",en:"That is u₀, the starting value. The loop advances up to u₃."}},
     {txt:'14', why:{fr:"Ce serait le résultat avec un tour de boucle en trop : range(4) donnerait u₄.",en:"That would need one extra pass: range(4) would give u₄."}},
-    {txt:'5', why:{fr:"C'est u₁, après un seul tour de boucle — pas trois.",en:"That is u₁, after a single pass — not three."}}]},
+    {txt:'5', why:{fr:"C'est u₁, après un seul tour de boucle — pas trois.",en:"That is u₁, after a single pass — not three."}},
+    {txt:'11', why:{fr:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11 : trois tours de boucle font passer de u₀ à u₃.",en:"u₀ = 2, u₁ = 5, u₂ = 8, u₃ = 11: three loop passes move from u₀ to u₃."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Calculer un terme",en:"Compute a term"},
+ { id:"13-2", kind:"code", diff:"easy", title:{fr:"Calculer un terme",en:"Compute a term"},
    desc:{fr:'u₀ = 5, et chaque terme suivant vaut le précédent moins 2. Calcule et affiche u₄.',en:'u₀ = 5, and each next term is the previous one minus 2. Compute and print u₄.'},
    hint:{fr:"Une boucle <code>for i in range(4):</code> fait passer de u₀ à u₄, un pas à la fois.",en:"A <code>for i in range(4):</code> loop moves from u₀ to u₄, one step at a time."},
    sol:'u = 5\nfor i in range(4):\n    u = u - 2\nprint(u)', out:'-3' },
 
- { kind:"code", diff:"medium", title:{fr:"La liste des termes",en:"The list of terms"},
+ { id:"13-3", kind:"code", diff:"medium", title:{fr:"La liste des termes",en:"The list of terms"},
    desc:{fr:'u₀ = 1, et chaque terme suivant vaut le double du précédent. Construis et affiche la liste [u₀, u₁, u₂, u₃, u₄].',en:'u₀ = 1, and each next term is double the previous one. Build and print the list [u₀, u₁, u₂, u₃, u₄].'},
    hint:{fr:"Commence une liste avec <code>[u]</code>, puis ajoute le nouveau terme avec <code>.append()</code> à chaque tour.",en:"Start a list with <code>[u]</code>, then add the new term with <code>.append()</code> on each pass."},
    sol:'u = 1\ntermes = [u]\nfor i in range(4):\n    u = u * 2\n    termes.append(u)\nprint(termes)', out:'[1, 2, 4, 8, 16]' },
 
- { kind:"code", diff:"medium", title:{fr:"La somme des termes",en:"The sum of the terms"},
+ { id:"13-4", kind:"code", diff:"medium", title:{fr:"La somme des termes",en:"The sum of the terms"},
    desc:{fr:'u₀ = 3, et chaque terme suivant vaut le précédent plus 2. Calcule et affiche la somme des cinq premiers termes (u₀ à u₄).',en:'u₀ = 3, and each next term is the previous one plus 2. Compute and print the sum of the first five terms (u₀ to u₄).'},
    hint:{fr:"Deux variables avancent ensemble : <code>u</code> (le terme courant) et <code>total</code> (le cumul) — le motif 2 du chapitre VIII.",en:"Two variables move together: <code>u</code> (the current term) and <code>total</code> (the running sum) — pattern 2 from chapter VIII."},
    sol:'u = 3\ntotal = u\nfor i in range(4):\n    u = u + 2\n    total = total + u\nprint(total)', out:'35' },
 
- { kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
+ { id:"13-5", kind:"code", diff:"hard", title:{fr:"Le seuil",en:"The threshold"},
    desc:{fr:'u₀ = 1, et chaque terme suivant vaut le double du précédent. Trouve le plus petit n tel que uₙ dépasse 500, et affiche n.',en:'u₀ = 1, and each next term is double the previous one. Find the smallest n such that uₙ exceeds 500, and print n.'},
    hint:{fr:"On ne sait pas à l'avance combien de tours : c'est un <code>while</code>, comme le motif 5 du chapitre VIII.",en:"You don't know the number of passes in advance: use a <code>while</code>, as in pattern 5 from chapter VIII."},
    sol:'u = 1\nn = 0\nwhile u <= 500:\n    u = u * 2\n    n = n + 1\nprint(n)', out:'9' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"13-6", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"u₀ = 0, et chaque terme suivant vaut le précédent plus 5. Ce programme doit afficher u₃ : 15",en:"u₀ = 0, and each next term is the previous one plus 5. This program must print u₃: 15"},
    hint:{fr:"La variable u doit exister avant la boucle qui la modifie.",en:"The variable u must exist before the loop that changes it."},
    lines:['u = 0','for i in range(3):','    u = u + 5','print(u)'], out:'15' }
@@ -1227,7 +1227,7 @@ COURSES.push(
 { id:14, num:"XIV", title:{fr:"La dichotomie",en:"The bisection method"},
   desc:{fr:"Trouver où une fonction s'annule en coupant l'intervalle en deux, à chaque tour",en:"Find where a function crosses zero by halving the interval, round after round"}, ex:[
 
- { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"14-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Une seule étape de dichotomie. Suis les deux tests un par un.",en:"A single bisection step. Follow both tests one by one."},
    code:'def f(x):\n    return x - 3\na, b = 0, 10\nm = (a + b) / 2\nif f(a) * f(m) <= 0:\n    b = m\nelse:\n    a = m\nprint(a, b)', answer:0,
    options:[
@@ -1236,22 +1236,22 @@ COURSES.push(
     {txt:'0 10', why:{fr:"L'intervalle a bien été réduit : une des deux bornes a changé.",en:"The interval was indeed reduced: one of the two bounds did change."}},
     {txt:'0 5', why:{fr:"Piège classique : en Python, / renvoie toujours un flottant, même quand le résultat est un nombre entier. m vaut 5.0, pas 5.",en:"Classic trap: in Python, / always returns a float, even when the result is a whole number. m is 5.0, not 5."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Calculer le milieu",en:"Compute the midpoint"},
+ { id:"14-2", kind:"code", diff:"easy", title:{fr:"Calculer le milieu",en:"Compute the midpoint"},
    desc:{fr:'Avec a = 2 et b = 10, calcule et affiche le milieu m de l\'intervalle.',en:'With a = 2 and b = 10, compute and print the midpoint m of the interval.'},
    hint:{fr:"Le milieu de [a, b] est <code>(a + b) / 2</code>.",en:"The midpoint of [a, b] is <code>(a + b) / 2</code>."},
    sol:'a = 2\nb = 10\nm = (a + b) / 2\nprint(m)', out:'6.0' },
 
- { kind:"code", diff:"medium", title:{fr:"Une étape de dichotomie",en:"One bisection step"},
+ { id:"14-3", kind:"code", diff:"medium", title:{fr:"Une étape de dichotomie",en:"One bisection step"},
    desc:{fr:"Avec f(x) = x - 3 et l'intervalle [0, 10] : calcule le milieu m, puis réduis l'intervalle à la moitié qui contient le zéro (si f(a) et f(m) sont de signes opposés ou si l'un des deux est nul, le zéro est dans [a, m], sinon il est dans [m, b]). Affiche les nouvelles bornes a et b.",en:"With f(x) = x - 3 and the interval [0, 10]: compute the midpoint m, then shrink the interval to the half containing the zero (if f(a) and f(m) have opposite signs, or one of them is zero, the zero is in [a, m], otherwise it is in [m, b]). Print the new bounds a and b."},
    hint:{fr:"<code>f(a) * f(m) &lt;= 0</code> signifie que f(a) et f(m) sont de signes opposés, ou que l'un des deux vaut 0.",en:"<code>f(a) * f(m) &lt;= 0</code> means f(a) and f(m) have opposite signs, or one of them is 0."},
    sol:'def f(x):\n    return x - 3\na = 0\nb = 10\nm = (a + b) / 2\nif f(a) * f(m) <= 0:\n    b = m\nelse:\n    a = m\nprint(a, b)', out:'0 5.0' },
 
- { kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
+ { id:"14-4", kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
    desc:{fr:'Avec f(x) = x**2 - 2, encadre la racine carrée de 2 à 0,01 près en partant de [0, 2], et affiche les deux bornes arrondies à 2 décimales.',en:'With f(x) = x**2 - 2, bracket the square root of 2 to within 0.01 starting from [0, 2], and print both bounds rounded to 2 decimals.'},
    hint:{fr:"La boucle continue tant que <code>b - a &gt; 0.01</code> : c'est encore le motif du seuil, chapitre VIII.",en:"The loop continues while <code>b - a &gt; 0.01</code>: this is still the threshold pattern from chapter VIII."},
    sol:'def f(x):\n    return x**2 - 2\na = 0\nb = 2\nwhile b - a > 0.01:\n    m = (a + b) / 2\n    if f(a) * f(m) <= 0:\n        b = m\n    else:\n        a = m\nprint(round(a, 2), round(b, 2))', out:'1.41 1.42' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"14-5", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Avec f(x) = x - 5 et l'intervalle [0, 20], ce programme fait une étape de dichotomie et doit afficher : 0 10.0",en:"With f(x) = x - 5 and the interval [0, 20], this program performs one bisection step and must print: 0 10.0"},
    hint:{fr:"Le milieu doit être calculé avant de pouvoir tester son signe.",en:"The midpoint must be computed before its sign can be tested."},
    lines:['def f(x):','    return x - 5','a = 0','b = 20','m = (a + b) / 2','if f(a) * f(m) <= 0:','    b = m','else:','    a = m','print(a, b)'], out:'0 10.0' }
@@ -1262,31 +1262,31 @@ COURSES.push(
 { id:15, num:"XV", title:{fr:"La méthode de Newton",en:"Newton's method"},
   desc:{fr:"Trouver un zéro d'une fonction beaucoup plus vite, en suivant sa tangente",en:"Find a function's zero much faster, by following its tangent line"}, ex:[
 
- { kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+ { id:"15-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
    desc:{fr:"Un seul pas de la méthode de Newton. Calcule f(x) puis la nouvelle valeur de x.",en:"A single Newton step. Compute f(x), then the new value of x."},
-   code:'def f(x):\n    return x - 4\ndef fp(x):\n    return 1\nx = 10\nx = x - f(x) / fp(x)\nprint(x)', answer:0,
+   code:'def f(x):\n    return x - 4\ndef fp(x):\n    return 1\nx = 10\nx = x - f(x) / fp(x)\nprint(x)', answer:2,
    options:[
-    {txt:'4.0', why:{fr:"f(10) = 6, donc x devient 10 - 6/1 = 4.0. La division rend toujours un flottant en Python.",en:"f(10) = 6, so x becomes 10 - 6/1 = 4.0. Division always yields a float in Python."}},
     {txt:'4', why:{fr:"Le résultat est correct, mais / renvoie toujours un flottant en Python : c'est 4.0, pas 4.",en:"The result is right, but / always returns a float in Python: it is 4.0, not 4."}},
-    {txt:'6.0', why:{fr:"6.0 est la valeur de f(x) avant la mise à jour — mais c'est x qui est affiché après avoir été réaffecté, pas f(x).",en:"6.0 is the value of f(x) before the update — but it is x that gets printed after being reassigned, not f(x)."}},
-    {txt:'-4.0', why:{fr:"Ce serait le cas avec un + à la place du - dans la formule. La méthode de Newton soustrait toujours f(x) / f'(x).",en:"That would happen with a + instead of the - in the formula. Newton's method always subtracts f(x) / f'(x)."}}]},
+    {txt:'6.0', why:{fr:"6.0 est la valeur de f(x) / fp(x), c'est-à-dire ce qu'on retire à x (f(10) vaut 6, un entier ; c'est la division / qui donne le flottant 6.0). Mais c'est x qui est affiché, après avoir été réaffecté.",en:"6.0 is the value of f(x) / fp(x), the amount taken away from x (f(10) is 6, an integer; it is the division / that gives the float 6.0). But it is x that gets printed, after being reassigned."}},
+    {txt:'4.0', why:{fr:"f(10) = 6, donc x devient 10 - 6/1 = 4.0. La division rend toujours un flottant en Python.",en:"f(10) = 6, so x becomes 10 - 6/1 = 4.0. Division always yields a float in Python."}},
+    {txt:'-4.0', why:{fr:"Ce serait le cas en écrivant la soustraction à l'envers : f(x) / fp(x) - x donne 6 / 1 - 10 = -4.0. La méthode de Newton calcule x - f(x) / fp(x) : on part de x et on lui retire f(x) / fp(x), ici 10 - 6 / 1 = 4.0.",en:"That would happen if the subtraction were written the wrong way round: f(x) / fp(x) - x gives 6 / 1 - 10 = -4.0. Newton's method computes x - f(x) / fp(x): start from x and take f(x) / fp(x) away from it, here 10 - 6 / 1 = 4.0."}}]},
 
- { kind:"code", diff:"easy", title:{fr:"Un pas de la méthode",en:"One step of the method"},
+ { id:"15-2", kind:"code", diff:"easy", title:{fr:"Un pas de la méthode",en:"One step of the method"},
    desc:{fr:"Avec f(x) = x**2 - 16, sa dérivée fp(x) = 2 * x, et x = 5 : calcule et affiche la nouvelle valeur de x après un seul pas de Newton.",en:"With f(x) = x**2 - 16, its derivative fp(x) = 2 * x, and x = 5: compute and print the new value of x after a single Newton step."},
    hint:{fr:"La formule est toujours la même : <code>x = x - f(x) / fp(x)</code>.",en:"The formula is always the same: <code>x = x - f(x) / fp(x)</code>."},
    sol:'def f(x):\n    return x**2 - 16\ndef fp(x):\n    return 2 * x\nx = 5\nx = x - f(x) / fp(x)\nprint(x)', out:'4.1' },
 
- { kind:"code", diff:"medium", title:{fr:"Deux pas d'affilée",en:"Two steps in a row"},
+ { id:"15-3", kind:"code", diff:"medium", title:{fr:"Deux pas d'affilée",en:"Two steps in a row"},
    desc:{fr:"Avec f(x) = x**2 - 2, fp(x) = 2 * x, et x = 1.5 : enchaîne deux pas de Newton, puis affiche x arrondi à 6 décimales.",en:"With f(x) = x**2 - 2, fp(x) = 2 * x, and x = 1.5: chain two Newton steps, then print x rounded to 6 decimals."},
    hint:{fr:"Répète simplement deux fois la même ligne <code>x = x - f(x) / fp(x)</code>.",en:"Just repeat the same line <code>x = x - f(x) / fp(x)</code> twice."},
    sol:'def f(x):\n    return x**2 - 2\ndef fp(x):\n    return 2 * x\nx = 1.5\nx = x - f(x) / fp(x)\nx = x - f(x) / fp(x)\nprint(round(x, 6))', out:'1.414216' },
 
- { kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
+ { id:"15-4", kind:"code", diff:"hard", title:{fr:"La boucle complète",en:"The full loop"},
    desc:{fr:"Avec f(x) = x**2 - 2, fp(x) = 2 * x, et x = 1.5 : répète des pas de Newton tant que |f(x)| dépasse 0.0001, puis affiche x arrondi à 5 décimales.",en:"With f(x) = x**2 - 2, fp(x) = 2 * x, and x = 1.5: repeat Newton steps while |f(x)| exceeds 0.0001, then print x rounded to 5 decimals."},
    hint:{fr:"Le test s'écrit <code>while abs(f(x)) &gt; 0.0001:</code> — encore le motif du seuil, chapitre VIII.",en:"The test is <code>while abs(f(x)) &gt; 0.0001:</code> — the threshold pattern again, chapter VIII."},
    sol:'def f(x):\n    return x**2 - 2\ndef fp(x):\n    return 2 * x\nx = 1.5\nwhile abs(f(x)) > 0.0001:\n    x = x - f(x) / fp(x)\nprint(round(x, 5))', out:'1.41422' },
 
- { kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
+ { id:"15-5", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
    desc:{fr:"Avec f(x) = x**2 - 16, fp(x) = 2 * x et x = 5, ce programme fait un pas de Newton et doit afficher : 4.1",en:"With f(x) = x**2 - 16, fp(x) = 2 * x and x = 5, this program performs one Newton step and must print: 4.1"},
    hint:{fr:"f et fp doivent être définies avant d'être appelées, et x doit exister avant d'être mis à jour.",en:"f and fp must be defined before being called, and x must exist before being updated."},
    lines:['def f(x):','    return x**2 - 16','def fp(x):','    return 2 * x','x = 5','x = x - f(x) / fp(x)','print(x)'], out:'4.1' }
@@ -1687,7 +1687,7 @@ function viewRevision(){
     const rows=[];
     c.ex.forEach((x,ei)=>{
       if(x.kind==="lesson")return;
-      if(failed[c.id+"-"+ei])rows.push({x,ei});
+      if(failed[x.id])rows.push({x,ei});
     });
     if(!rows.length)return;
     any=true;
@@ -2142,12 +2142,22 @@ function markDiff(a,b){
 const KEY="pythonlearn.v3";
 let lang="fr", storageOK=true;
 let state={name:"",points:0,done:{},failed:{}};
-let cur={c:0,e:0}, attempts=0, orderNow=null, quizPicked=-1;
+let cur={c:0,e:0}, attempts=0, orderNow=null, quizOrder=null, quizPicked=-1, quizFresh=false, shownEx=null;
 let pyodide=null, pyReady=false, pyFailed=false;
 const PTS={code:10,quiz:5,order:5,lesson:0};
 const scored=c=>c.ex.filter(x=>x.kind!=="lesson").length;
 const totalEx=COURSES.reduce((n,c)=>n+scored(c),0);
-const doneCount=()=>Object.keys(state.done).length;
+/* Chaque exercice porte un identifiant fixe (x.id, ex. "3-2") : la progression
+   y est rattachée, et non à la position, pour qu'un ajout ne décale rien.
+   Ne jamais réutiliser ni renuméroter un identifiant existant. */
+(function(){const seen={};COURSES.forEach(c=>c.ex.forEach(x=>{
+  if(x.kind==="lesson")return;
+  const what=[x.id,"chapitre "+c.num,x.title&&x.title.fr];
+  if(!x.id)console.error("Identifiant d'exercice manquant :",...what);
+  else if(seen[x.id])console.error("Identifiant d'exercice en double :",...what);
+  else if(!/^\d+-\d+$/.test(x.id)||x.id.split("-")[0]!==String(c.id))console.error("Identifiant d'exercice hors de son chapitre (attendu "+c.id+"-N) :",...what);
+  seen[x.id]=true;}));})();
+const doneCount=()=>COURSES.reduce((n,c)=>n+c.ex.filter(x=>x.id&&state.done[x.id]).length,0);
 const t=k=>T[lang][k];
 
 function save(){try{localStorage.setItem(KEY,JSON.stringify({lang,theme:document.documentElement.dataset.theme,state}));}
@@ -2324,7 +2334,7 @@ function renderDash(){
   document.getElementById("sPct").textContent=Math.round(doneCount()/totalEx*100)+"%";
   const box=document.getElementById("chapters");box.innerHTML="";
   COURSES.forEach((c,ci)=>{
-    const n=c.ex.filter((_,ei)=>state.done[c.id+"-"+ei]).length, tot=scored(c);
+    const n=c.ex.filter(x=>x.id&&state.done[x.id]).length, tot=scored(c);
     const b=document.createElement("button");b.className="chapter";
     b.innerHTML='<span class="numeral">'+c.num+'</span><span style="flex:1"><h3></h3>'+
       '<div class="mini"></div><div class="bar"><i style="width:'+(n/tot*100)+'%"></i></div></span>'+
@@ -2347,15 +2357,16 @@ function shuffled(arr){
 }
 
 function openEx(ci,ei){
-  cur={c:ci,e:ei};attempts=0;quizPicked=-1;
+  cur={c:ci,e:ei};attempts=0;quizPicked=-1;shownEx=null;
   const x=COURSES[ci].ex[ei];
   orderNow = x.kind==="order" ? shuffled(x.lines) : null;
+  quizOrder = x.kind==="quiz" ? shuffled(x.options.map((_,i)=>i)) : null;
   render();
   show("ex");
 }
 
 function render(){
-  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e;
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=x.id;
   document.getElementById("crumbs").textContent=t("chapter")+" "+c.num+" · "+c.title[lang]+" · "+(cur.e+1)+"/"+c.ex.length;
   document.getElementById("exTitle").textContent=x.title[lang];
   document.getElementById("exDesc").textContent=x.desc[lang];
@@ -2367,12 +2378,23 @@ function render(){
   document.getElementById("prevBtn").disabled=(cur.c===0&&cur.e===0);
   document.getElementById("hintBox").classList.add("hidden");
   document.getElementById("feedback").innerHTML="";
+  /* render() est rappelé sur le même exercice (changement de langue, fin du
+     chargement de Python) : on garde le code déjà tapé, le curseur et le focus. */
+  const old=document.getElementById("code"), here=cur.c+"-"+cur.e;
+  const keep=(old&&shownEx===here)?{v:old.value,a:old.selectionStart,b:old.selectionEnd,
+    top:old.scrollTop,focus:document.activeElement===old}:null;
   const B=document.getElementById("body");
   if(x.kind==="lesson") B.innerHTML=viewLesson(x);
   else if(x.kind==="code") B.innerHTML=viewCode(x);
   else if(x.kind==="quiz") B.innerHTML=viewQuiz(x);
   else B.innerHTML=viewOrder(x);
+  shownEx=here;
+  const ta=document.getElementById("code");
+  if(ta&&keep){ta.value=keep.v;
+    if(keep.focus){ta.focus({preventScroll:true});ta.setSelectionRange(keep.a,keep.b);}
+    ta.scrollTop=keep.top;}
   wire(x);
+  if(x.kind==="quiz"&&quizPicked>=0) showQuizResult(x); // ex. après un changement de langue
 }
 
 function viewCode(x){
@@ -2402,7 +2424,7 @@ function viewLesson(x){
 }
 function viewQuiz(x){
   let h='<div class="panel"><div class="ph">'+t("quizQ")+'</div><pre class="dark">'+esc(x.code)+'</pre></div><div id="opts">';
-  x.options.forEach((o,i)=>{h+='<button class="opt" data-i="'+i+'">'+esc(o.txt)+'</button>';});
+  (quizOrder||x.options.map((_,i)=>i)).forEach(i=>{h+='<button class="opt" data-i="'+i+'">'+esc(x.options[i].txt)+'</button>';});
   return h+'</div>';
 }
 function viewOrder(x){
@@ -2502,7 +2524,7 @@ function markFailed(id){
   if(state.done[id])return;
   if(!state.failed[id]){state.failed[id]=true;save();}
 }
-function failedCount(){return state.failed?Object.keys(state.failed).length:0;}
+function failedCount(){return state.failed?COURSES.reduce((n,c)=>n+c.ex.filter(x=>x.id&&state.failed[x.id]).length,0):0;}
 function showOut(res){
   const p=document.getElementById("out");if(!p)return;
   const txt=res.err==="TIMEOUT"?"⏱ "+t("timeout")
@@ -2545,7 +2567,7 @@ function doRun(){
 function doCheck(){
   const code=document.getElementById("code").value;
   const res=doRun();if(!res)return;
-  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=x.id,F=document.getElementById("feedback");
   if(res.err){F.innerHTML=errCard(res,code)+escalate();return;}
   if(norm(res.out)===norm(x.out)){
     const fresh=award(id,"code");
@@ -2561,10 +2583,17 @@ function doCheck(){
 
 /* ---------- exercice « prédire la sortie » ---------- */
 function pickQuiz(i){
-  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=x.id;
   if(quizPicked>=0)return;
   quizPicked=i;
-  const good=i===x.answer;
+  if(i===x.answer) quizFresh=award(id,"quiz");
+  else { quizFresh=false; markFailed(id); }
+  showQuizResult(x);
+}
+/* Affiche la réponse choisie (surlignage + explication). Appelée au clic,
+   et par render() pour redessiner un quiz déjà répondu (changement de langue). */
+function showQuizResult(x){
+  const i=quizPicked,good=i===x.answer,F=document.getElementById("feedback");
   document.querySelectorAll("#opts .opt").forEach(b=>{
     const k=+b.dataset.i;
     if(k===i)b.className="opt "+(good?"picked-ok":"picked-bad");
@@ -2573,20 +2602,20 @@ function pickQuiz(i){
   });
   let html;
   if(good){
-    const fresh=award(id,"quiz");
-    html=card("ok",t("ok"),x.options[i].why[lang]+(fresh?" "+fmt(t("okPts"),{n:PTS.quiz}):""));
+    html=card("ok",quizFresh?t("ok"):t("okAgain"),x.options[i].why[lang]+(quizFresh?" "+fmt(t("okPts"),{n:PTS.quiz}):""));
   }else{
-    markFailed(id);
     html=card("bad",t("quizWhy"),x.options[i].why[lang],
       "<b style='display:inline;font-size:inherit'>"+t("quizGood")+" — </b>"+
       "<code>"+esc(x.options[x.answer].txt.replace(/\n/g," ⏎ "))+"</code>. "+x.options[x.answer].why[lang]);
   }
+  // Un quiz n'a pas besoin de Python, mais on garde visible l'avertissement si Python n'a pas chargé.
+  if(pyFailed) html+=card("bad",t("failed"),t("failedMsg"));
   F.innerHTML=html;
 }
 
 /* ---------- exercice « remettre dans l'ordre » ---------- */
 function checkOrder(){
-  const c=COURSES[cur.c],x=c.ex[cur.e],id=c.id+"-"+cur.e,F=document.getElementById("feedback");
+  const c=COURSES[cur.c],x=c.ex[cur.e],id=x.id,F=document.getElementById("feedback");
   if(!pyReady){F.innerHTML=card("warn",t("wait"),"");return;}
   const code=orderNow.join("\n");
   const res=runPy(code,x.inputs);
