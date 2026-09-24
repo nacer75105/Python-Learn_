@@ -950,6 +950,95 @@ Retouches après la relecture de confirmation :
 - [ ] Aide-mémoire et glossaire : ajouter Suite, Rang, Terme, Raison,
   Seuil, Tirelire qui multiplie.
 
+## Chapitre XIV — La dichotomie (relecture du 2026-09-24)
+
+**Hors programme de Première** (vérifié sur le texte officiel : la
+dichotomie n'y figure pas ; le chapitre Dérivation cite les sécantes et
+Newton ; le théorème des valeurs intermédiaires est au programme de
+Terminale). Le chapitre est donc marqué « pour aller plus loin » : dans le
+titre, et dans la carte orange qui ouvre le cours. Il prépare le chapitre XV.
+
+Appliqués (points 1 à 14, plus l'ordre des exercices et le quiz du point 15) :
+- **Statut honnête :** carte « Pour aller plus loin » et titre modifié.
+- **« Le zéro est forcément entre les deux » était FAUX :** il faut une
+  courbe tracée « sans lever le crayon » (continuité ; théorème des valeurs
+  intermédiaires en Terminale). Le cours a maintenant :
+  - l'image du thermomètre ;
+  - le contre-exemple 1/x sur [−1 ; 2], qui affiche un faux encadrement
+    −0.00390625 0.001953125 sans planter.
+- **Pourquoi ce chapitre :** Δ résout x² − 2 = 0 mais pas x³ + x − 1 = 0 ;
+  √2 n'a pas d'écriture décimale finie ; l'image de la cage.
+- **Lien avec le XII :** le secret devient le zéro, « milieu » et « signe
+  de f(m) » remplacent « trop grand / trop petit ». [0 ; 2] n'est pas une
+  liste.
+- **Quelle moitié garder :**
+  - la règle des signes, avec le produit f(a) × f(m) ≤ 0 ;
+  - pourquoi on ne regarde jamais f(b) ;
+  - une carte qui montre que le raccourci « f(m) < 0 → a = m » est faux
+    pour une fonction décroissante (−2x² + 5x + 1 donne 2 2.0078125).
+- **Arrêt :** `while b - a > p` (la condition pour CONTINUER), la cage et
+  le contrôleur.
+- **Nombre de tours :** tableau d'exécution sur 7 tours ; la suite
+  géométrique L<sub>n</sub> = 1/2<sup>n</sup>, 7 tours pour 0,01
+  (L₆ > 0,01 ≥ L₇, le calcul du XII à l'envers).
+- **Tableau balayage / dichotomie :** 40 contre 7, 400 contre 10,
+  400 000 contre 20.
+- **Second degré du cahier :** ±√2, Δ, et la « valeur au milieu ».
+- **Carte des pièges :**
+  - signes identiques ;
+  - `a + b / 2` ;
+  - `while b - a < 0.01` ;
+  - arrondi qui casse l'encadrement (1.62 1.62) ;
+  - 1.5 − 1.4 ;
+  - précision 1e-20.
+- **Moteur :** nouvelle carte « priorité des opérations » quand un
+  programme avec `a + b / 2` dépasse le temps.
+- **Exercices** (9, ordre progressif : 14-2, 14-1, 14-3, 14-5, 14-6, 14-4,
+  14-9, 14-7, 14-8). La précision est tapée sous la forme 1/d ; sqrt et
+  math sont interdits ; les réponses en dur sont refusées par des essais
+  supplémentaires.
+  - 14-4 : √3 (et non plus √2, qui recopiait le cours) ;
+  - 14-7 : x³ + x − 1 = 0 ;
+  - 14-8 : −2x² + 5x + 1 (cahier, Δ = 33), fonction décroissante sur
+    [2 ; 3], qui refuse le raccourci ;
+  - quiz 14-6 (signes identiques) et 14-9 (nombre de tours).
+
+Restent :
+- [ ] 14-4 garde la même structure de boucle que l'exemple du cours
+  (11 lignes sur 18). C'est voulu : la fonction, d et le compteur
+  changent.
+- [ ] Place de la dichotomie en Seconde (algorithmique) : non vérifiée sur
+  le programme officiel de Seconde.
+
+Retouches après la relecture de confirmation :
+- **Bloquant (moi) :** des guillemets droits non échappés dans le texte
+  anglais cassaient tout le script. Corrigé, et la syntaxe est revérifiée.
+- **Affirmation fausse :** « dès le tour 3, on retrouve 1,4 < √2 < 1,5 »
+  → c'est au tour 5 ([1,40625 ; 1,4375]).
+- « négatif » → « strictement négatif (< 0) », comme dans le cahier, avec
+  le cas du produit nul qui justifie ≤.
+- 14-3 : la consigne annonce `def f(x):` et if / else (exigés).
+- Suite géométrique : (1/2)ⁿ = 1/2ⁿ détaillé, inversion 1/2ⁿ ≤ 1/100 ⇔
+  2ⁿ ≥ 100 expliquée (la pizza), lien avec u₀ × qⁿ du cahier, encadrement
+  écrit dans l'ordre croissant L₇ ≤ 0,01 < L₆.
+- Trinôme : « ne peut changer de signe qu'en passant par une racine »
+  (une racine double ne change pas le signe).
+- « par défaut / par excès » expliqués ; tableau d'exécution et
+  comparaison balayage / dichotomie présentés ligne par ligne.
+- Quiz 14-9 : précision 0,0001 (réponse 14), car le cours donnait déjà 10
+  pour 0,001.
+- 1/x : « le programme que tu verras plus bas, à 0,01 près ».
+- Indice de 14-7 : renvoie à √3 (l'exercice précédent), et non plus à √2.
+- 14-7 et 14-8 : « (sans arrondir) ».
+
+### À corriger au chapitre XV (Newton), repéré pendant la relecture du XIV
+
+- [ ] « La dichotomie réussit toujours » / « n'a pas ce risque » est FAUX :
+  c'est le même défaut que celui corrigé au XIV. Il faut une courbe
+  continue ; 1/x sur [−1 ; 1] donne même un ZeroDivisionError (m = 0).
+- [ ] « des dizaines » de tours pour la dichotomie → « une quinzaine »
+  (0,0001 est atteint en 14 tours sur un intervalle de longueur 1).
+
 ## Cahier de maths (cahier-premiere) — à corriger côté cahier, pas côté Python
 
 - [ ] **« Dépasse » écrit de deux façons dans le cahier :**
@@ -967,6 +1056,18 @@ Retouches après la relecture de confirmation :
 - [ ] Vocabulaire à rapprocher, sans contradiction : le cahier dit
   « meuble à casiers » et « tableau d'exécution », Python-Learn dit
   « classeur » et « tableau d'état ». Le chapitre XIII fait le pont.
+- [ ] **Titre « condition d'arrêt » posé sur `while u < 100`** (chapitre
+  Algorithmique et Python, formule « Boucle « tant que » — condition
+  d'arrêt », vers la ligne 3831 de `public/index.html` ; même formulation
+  vers la ligne 4014 : « Repérer la condition d'arrêt et vérifier à quel
+  tour elle devient fausse »). `u < 100` est la condition pour
+  **CONTINUER**. La boucle s'arrête quand elle devient fausse, donc la
+  condition d'arrêt est `u >= 100`. Appeler `u < 100` « condition d'arrêt »
+  pousse à écrire le contraire : c'est exactement la confusion `<` / `>`
+  que Python-Learn combat (`while b - a < 0.01` au chapitre XIV, « la
+  condition contraire » au XIII). Titre à reformuler, par exemple
+  « condition pour continuer ». La note du cahier est juste (« à 192 la
+  réponse devient non, on s'arrête ») ; seul le titre est trompeur.
 
 ## Constaté ailleurs dans l'appli
 
@@ -990,4 +1091,5 @@ Retouches après la relecture de confirmation :
 - [ ] Autres exemples d'algorithmes du programme absents : factorielle,
   Syracuse / Fibonacci, sécantes, méthode d'Euler, Archimède (π), fréquence des
   lettres, espérance / variance.
-- Note : la dichotomie (chapitre XIV) ne figure pas au programme de Première.
+- Note : la dichotomie (chapitre XIV) ne figure pas au programme de Première ;
+  le chapitre est marqué « pour aller plus loin » (2026-09-24).
