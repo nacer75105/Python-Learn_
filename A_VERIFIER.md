@@ -703,7 +703,7 @@ Restent :
     pas montrés ;
   - chapitres XIV et XV : comparer la dichotomie ou Newton à
     `math.sqrt(2)`.
-- [ ] **18. Chapitre XII, exercice 12-6 :** 11 ordres donnent
+- [x] **18. Chapitre XII, exercice 12-6 (corrigé le 2026-09-24, voir la section XII) :** 11 ordres donnent
   « Trop petit ». Certains placent `random.seed(3)` après le tirage :
   ils passent environ 3 fois sur 4, au hasard. Pistes : afficher
   `secret`, ou fusionner les lignes de tirage. À traiter à la relecture du
@@ -757,6 +757,98 @@ Retouches après la relecture de confirmation :
   - variable nommée `random` ;
   - `random.choice(choice)` → suggestion `choix` ;
   - la liste des outils « vus dans le cours » est limitée à ceux du cours.
+
+## Chapitre XII — Mini-projet : le nombre mystère (relecture du 2026-09-24)
+
+**Place au programme :** aucun mini-projet n'est exigé. Mais le chapitre
+consolide ce qui l'est (variables, conditions, boucles, fonctions) et
+applique la « programmation modulaire qui permet de découper une tâche
+complexe en tâches plus simples », sur laquelle le programme officiel met
+l'accent.
+
+**Moteur (toute l'appli) :** hasard neuf à chaque exécution
+(`_pl_random.seed()` au début de `_pl_run`). Avant, le module `random`
+gardait son état d'un essai à l'autre dans Pyodide : après un programme
+terminé sur `seed(3)`, un code sans graine tirait toujours 19, et un ordre
+faux de 12-6 passait à coup sûr. Une graine plantée par l'élève donne
+toujours le même tirage. Aucune régression sur les chapitres XI et XII.
+
+Appliqués (points 1 à 11) :
+- **12-6 (point 18) :** le secret est tapé par une amie ; 96 ordres
+  forment un programme valide sur 362 880, et un seul donne la bonne
+  sortie (3.12 et 3.14). L'ancienne version acceptait 11 ordres, dont 7
+  seulement par hasard.
+- **Cours :**
+  - l'algorithme en langage naturel (flèche ←) remplace le code du jeu,
+    qui était la solution de 12-7 ;
+  - trois pourquoi : `while` plutôt que `for` ; le premier essai avant la
+    boucle (le contrôleur à l'entrée) ; redemander à la fin de chaque tour ;
+  - le lien avec le drapeau du chapitre X ;
+  - le piège du papier plié : un seul secret pour toute la partie, face au
+    piège du XI ;
+  - le piège `int()` : « la photo de gâteau », `!=` sans fin ;
+  - compter et découper ;
+  - la stratégie du milieu : 5 essais au pire pour 20 nombres
+    (2⁵ − 1 = 31), 7 pour 100, qui annonce la dichotomie du XIV ;
+  - « pour jouer vraiment, supprime la graine ».
+- **Exercices :**
+  - graine tapée au clavier, essais supplémentaires et mots-clés exigés
+    partout : les réponses en dur sont refusées ;
+  - 12-3 et 12-4 fusionnés, avec les trois branches testées ;
+  - quiz 12-5 : « la graine, deux fois » (options en code, plus de texte
+    seulement en français) ;
+  - 12-7 testé aussi sur une partie gagnée du premier coup ;
+  - nouveaux : 12-8 (compteur d'essais, qui commence à 1), 12-9 (la
+    fonction `comparer(essai, secret)` avec `return`), quiz 12-10 (la
+    stratégie du milieu : 5 essais) ;
+  - « trouvé » accentué partout ; `guess` renommé `essai`.
+- **Cartes :**
+  - « Tu compares du texte à un nombre » ;
+  - « La boîte essai doit exister avant la boucle » (elle conseillait des
+    guillemets).
+
+Retouches après la relecture de confirmation :
+- **Moteur, défaut bloquant introduit par le hasard neuf :** si l'élève
+  écrivait `random.seed = 3`, toutes les exécutions suivantes plantaient
+  jusqu'au rechargement de la page. Même défaut, plus ancien :
+  `random.randint = 8` ou `math.sqrt = 0` faussaient la suite. Les modules
+  `random` et `math` sont maintenant remis à neuf avant chaque exécution
+  (photo prise au démarrage), dans un `try`. La sortie est plafonnée à
+  200 000 caractères.
+- **12-6 déplacé après 12-9 :** placé avant 12-7, il donnait les 9 lignes
+  du jeu ; c'est maintenant une vérification finale (« tu as écrit le jeu
+  toi-même : retrouve-le ! »).
+- **Cours :**
+  - dictionnaire de traduction (← → `=`, ≠ → `!=`, « Tant que » →
+    `while`…) ;
+  - pourquoi 1 + 2 + 4 + … (chaque essai double les nouveaux cas ; suite
+    géométrique de raison 2) ;
+  - « couvrir » au lieu de « départager » ;
+  - « tirelire des chapitres IV et VIII » ;
+  - « gros classeur » au lieu de « dictionnaire » (deux livres dans le même
+    chapitre).
+- **Exercices :**
+  - 12-7 explique pourquoi il n'y a plus que deux branches dans la boucle ;
+  - l'indice de 12-9 ne donne plus la structure (« garde ta boucle,
+    remplace le if/else ») ;
+  - 12-10 : les « 2,5 candidats » sont expliqués ;
+  - 12-8 : aide à l'autocorrection ;
+  - 12-2 exige `int` ;
+  - des parties à 2 essais sont ajoutées aux retests de 12-7, 12-8 et 12-9
+    (elles refusent `nb = 3` écrit en dur).
+- **Cartes :**
+  - la carte « boîte avant la boucle » convient aussi au drapeau
+    (`ok = False`) ;
+  - la carte « texte et nombre » donne un exemple générique ;
+  - la carte NOINPUT renvoie à `int()` (« le texte "8" n'est jamais égal au
+    nombre 8 »).
+
+Restent :
+- [ ] Boucle du jeu mise dans une fonction (`def jeu(): while essai != …`)
+  sans premier essai : `UnboundLocalError`, et la carte parle d'une boîte
+  « du dehors ». Cas rare.
+- [ ] 12-7 : trois `if` imbriqués sans boucle, plus un `while False: pass`
+  factice pour satisfaire `need`, passent encore (triche délibérée).
 
 ## Constaté ailleurs dans l'appli
 
