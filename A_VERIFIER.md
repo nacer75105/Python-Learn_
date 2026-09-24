@@ -850,6 +850,124 @@ Restent :
 - [ ] 12-7 : trois `if` imbriqués sans boucle, plus un `while False: pass`
   factice pour satisfaire `need`, passent encore (triche délibérée).
 
+## Chapitre XIII — Suites numériques (relecture du 2026-09-24)
+
+**Au cœur du programme** de Première (« Suites numériques, modèles
+discrets » ; exemples d'algorithmes : termes, sommes, seuil, factorielle,
+Syracuse, Fibonacci). Le chapitre s'adosse au **cahier de maths**
+(`cahier-premiere`, chapitre Suites), dont il reprend :
+- les casiers numérotés (rang / terme) ;
+- f pour la forme explicite, g pour la récurrence ;
+- « le premier est gratuit » (n pas, n + 1 termes) ;
+- le tableau d'exécution ;
+- le contrôleur qui ne vérifie les billets qu'à l'entrée ;
+- les exemples n² − 2n, 5 + … + 47 = 390, 2 + 6 + … + 162 = 242, le loyer
+  (500 €, +2 %, 700 € → 17), et le piège u₀ = −3, q = 2.
+
+Appliqués (points 1 à 13) :
+- **Définition corrigée :** elle réduisait toute suite à la récurrence ;
+  elle donne maintenant les deux formes, explicite u<sub>n</sub> = f(n)
+  (`def u(n)`) et par récurrence u<sub>n+1</sub> = g(u<sub>n</sub>) (boucle).
+- **Boucle qui écrase :** « regarde à gauche du = », une seule boîte,
+  `u = g(u)` (la machine ré-alimentée avec son jus).
+- **Nature de la suite :** arithmétique / géométrique lues sur la ligne du
+  pas, vérifiées par le terme général ; la virgule française (`* 1.05`)
+  et deux cartes (`1,05` → SyntaxError, `1,1` → couple de deux nombres).
+- **Liste :** quand et pourquoi ; `[u]` pour que `termes[n]` = u<sub>n</sub> ;
+  IndexError ; l'écriture du cahier `L.append(... L[-1])`, acceptée en 13-3.
+- **Somme :** tirelire, « glisser d'abord, avancer ensuite », 390 et 242.
+- **Seuil :**
+  - for / while, condition contraire, tableau d'état ;
+  - encadrement u₅ = 63 ≤ 100 < u₆ = 127, contrôleur ;
+  - carte dépasse / atteint (S = 512 : 10 contre 9), suite décroissante,
+    seuil jamais atteint.
+- **Sens de variation :** signe de u<sub>n+1</sub> − u<sub>n</sub>, piège
+  u₀ = −3, q = 2, « Python conjecture, les maths démontrent ».
+- **Limite intuitive** (0,5u + 1 → 2), **factorielle**, **Fibonacci** ;
+  renvois vers les chapitres XII, XIV et XV.
+- **Exercices** (11) : n ou S tapé, avec essais supplémentaires (les
+  réponses en dur et les raccourcis sont refusés).
+  - 13-5 : S = 512 sépare « dépasse » de « atteint » ;
+  - 13-7 : le loyer du cahier, S = 500 pour trancher entre les deux ;
+  - 13-8 : la voiture, suite décroissante, `while u >= S` ;
+  - 13-9 : quiz « que représente le 6 ? » ;
+  - 13-10 : factorielle ;
+  - 13-11 : sens de variation avec un drapeau ;
+  - 13-6 : ordre de la liste, un seul valide sur 720.
+
+Restent :
+- [ ] **Syracuse** (exemple d'algorithme du programme) : non traité, car il
+  faut `//`, jamais enseigné (`u / 2` donne `3.0`). À faire si l'on
+  enseigne un jour la division entière.
+- [ ] Le quiz 13-9 demande un encadrement (« quel encadrement justifie le
+  6 ? »). Comme le quiz 6-1, il apparaît en écart dans le script de
+  vérification, qui compare à la sortie : c'est normal.
+- [ ] Raccourcis artificiels qui passent encore, parce que `need` ne
+  vérifie que la présence du mot :
+  - 13-2 : `for u in [5 - 2 * n]` ;
+  - 13-4 : la formule 2ⁿ⁺¹ − 1 avec un `for` vide ;
+  - 13-5 : `S.bit_length()` avec un `while False` ;
+  - 13-7 : un logarithme avec un `while` qui ne tourne jamais.
+
+  Triche délibérée, risque faible.
+
+Retouches après la relecture de confirmation :
+- **Cours :**
+  - `L.append(3 * L[-1] - 1)` était présenté comme « la même boucle »
+    (autre suite, qui donnait presque 13-3) : c'est devenu
+    `L.append(2 * L[-1] + 1)` ;
+  - `u = 2 * u + 1` n'est ni arithmétique ni géométrique (« seulement +
+    r, ou seulement × q ») ;
+  - « le drapeau à l'envers » (« à chaque pas ? » : levé au départ,
+    baissé une seule fois), le contrôle des sacs ;
+  - f / g : un numéro de porte, ou le contenu du casier précédent ;
+  - somme : 47 = u₁₄, et `range(n + 1)` pour n + 1 termes ;
+  - la virgule : 05, le mot *tuple*, une erreur qui apparaît plus loin ;
+  - les pieds de Fibonacci reliés au code ; la factorielle montrée avec un
+    `while` (13-10 demande un `for`) ;
+  - une pause ;
+  - le cahier `while u < 5000` signalé dans la carte « dépasse / atteint » ;
+  - les attributions au cahier corrigées (chapitres Suites **et**
+    Algorithmique, « le 2 est effacé », valeurs arrondies du cahier,
+    formule générale de la somme) ;
+  - « (si n ≥ 1) » dans le résumé.
+- **Exercices :**
+  - 13-9 : options sous forme d'encadrements (plus d'option défendable,
+    plus de texte seulement en français) ;
+  - 13-11 : règle qui dépend du rang (u → 0,5u + 10 − n) ; les essais avec
+    u₀ = 0 et u₀ = 20 refusent le drapeau inversé, le `else` qui réécrit le
+    drapeau, et `> 0` ;
+  - noms de variables non imposés quand ils ne sont pas annoncés (`terme`,
+    `S`, `annees` et `fact` sont acceptés) ;
+  - 13-8 : « à écrire * 0.85 » ;
+  - 13-6 (ordre, facile) placé avant 13-3.
+- **Carte virgule :**
+  - placée avant les cartes « addition / multiplication impossible » ;
+  - condition resserrée (plus de faux positif sur `a, b = 0, 1`).
+- [ ] Renvois réciproques à ajouter dans les autres chapitres : le cours
+  du XV (« c'est une suite récurrente, comme au chapitre XIII ») et le
+  résumé du XII (somme géométrique).
+- [ ] Aide-mémoire et glossaire : ajouter Suite, Rang, Terme, Raison,
+  Seuil, Tirelire qui multiplie.
+
+## Cahier de maths (cahier-premiere) — à corriger côté cahier, pas côté Python
+
+- [ ] **« Dépasse » écrit de deux façons dans le cahier :**
+  - `while u <= 700` pour « dépasse 700 » (chapitre Suites, l'exemple du
+    loyer) ;
+  - `while u < 5000` pour « dépasse 5000 » (chapitre Algorithmique et
+    Python, l'exemple du capital).
+
+  « Dépasse » veut dire strictement plus grand : il faut `while u <= S`.
+  `while u < S` correspond à « atteint ou dépasse ». Les deux ne donnent la
+  même réponse que si aucun terme ne tombe pile sur S. Python-Learn
+  (chapitre XIII) enseigne la règle et donne un contre-exemple
+  (u<sub>n</sub> = 2<sup>n</sup>, S = 512 : 10 contre 9). À harmoniser dans
+  le cahier.
+- [ ] Vocabulaire à rapprocher, sans contradiction : le cahier dit
+  « meuble à casiers » et « tableau d'exécution », Python-Learn dit
+  « classeur » et « tableau d'état ». Le chapitre XIII fait le pont.
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
