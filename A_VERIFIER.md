@@ -1135,7 +1135,10 @@ Restent :
 
 ## Cahier de maths (cahier-premiere) — à corriger côté cahier, pas côté Python
 
-- [ ] **« Dépasse » écrit de deux façons dans le cahier :**
+- [x] **« Dépasse » écrit de deux façons dans le cahier :** → traité côté
+  cahier-premiere le 2026-09-24 (commit 725286b) : convention unique
+  « dépasse » ⇔ `while u <= S`, « atteint ou dépasse » ⇔ `while u < S`,
+  squelette du seuil en `<=`, piège dédié (1 → 512 : 9 contre 10).
   - `while u <= 700` pour « dépasse 700 » (chapitre Suites, l'exemple du
     loyer) ;
   - `while u < 5000` pour « dépasse 5000 » (chapitre Algorithmique et
@@ -1150,7 +1153,9 @@ Restent :
 - [ ] Vocabulaire à rapprocher, sans contradiction : le cahier dit
   « meuble à casiers » et « tableau d'exécution », Python-Learn dit
   « classeur » et « tableau d'état ». Le chapitre XIII fait le pont.
-- [ ] **Titre « condition d'arrêt » posé sur `while u < 100`** (chapitre
+- [x] **Titre « condition d'arrêt » posé sur `while u < 100`** → traité
+  côté cahier-premiere le 2026-09-24 (commit 725286b) : « condition pour
+  continuer » (titre, note, fiche méthode). (chapitre
   Algorithmique et Python, formule « Boucle « tant que » — condition
   d'arrêt », vers la ligne 3831 de `public/index.html` ; même formulation
   vers la ligne 4014 : « Repérer la condition d'arrêt et vérifier à quel
@@ -1162,7 +1167,13 @@ Restent :
   condition contraire » au XIII). Titre à reformuler, par exemple
   « condition pour continuer ». La note du cahier est juste (« à 192 la
   réponse devient non, on s'arrête ») ; seul le titre est trompeur.
-- [ ] **La méthode de Newton est totalement absente du cahier** (aucune
+- [x] **La méthode de Newton est totalement absente du cahier** → traité
+  côté cahier-premiere le 2026-09-24 (commit 8dd7c94) : deux sections en
+  Dérivation construites depuis la tangente (x₁ = a − f(a)/f'(a), cas
+  f'(a) = 0), programme Python avec `fp`, figure manipulable, exercices.
+  Au passage (commit 7615ed3), « la courbe de 1/x descend partout » corrigé
+  en « sur chacun de ses deux morceaux ». Les pentes des sécantes comme
+  algorithme restent absentes du cahier. (aucune
   occurrence du mot), alors que le programme de Première la cite en
   Dérivation comme exemple d'algorithme (« en se limitant à des cas
   favorables »). L'algorithme des pentes des sécantes n'y figure pas non
@@ -1171,7 +1182,10 @@ Restent :
   d'algorithmes » en Dérivation, partant de la tangente (ligne 1421) posée
   à y = 0, x₁ = a − f(a)/f'(a), avec le cas f'(a) = 0. Python-Learn
   (chapitre XV) fait cette construction.
-- [ ] **Encadré « Traduction en français » (vers la ligne 1411) :**
+- [x] **Encadré « Traduction en français » (vers la ligne 1411) :** → traité
+  côté cahier-premiere le 2026-09-24 (commit 725286b) : « souvent un sommet
+  ou un creux, mais pas toujours », avec l'image du replat et un renvoi au
+  piège x³.
   « Nul = c'est plat (sommet ou creux) » contredit le piège de la ligne
   1478 (« Dérivée nulle ne veut pas dire extremum » : x³ a une dérivée
   nulle en 0 sans extremum). Proposition : « Nul = la tangente est
