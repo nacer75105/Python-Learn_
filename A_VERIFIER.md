@@ -944,9 +944,9 @@ Retouches après la relecture de confirmation :
 - **Carte virgule :**
   - placée avant les cartes « addition / multiplication impossible » ;
   - condition resserrée (plus de faux positif sur `a, b = 0, 1`).
-- [ ] Renvois réciproques à ajouter dans les autres chapitres : le cours
-  du XV (« c'est une suite récurrente, comme au chapitre XIII ») et le
-  résumé du XII (somme géométrique).
+- [ ] Renvois réciproques à ajouter dans les autres chapitres : le résumé
+  du XII (somme géométrique). Le cours du XV fait maintenant le lien avec
+  le XIII (2026-09-24).
 - [ ] Aide-mémoire et glossaire : ajouter Suite, Rang, Terme, Raison,
   Seuil, Tirelire qui multiplie.
 
@@ -1033,11 +1033,105 @@ Retouches après la relecture de confirmation :
 
 ### À corriger au chapitre XV (Newton), repéré pendant la relecture du XIV
 
-- [ ] « La dichotomie réussit toujours » / « n'a pas ce risque » est FAUX :
+- [x] (corrigé le 2026-09-24) « La dichotomie réussit toujours » / « n'a pas ce risque » était FAUX :
   c'est le même défaut que celui corrigé au XIV. Il faut une courbe
   continue ; 1/x sur [−1 ; 1] donne même un ZeroDivisionError (m = 0).
-- [ ] « des dizaines » de tours pour la dichotomie → « une quinzaine »
+- [x] (corrigé le 2026-09-24) « des dizaines » de tours pour la dichotomie → « une quinzaine »
   (0,0001 est atteint en 14 tours sur un intervalle de longueur 1).
+
+## Chapitre XV — La méthode de Newton (relecture du 2026-09-24)
+
+**Au programme** de Première (partie Dérivation, exemple d'algorithme :
+« méthode de Newton, en se limitant à des cas favorables »). Nouvelle carte
+verte « Au programme » (nouveau type de bloc `g`). Le cahier de maths ne
+parle pas de Newton : le cours construit tout à partir de sa tangente
+y = f'(a)(x − a) + f(a) et de son chapitre Suites.
+
+Appliqués (points 1 à 18), cours de 6 à 22 blocs :
+- **Formule démontrée :**
+  - la tangente de x² − 2 en 2 est y = 4x − 6, qui coupe l'axe en 1,5 ;
+  - puis les 5 lignes en lettres (y = 0, en divisant par f'(xₙ) ≠ 0) ;
+  - puis le sens de f/f' : la hauteur divisée par la pente est la distance
+    à reculer.
+- **`fp` = f'** (l'apostrophe est interdite dans un nom). « C'est toi qui
+  calcules f', Python ne sait pas dériver. » La phrase ambiguë « ce cahier
+  ne demande jamais » est supprimée.
+- **Pourquoi une deuxième méthode** (la dichotomie est aveugle), et l'image
+  de la colline dans le brouillard.
+- **Suite récurrente** xₙ₊₁ = g(xₙ), le `u = g(u)` et la boucle qui écrase
+  du XIII.
+- **Arrêt :** `abs(f(x)) > p`, la valeur absolue du XI, la condition pour
+  continuer. Ce que le test ne garantit pas :
+  - c'est une distance verticale ;
+  - la droite presque plate 0,00001(x − 5) donne 0 tour et affiche 0 ;
+  - il affiche 1.41422 arrondi, alors que √2 arrondi vaut 1,41421 ; donc x
+    s'affiche sans arrondi.
+- **Tableau d'exécution** de x² − 2 depuis 2 : les décimales justes
+  doublent (0, 2, 5, 11).
+- **Piège 1, la tangente à plat** (x² − 2 depuis 0, ZeroDivisionError du X ;
+  presque à plat, depuis 0,1, on part en 10,05).
+- **Piège 2 :**
+  - le cycle x³ − 2x + 2 depuis 0 (1.0, 0.0, 1.0, 0.0, code exécuté dans le
+    cours) ;
+  - un autre zéro (−√2 depuis −1) ;
+  - la définition de « converger ».
+- **« Cas favorables »** expliqués (départ proche, sans creux ni bosse).
+- **Tableau Newton / dichotomie** (3 contre 14 tours, rien de garanti
+  contre la cage), avec 1/x : faux encadrement sur [−1 ; 2], plantage sur
+  [−1 ; 1].
+- **Résumé en 6 points.**
+- **Exercices** (5 → 10). Les réponses en dur sont refusées par x ou d tapé
+  et des essais supplémentaires :
+  - 15-6 : quiz « La tangente de ton cahier » (y = 6x − 9 → 1.5) ;
+  - 15-2 : x tapé ;
+  - 15-1 : « flottant » → « nombre à virgule », et « f est une droite » ;
+  - 15-7 : « Dérive toi-même », x³ − 2x − 5 (l'équation de Newton) ;
+  - 15-3 : les termes de la suite dans une liste ;
+  - 15-8 : quiz de la tangente à plat (x² − 4x + 1 en 2) ;
+  - 15-9 : quiz « Quel zéro ? », sur le trinôme −2x² + 5x + 1 du cahier
+    depuis 1, qui trouve −0,186 et pas 2,686 ;
+  - 15-5 : la remise en ordre de la boucle complète (l'ancien 15-5 était un
+    doublon de 15-2) ;
+  - 15-4 : x² − 3 avec d tapé, x sans arrondi ;
+  - 15-10 : x³ + x − 1 = 0 à dériver soi-même, 3 tours contre 14 au XIV.
+
+  Positions des bonnes réponses des quiz : 0, 2, 1, 3.
+
+Retouches après la relecture de confirmation :
+- **Bloquant :** 15-4 et 15-10 précisent « puis, sur la ligne suivante, n
+  (deux print) ». Le cours et 15-5 écrivent `print(x, n)`, donc une élève
+  qui recopiait le modèle était refusée. « Écris x = 2, sans virgule » est
+  ajouté (le retest d = 1 affiche x sans tour).
+- **Inexact :** « entre le départ et ce zéro, une bosse et un creux » → la
+  bosse est vers −0,82, le creux vers 0,82, juste à côté du départ : les
+  tangentes rebondissent de part et d'autre du creux.
+- Le piège 2 est coupé en deux : « tourner en rond » (avec son code), et
+  un nouveau piège 3 « trouver un autre zéro », avec la définition de
+  « converger » renforcée (aussi proche qu'on veut, et le restent).
+- « N'arrondis pas » passe dans une carte à part ; l'image du brouillard
+  sert à expliquer la distance verticale.
+- **Exemple des signes :** depuis x = 1, f(1) = −1, f'(1) = 2, on avance
+  vers 1,5.
+- « Pas besoin d'écrire g en Python » ; p défini dans le résumé ; fp = 1
+  expliqué dans 15-1 ; indice de 15-4 → chapitres XIII et XIV.
+- 15-7 : l'indice assume la même dérivée que le piège 2 (la constante
+  disparaît).
+- 15-10 : « avec ton programme de dichotomie, d = 10000 demande 14 tours ».
+- « Le départ est toujours choisi pour toi » → seulement quand l'exercice
+  demande un zéro ; les autres montrent exprès les cas défavorables.
+- L'exemple 1/x reste dans le tableau Newton / dichotomie (choix de
+  l'utilisatrice : [−1 ; 2] donne un faux encadrement, [−1 ; 1] plante).
+
+Restent :
+- [ ] **Idée : un duel Newton contre dichotomie** (point 19), qui compte
+  les tours des deux méthodes dans un même programme sur x² − 5, à 0,0001
+  près : Newton 3 tours, dichotomie 14. Intéressant mais long ; à blinder
+  avec une précision tapée.
+- [ ] La dérivée de 15-7 (x³ − 2x − 5 → 3x² − 2) est la même que celle de
+  l'exemple du cycle dans le cours (x³ − 2x + 2) : c'est assumé dans
+  l'indice. 15-10 fait vraiment dériver une fonction absente du cours.
+- [ ] Algorithme des pentes des sécantes (autre exemple d'algorithme de la
+  partie Dérivation) : absent de l'appli.
 
 ## Cahier de maths (cahier-premiere) — à corriger côté cahier, pas côté Python
 
@@ -1068,6 +1162,21 @@ Retouches après la relecture de confirmation :
   condition contraire » au XIII). Titre à reformuler, par exemple
   « condition pour continuer ». La note du cahier est juste (« à 192 la
   réponse devient non, on s'arrête ») ; seul le titre est trompeur.
+- [ ] **La méthode de Newton est totalement absente du cahier** (aucune
+  occurrence du mot), alors que le programme de Première la cite en
+  Dérivation comme exemple d'algorithme (« en se limitant à des cas
+  favorables »). L'algorithme des pentes des sécantes n'y figure pas non
+  plus comme algorithme (seulement un tableau calculé à la main, vers la
+  ligne 1398). À ajouter côté maths : une section « Exemples
+  d'algorithmes » en Dérivation, partant de la tangente (ligne 1421) posée
+  à y = 0, x₁ = a − f(a)/f'(a), avec le cas f'(a) = 0. Python-Learn
+  (chapitre XV) fait cette construction.
+- [ ] **Encadré « Traduction en français » (vers la ligne 1411) :**
+  « Nul = c'est plat (sommet ou creux) » contredit le piège de la ligne
+  1478 (« Dérivée nulle ne veut pas dire extremum » : x³ a une dérivée
+  nulle en 0 sans extremum). Proposition : « Nul = la tangente est
+  horizontale (souvent un sommet ou un creux, mais pas toujours : voir x³
+  plus loin). »
 
 ## Constaté ailleurs dans l'appli
 
