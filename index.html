@@ -1205,26 +1205,28 @@ DIAG.dictbox=L=>SVG("0 0 520 190",
   }).join('')+
   '<text class="soft" x="260" y="160" text-anchor="middle">'+L[7]+'</text>');
 
-/* L = [bloc try, "pas d'erreur", "une erreur survient", "la suite continue", bloc except, "except ne s'exécute que si une erreur survient dans le try"] */
-DIAG.tryflow=L=>SVG("0 0 520 250",
-  '<path class="box" d="M260 20 L392 68 L260 116 L128 68 Z"/>'+
-  '<text class="mono" x="260" y="74" text-anchor="middle" font-size="12">'+L[0]+'</text>'+
-  '<path class="accent" d="M128 68 L74 68 L74 150" marker-end="url(#ar)"/>'+
-  '<text class="soft" x="98" y="58" text-anchor="middle">'+L[1]+'</text>'+
-  '<path class="accent" d="M392 68 L446 68 L446 150" marker-end="url(#ar)"/>'+
-  '<text class="soft" x="422" y="58" text-anchor="middle">'+L[2]+'</text>'+
-  '<rect class="okbox" x="10" y="156" width="128" height="50" rx="8"/>'+
-  '<text class="mono" x="74" y="186" text-anchor="middle" font-size="12">'+L[3]+'</text>'+
-  '<rect class="okbox" x="382" y="156" width="128" height="50" rx="8"/>'+
-  '<text class="mono" x="446" y="186" text-anchor="middle" font-size="12">'+L[4]+'</text>'+
-  '<text class="soft" x="260" y="190" text-anchor="middle">'+L[5]+'</text>'+
-  '<text class="soft" x="260" y="236" text-anchor="middle">'+L[6]+'</text>');
+/* L = [bloc try, "aucune erreur", "→ on saute le except", "une ligne plante", "→ le reste du try est abandonné", "plan B : bloc except", "la suite continue ici", légende] */
+DIAG.tryflow=L=>SVG("0 0 520 312",
+  '<rect class="box" x="90" y="12" width="340" height="42" rx="8"/>'+
+  '<text class="mono" x="260" y="38" text-anchor="middle" font-size="12">'+L[0]+'</text>'+
+  '<path class="accent" d="M170 54 L170 80 L90 80 L90 228" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="100" y="160">'+L[1]+'</text>'+
+  '<text class="soft" x="100" y="178">'+L[2]+'</text>'+
+  '<path class="accent" d="M350 54 L350 80 L430 80 L430 144" marker-end="url(#ar)"/>'+
+  '<text class="soft" x="420" y="100" text-anchor="end">'+L[3]+'</text>'+
+  '<text class="soft" x="420" y="118" text-anchor="end">'+L[4]+'</text>'+
+  '<rect class="box" x="340" y="150" width="180" height="44" rx="8"/>'+
+  '<text class="mono" x="430" y="177" text-anchor="middle" font-size="12">'+L[5]+'</text>'+
+  '<path class="accent" d="M430 194 L430 228" marker-end="url(#ar)"/>'+
+  '<rect class="okbox" x="20" y="234" width="480" height="40" rx="8"/>'+
+  '<text class="mono" x="260" y="259" text-anchor="middle" font-size="12">'+L[6]+'</text>'+
+  '<text class="soft" x="260" y="300" text-anchor="middle">'+L[7]+'</text>');
 
 /* ==========================================================
    CHAPITRES IX ET X
    ========================================================== */
 COURSES.push(
-{ id:9, num:"IX", title:{fr:"Les dictionnaires",en:"Dictionaries"},
+{ id:9, num:"IX", title:{fr:"Les dictionnaires (pour aller plus loin)",en:"Dictionaries (going further)"},
   desc:{fr:"Retrouver une valeur par son nom (sa clé), pas par son indice : le carnet d'adresses, le tableau de valeurs, le tableau d'effectifs",en:"Finding a value by its name (its key), not its index: the address book, the table of values, the frequency table"}, ex:[
 
  { id:"9-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
@@ -1290,42 +1292,47 @@ COURSES.push(
    sol:'v = int(input("valeur? "))\nnotes = [14, 11, 14, 8, 11, 14]\neffectifs = {}\nfor n in notes:\n    effectifs[n] = effectifs.get(n, 0) + 1\nprint(effectifs)\nprint(effectifs.get(v, 0) / len(notes))', out:'valeur? 14\n{14: 3, 11: 2, 8: 1}\n0.5', retest:[{inputs:["8"],out:'valeur? 8\n{14: 3, 11: 2, 8: 1}\n0.16666666666666666'},{inputs:["20"],out:'valeur? 20\n{14: 3, 11: 2, 8: 1}\n0.0'}], useVars:["effectifs","notes"], need:["for"], ban:["count"] }
 ]},
 
-{ id:10, num:"X", title:{fr:"Gérer les erreurs",en:"Handling errors"},
+{ id:10, num:"X", title:{fr:"Gérer les erreurs (pour aller plus loin)",en:"Handling errors (going further)"},
   desc:{fr:"Empêcher une erreur prévisible d'arrêter tout le programme",en:"Stopping a foreseeable error from crashing the whole program"}, ex:[
 
  { id:"10-1", kind:"quiz", diff:"medium", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
-   desc:{fr:"Repère quel bloc s'exécute selon qu'il y a une erreur ou non.",en:"Spot which block runs depending on whether there is an error."},
-   code:'try:\n    x = 10 / 0\n    print("Calcul ok")\nexcept ZeroDivisionError:\n    print("Division impossible")\nprint("La suite")', answer:2,
+   desc:{fr:"Repère quelles lignes s'exécutent, avant et après l'erreur.",en:"Spot which lines run, before and after the error."},
+   code:'try:\n    print("A")\n    n = int("abc")\n    print("B")\nexcept ValueError:\n    print("C")\nprint("D")', answer:0,
    options:[
-    {txt:'Calcul ok\nLa suite', why:{fr:"10 / 0 provoque une erreur avant cette ligne : elle ne s'exécute jamais.",en:"10 / 0 raises an error before this line: it never runs."}},
-    {txt:'Division impossible\nCalcul ok\nLa suite', why:{fr:"Dès qu'une erreur survient dans le bloc try, Python saute directement à except : le reste du try est abandonné.",en:"As soon as an error occurs in the try block, Python jumps straight to except: the rest of try is abandoned."}},
-    {txt:'Division impossible\nLa suite', why:{fr:"10 / 0 déclenche une ZeroDivisionError, le bloc except l'attrape et exécute son print, qui affiche le texte Division impossible (pas le message de l'erreur), puis le programme continue normalement après.",en:"10 / 0 raises a ZeroDivisionError, the except block catches it and runs its print, which displays the text Division impossible (not the error's own message), then the program continues normally afterwards."}},
-    {txt:"Le programme s'arrête avec une erreur", why:{fr:"C'est justement le rôle de try/except : empêcher l'erreur d'arrêter le programme.",en:"That is exactly the point of try/except: stopping the error from ending the program."}}]},
+    {txt:'A\nC\nD', why:{fr:"Exact. A s'affiche avant l'erreur, donc il est déjà fait. int(\"abc\") plante : le reste du try (B) est abandonné, le filet except affiche C, puis le programme continue avec D.",en:"Correct. A is printed before the error, so it is already done. int(\"abc\") crashes: the rest of the try (B) is abandoned, the except net prints C, then the program carries on with D."}},
+    {txt:'C\nD', why:{fr:"Les lignes du try placées <b>avant</b> l'erreur ont déjà été exécutées : A s'affiche avant que int(\"abc\") ne plante.",en:"Lines of the try placed <b>before</b> the error have already run: A is printed before int(\"abc\") crashes."}},
+    {txt:'A\nB\nC\nD', why:{fr:"Dès que int(\"abc\") plante, le reste du try est abandonné : B n'est jamais affiché.",en:"As soon as int(\"abc\") crashes, the rest of the try is abandoned: B is never printed."}},
+    {txt:"Le programme s'arrête avec une erreur", why:{fr:"C'est justement le rôle du filet except ValueError : il attrape l'erreur de int(\"abc\") et le programme continue.",en:"That is exactly the job of the except ValueError net: it catches the error from int(\"abc\") and the program carries on."}}]},
 
- { id:"10-2", kind:"code", diff:"easy", title:{fr:"Protéger une division",en:"Protect a division"},
-   desc:{fr:'Essaie de calculer 10 / 0 dans un bloc try. Si ça échoue, affiche Impossible de diviser par zero.',en:'Try computing 10 / 0 inside a try block. If it fails, print Impossible de diviser par zero.'},
-   hint:{fr:"<code>try:</code> puis le calcul décalé, <code>except ZeroDivisionError:</code> puis le print décalé.",en:"<code>try:</code> then the indented calculation, <code>except ZeroDivisionError:</code> then the indented print."},
-   sol:'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Impossible de diviser par zero")', out:'Impossible de diviser par zero' },
+ { id:"10-2", kind:"code", diff:"easy", title:{fr:"Un nom inconnu du carnet",en:"A name missing from the address book"},
+   desc:{fr:'Avec ages = {"Alice": 16, "Karim": 17}, demande un prénom avec nom = input("nom? "), puis affiche son âge dans un bloc try. Si le prénom n\'est pas dans le carnet, attrape l\'erreur et affiche Inconnu. Sans in ni .get : cette fois, on essaie puis on rattrape.',en:'With ages = {"Alice": 16, "Karim": 17}, ask for a first name with nom = input("nom? "), then print the age inside a try block. If the name is not in the address book, catch the error and print Inconnu. Without in or .get: this time you try, then catch.'}, inputs:["Karim"],
+   hint:{fr:"Deux mots-clés alignés l'un sous l'autre, chacun suivi de deux-points et d'une ligne décalée. Le nom de l'erreur est celui de la carte rouge qui s'affiche quand tu cherches une clé absente.",en:"Two keywords lined up one under the other, each followed by a colon and an indented line. The error's name is the one on the red card shown when you look up a missing key."},
+   sol:'ages = {"Alice": 16, "Karim": 17}\nnom = input("nom? ")\ntry:\n    print(ages[nom])\nexcept KeyError:\n    print("Inconnu")', out:'nom? Karim\n17', retest:{inputs:["Zoe"],out:'nom? Zoe\nInconnu'}, useVars:["ages","nom"], need:["try","except","KeyError"], ban:["get","in"] },
 
  { id:"10-3", kind:"code", diff:"medium", title:{fr:"Conversion ratée",en:"Failed conversion"},
-   desc:{fr:'Essaie de convertir "quinze" en nombre avec int(). Si ça échoue, affiche Ce n\'est pas un nombre.',en:'Try converting "quinze" to a number with int(). If it fails, print Ce n\'est pas un nombre.'},
-   hint:{fr:'<code>int("quinze")</code> échoue avec une <code>ValueError</code> : c\'est cette erreur qu\'il faut attraper.',en:'<code>int("quinze")</code> fails with a <code>ValueError</code>: that is the error to catch.'},
-   sol:'try:\n    n = int("quinze")\n    print(n)\nexcept ValueError:\n    print("Ce n\'est pas un nombre")', out:"Ce n'est pas un nombre" },
+   desc:{fr:'Demande un nombre avec x = input("x? "), puis, dans un bloc try, affiche son carré (int(x) * int(x)). Si le texte tapé n\'est pas un nombre entier, attrape l\'erreur et affiche Ce n\'est pas un nombre.',en:'Ask for a number with x = input("x? "), then, inside a try block, print its square (int(x) * int(x)). If the typed text is not a whole number, catch the error and print Ce n\'est pas un nombre.'}, inputs:["7"],
+   hint:{fr:"Lance d'abord <code>int(\"sept\")</code> tout seul : le mot en <b>…Error</b> écrit tout en bas de la carte rouge, juste avant les deux-points est le nom à écrire après except.",en:"First run <code>int(\"sept\")</code> on its own: the word ending in <b>…Error</b> written at the very bottom of the red card, just before the colon is the name to write after except."},
+   sol:'x = input("x? ")\ntry:\n    print(int(x) * int(x))\nexcept ValueError:\n    print("Ce n\'est pas un nombre")', out:'x? 7\n49', retest:[{inputs:["sept"],out:"x? sept\nCe n'est pas un nombre"},{inputs:["-3"],out:'x? -3\n9'}], useVars:["x"], need:["try","except","ValueError"] },
 
  { id:"10-4", kind:"code", diff:"medium", title:{fr:"Deux erreurs possibles",en:"Two possible errors"},
-   desc:{fr:'Avec notes = [12, 0, 8], calcule 100 / notes[3] dans un try. Attrape IndexError et affiche Cette note n\'existe pas.',en:'With notes = [12, 0, 8], compute 100 / notes[3] inside a try. Catch IndexError and print Cette note n\'existe pas.'},
-   hint:{fr:"notes n'a que 3 éléments (positions 0, 1, 2) : la position 3 déclenche une IndexError, pas une division par zéro.",en:"notes only has 3 items (positions 0, 1, 2): position 3 raises an IndexError, not a division by zero."},
-   sol:'notes = [12, 0, 8]\ntry:\n    print(100 / notes[3])\nexcept IndexError:\n    print("Cette note n\'existe pas")', out:"Cette note n'existe pas" },
+   desc:{fr:'Avec notes = [12, 0, 8], demande un indice avec i = int(input("indice? ")), puis, dans un bloc try, affiche 100 / notes[i]. Deux choses peuvent rater : si l\'indice n\'existe pas, affiche Cette note n\'existe pas ; si la note vaut 0, affiche Division par zéro.',en:'With notes = [12, 0, 8], ask for an index with i = int(input("indice? ")), then, inside a try block, print 100 / notes[i]. Two things can go wrong: if the index does not exist, print Cette note n\'existe pas; if the mark is 0, print Division par zéro.'}, inputs:["3"],
+   hint:{fr:"Un seul try, mais deux filets empilés, un par nom d'erreur. Quelle erreur donne un indice qui n'existe pas ? Et une division par 0 ?",en:"One try, but two stacked nets, one per error name. Which error does a missing index give? And a division by 0?"},
+   sol:'notes = [12, 0, 8]\ni = int(input("indice? "))\ntry:\n    print(100 / notes[i])\nexcept IndexError:\n    print("Cette note n\'existe pas")\nexcept ZeroDivisionError:\n    print("Division par zéro")', out:"indice? 3\nCette note n'existe pas", retest:[{inputs:["1"],out:'indice? 1\nDivision par zéro'},{inputs:["0"],out:'indice? 0\n8.333333333333334'}], useVars:["notes","i"], need:["try","except","IndexError","ZeroDivisionError"] },
 
  { id:"10-5", kind:"code", diff:"hard", title:{fr:"Compter les conversions réussies",en:"Count successful conversions"},
-   desc:{fr:'Avec valeurs = ["3", "dix", "7", "x"], compte combien se convertissent en nombre sans erreur, et affiche ce compte.',en:'With valeurs = ["3", "dix", "7", "x"], count how many convert to a number without error, and print that count.'},
-   hint:{fr:"Un compteur à 0, une boucle sur la liste, un try/except autour de la conversion à l'intérieur de la boucle.",en:"A counter at 0, a loop over the list, a try/except around the conversion inside the loop."},
-   sol:'valeurs = ["3", "dix", "7", "x"]\ncompteur = 0\nfor v in valeurs:\n    try:\n        int(v)\n        compteur = compteur + 1\n    except ValueError:\n        pass\nprint(compteur)', out:'2' },
+   desc:{fr:'Avec valeurs = ["3", "dix", "7", "x", "12"], compte avec une boucle for combien de valeurs se convertissent en nombre entier sans erreur, et affiche ce compte.',en:'With valeurs = ["3", "dix", "7", "x", "12"], count with a for loop how many values convert to a whole number without error, and print that count.'},
+   hint:{fr:"Un compteur (une tirelire) à 0, une boucle sur la liste. Dans la boucle, un try : d'abord la conversion, <b>puis</b> la pièce dans la tirelire. Si la conversion plante, Python abandonne le reste du try : la pièce n'est jamais ajoutée. Dans le except, il n'y a rien à faire.",en:"A counter (a piggy bank) at 0, a loop over the list. Inside the loop, a try: first the conversion, <b>then</b> the coin in the piggy bank. If the conversion crashes, Python abandons the rest of the try: the coin is never added. In the except, there is nothing to do."},
+   sol:'valeurs = ["3", "dix", "7", "x", "12"]\ncompteur = 0\nfor v in valeurs:\n    try:\n        int(v)\n        compteur = compteur + 1\n    except ValueError:\n        pass\nprint(compteur)', out:'3', useVars:["compteur","valeurs"], need:["for","try","except","ValueError"], ban:["isdigit","isnumeric"] },
 
  { id:"10-6", kind:"order", diff:"hard", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
-   desc:{fr:"Ce programme doit afficher : Erreur evitee",en:"This program must print: Erreur evitee"},
-   hint:{fr:"Le except doit être aligné avec le try, et son contenu décalé de 4 espaces.",en:"except must line up with try, and its content indented by 4 spaces."},
-   lines:['try:','    x = 1 / 0','except ZeroDivisionError:','    print("Erreur evitee")'], out:'Erreur evitee' }
+   desc:{fr:"Ce programme redemande n tant que ce n'est pas un nombre. Avec les réponses « abc » puis « 7 », il doit afficher : n? abc / Ce n'est pas un nombre / n? 7 / 14",en:"This program asks for n again while it is not a number. With the answers \"abc\" then \"7\", it must print: n? abc / Ce n'est pas un nombre / n? 7 / 14"}, inputs:["abc","7"],
+   hint:{fr:"Le drapeau est baissé avant la boucle. Dans le try, le drapeau se lève juste <b>après</b> la conversion : ainsi, il ne se lève que si elle a réussi.",en:"The flag is down before the loop. In the try, the flag goes up right <b>after</b> the conversion: that way it only goes up if the conversion succeeded."},
+   lines:['ok = False','while ok == False:','    try:','        n = int(input("n? "))','        ok = True','    except ValueError:','        print("Ce n\'est pas un nombre")','print(n * 2)'], out:"n? abc\nCe n'est pas un nombre\nn? 7\n14" },
+
+ { id:"10-7", kind:"code", diff:"hard", title:{fr:"Une note valable",en:"A valid mark"},
+   desc:{fr:'Demande une note avec int(input("note? ")). Tant que la réponse n\'est pas un nombre entier, affiche Tape un nombre entier et redemande ; tant que la note n\'est pas entre 0 et 20, affiche Entre 0 et 20 et redemande. Enfin, affiche par exemple Note enregistrée : 15',en:'Ask for a mark with int(input("note? ")). While the answer is not a whole number, print Tape un nombre entier and ask again; while the mark is not between 0 and 20, print Entre 0 et 20 and ask again. Finally print, for instance, Note enregistrée : 15'}, inputs:["abc","25","15"],
+   hint:{fr:"Il y a deux sortes de mauvaises réponses. « abc » fait planter <code>int()</code> : c'est le filet <code>except</code> qui la rattrape. « 25 » ne fait rien planter, c'est un nombre parfait pour Python : aucun filet ne peut l'attraper, c'est à toi de la refuser avec un <code>if</code>. Une seule boucle suffit. C'est la boucle du cours, avec un drapeau, mais le drapeau ne se lève plus dès que la conversion réussit : il faut encore que la note soit entre 0 et 20. Un <code>if</code> dans le try, après la conversion, décide s'il se lève.",en:"There are two kinds of bad answers. \"abc\" makes <code>int()</code> crash: the <code>except</code> net catches it. \"25\" crashes nothing, it is a perfect number for Python: no net can catch it, you must refuse it yourself with an <code>if</code>. One loop is enough. It is the lesson's loop, with a flag, but the flag no longer goes up as soon as the conversion succeeds: the mark must also be between 0 and 20. An <code>if</code> inside the try, after the conversion, decides whether it goes up."},
+   sol:'ok = False\nwhile ok == False:\n    try:\n        note = int(input("note? "))\n        if note >= 0 and note <= 20:\n            ok = True\n        else:\n            print("Entre 0 et 20")\n    except ValueError:\n        print("Tape un nombre entier")\nprint("Note enregistrée :", note)', out:'note? abc\nTape un nombre entier\nnote? 25\nEntre 0 et 20\nnote? 15\nNote enregistrée : 15', retest:[{inputs:["12"],out:'note? 12\nNote enregistrée : 12'},{inputs:["0"],out:'note? 0\nNote enregistrée : 0'},{inputs:["-3","x","20"],out:'note? -3\nEntre 0 et 20\nnote? x\nTape un nombre entier\nnote? 20\nNote enregistrée : 20'}], need:["while","try","except","ValueError"] }
 ]});
 
 /* ==========================================================
@@ -1541,6 +1548,8 @@ COURSES.push(
 LESSONS[9]={ title:{fr:"Cours — les dictionnaires",en:"Lesson — dictionaries"},
   desc:{fr:"Une liste range par indice ; un dictionnaire range par nom, comme un carnet d'adresses.",en:"A list stores by index; a dictionary stores by name, like an address book."},
   blocks:[
+  {type:"n",fr:"Ce chapitre dépasse le programme de Première spé maths, qui dit : « on se limite aux listes sans présenter d'autres types de collections ». Il ne te sera donc pas demandé en contrôle, mais il sert dans tes programmes, en particulier pour le tableau d'effectifs d'une série statistique.",
+       en:"This chapter goes beyond the French Première maths syllabus, which says it is \"limited to lists, without presenting other types of collections\". It will not be asked in a test, but it is useful in your programs, especially for a statistical series' frequency table."},
   {type:"p",fr:"Pourquoi ce chapitre ? Au chapitre V, tu as rangé les notes d'une classe dans une liste : <code>notes = [12, 15, 9]</code>. Mais à qui est le 15 ? La liste ne le sait pas : elle ne connaît que des indices. Pour retrouver la note de Karim, il faut tenir à côté une deuxième liste de prénoms, parfaitement alignée, chercher à quel indice se trouve Karim, puis lire la note à cet indice. Et si un prénom est ajouté au milieu sans sa note, tout est décalé. Un <b>dictionnaire</b> règle ce problème : on demande directement la note de Karim.",
        en:"Why this chapter? In chapter V you stored a class's marks in a list: <code>notes = [12, 15, 9]</code>. But whose is the 15? The list does not know: it only knows indexes. To find Karim's mark you must keep a second list of first names, perfectly aligned, look for the index where Karim is, then read the mark at that index. And if a name is inserted in the middle without its mark, everything is shifted. A <b>dictionary</b> solves this: you ask for Karim's mark directly."},
   {type:"c",code:'prenoms = ["Alice", "Karim", "Lina"]\nnotes = [12, 15, 9]\nfor i in range(len(prenoms)):\n    if prenoms[i] == "Karim":\n        print(notes[i])\ncarnet = {"Alice": 12, "Karim": 15, "Lina": 9}\nprint(carnet["Karim"])',out:'15\n15'},
@@ -1580,28 +1589,45 @@ LESSONS[9]={ title:{fr:"Cours — les dictionnaires",en:"Lesson — dictionaries
 ]};
 
 LESSONS[10]={ title:{fr:"Cours — gérer les erreurs",en:"Lesson — handling errors"},
-  desc:{fr:"Anticiper qu'une ligne précise peut échouer, sans arrêter tout le programme.",en:"Anticipating that one specific line can fail, without stopping the whole program."},
+  desc:{fr:"Tendre un filet sous une ligne qui peut échouer, et redemander au lieu de tout arrêter.",en:"Setting a net under a line that may fail, and asking again instead of stopping everything."},
   blocks:[
-  {type:"p",fr:"Jusqu'ici, une erreur arrêtait tout : le programme s'interrompait à la ligne fautive, et rien après ne s'exécutait. <code>try</code> / <code>except</code> permet de dire à Python : « essaie ce bloc, et si ça rate, fais autre chose au lieu de tout arrêter ».",
-       en:'Until now, an error stopped everything: the program halted at the faulty line, and nothing after it ran. <code>try</code> / <code>except</code> lets you tell Python: "try this block, and if it fails, do something else instead of stopping everything."'},
+  {type:"n",fr:"Ce chapitre dépasse le programme de Première spé maths : la partie « Algorithmique et programmation » se limite aux variables, aux conditions, aux boucles, aux fonctions et aux listes, et ne parle pas de la gestion des erreurs. Il ne te sera donc pas demandé en contrôle, mais il rend tes programmes solides face à une saisie ratée.",
+       en:"This chapter goes beyond the French Première maths syllabus: its \"Algorithms and programming\" part is limited to variables, conditions, loops, functions and lists, and does not cover error handling. It will not be asked in a test, but it makes your programs robust against a mistyped answer."},
+  {type:"p",fr:"Pourquoi ce chapitre ? Souviens-toi de la carte rouge « Ce texte ne peut pas devenir un nombre » : tu tapes abc à la place de 15, <code>int()</code> ne sait pas quoi en faire, et <b>tout</b> le programme s'arrête, même les vingt lignes qui suivaient. Un vrai programme ne doit pas s'arrêter pour une faute de frappe : il doit prévenir et reposer la question. <code>try</code> / <code>except</code>, c'est le <b>filet sous le trapéziste</b>. On laisse Python <b>essayer</b> un numéro risqué (<code>try</code>) ; s'il tombe, le filet l'<b>attrape</b> (<code>except</code>) et le spectacle continue au lieu de s'arrêter. S'il ne tombe pas, le filet ne sert à rien et on ne le voit même pas.",
+       en:"Why this chapter? Remember the red card \"This text cannot become a number\": you type abc instead of 15, <code>int()</code> does not know what to do with it, and the <b>whole</b> program stops, even the twenty lines that followed. A real program must not stop because of a typo: it should warn and ask again. <code>try</code> / <code>except</code> is the <b>safety net under the trapeze artist</b>. You let Python <b>try</b> a risky act (<code>try</code>); if it falls, the net <b>catches</b> it (<code>except</code>) and the show goes on instead of stopping. If it does not fall, the net is useless and you do not even see it."},
   {type:"d",id:"tryflow",
-    fr:['bloc try',"pas d'erreur","une erreur survient","le programme continue","bloc except","except ne s'exécute que si une erreur survient dans le try — jamais les deux"],
-    en:['try block',"no error","an error occurs","the program continues","except block","except only runs if an error occurs in try — never both"]},
-  {type:"p",fr:"La structure a toujours la même forme : <code>try:</code>, un bloc décalé qu'on tente d'exécuter, puis <code>except NomDeLErreur:</code>, un bloc décalé qui ne s'exécute que si cette erreur précise survient dans le try.",
-       en:"The structure always has the same shape: <code>try:</code>, an indented block you attempt to run, then <code>except ErrorName:</code>, an indented block that only runs if that specific error occurs in the try."},
+    fr:["Python ESSAIE le bloc try, ligne par ligne","aucune erreur","→ on saute le except","une ligne plante","→ le reste du try est abandonné","le filet : bloc except","dans les deux cas, la suite du programme continue ici","Les lignes du try placées avant l'erreur ont déjà été exécutées."],
+    en:["Python TRIES the try block, line by line","no error","→ the except is skipped","a line crashes","→ the rest of try is abandoned","the net: except block","either way, the rest of the program continues here","Lines of the try placed before the error have already run."]},
+  {type:"p",fr:"La structure a toujours la même forme : <code>try:</code>, un bloc décalé qu'on tente d'exécuter, puis <code>except NomDeLErreur:</code>, un bloc décalé qui ne s'exécute que si cette erreur précise survient dans le try. Le nom à écrire après <code>except</code>, tu l'as déjà vu : sur chaque carte rouge de cette appli, tout en bas, sous « À la ligne… », il y a le message de Python en anglais, par exemple <code>ValueError: invalid literal for int()…</code>. Le mot qui finit par <b>Error</b>, juste avant les deux-points, c'est le nom du filet. <code>ValueError</code> : un texte qui ne devient pas un nombre (<code>int(\"abc\")</code>). <code>ZeroDivisionError</code> : une division par 0. <code>IndexError</code> : l'étage qui n'existe pas dans le classeur. <code>KeyError</code> : un nom écrit sur aucune ligne du carnet. Chaque carte rouge porte donc déjà le nom du filet à tendre.",
+       en:"The structure always has the same shape: <code>try:</code>, an indented block you attempt to run, then <code>except ErrorName:</code>, an indented block that only runs if that exact error occurs in the try. You have already seen the name to write after <code>except</code>: on every red card in this app, at the very bottom, under \"At line…\", there is Python's message in English, for instance <code>ValueError: invalid literal for int()…</code>. The word ending in <b>Error</b>, just before the colon, is the name of the net. <code>ValueError</code>: a text that does not become a number (<code>int(\"abc\")</code>). <code>ZeroDivisionError</code>: a division by 0. <code>IndexError</code>: the floor that does not exist in the binder. <code>KeyError</code>: a name written on no line of the address book. So each red card already carries the name of the net to set up."},
   {type:"c",code:'try:\n    print(10 / 0)\nexcept ZeroDivisionError:\n    print("Division impossible")\nprint("La suite continue")',
     out:'Division impossible\nLa suite continue'},
-  {type:"p",fr:"Dès que l'erreur survient dans le try, Python <b>abandonne immédiatement le reste du bloc try</b> — même les lignes qui n'ont rien à voir avec l'erreur — et saute directement au except correspondant.",
-       en:"As soon as the error occurs in try, Python <b>immediately abandons the rest of the try block</b> — even lines unrelated to the error — and jumps straight to the matching except."},
-  {type:"c",code:'try:\n    x = 10 / 0\n    print("Cette ligne ne s\'affiche jamais")\nexcept ZeroDivisionError:\n    print("Erreur attrapee")',
-    out:'Erreur attrapee'},
-  {type:"p",fr:"On précise toujours <b>quel type d'erreur</b> on attend, comme <code>ValueError</code> pour une conversion ratée ou <code>IndexError</code> pour une position hors liste. C'est le même nom qui apparaît dans les messages d'erreur qu'affiche cette application.",
-       en:"You always specify <b>which type of error</b> you expect, like <code>ValueError</code> for a failed conversion or <code>IndexError</code> for an out-of-range position. It is the same name shown in this app's error messages."},
-  {type:"c",code:'try:\n    n = int("dix")\nexcept ValueError:\n    print("Ce n\'est pas un nombre")',out:"Ce n'est pas un nombre"},
-  {type:"t",fr:"Attraper la <b>mauvaise</b> erreur ne sert à rien : <code>except ValueError:</code> n'arrêtera jamais une <code>ZeroDivisionError</code>, le programme plantera quand même. Il faut deviner — ou lire dans le message d'erreur — quel type précis va se produire.",
-       en:"Catching the <b>wrong</b> error is useless: <code>except ValueError:</code> will never stop a <code>ZeroDivisionError</code>, the program will crash anyway. You must guess — or read it from the error message — which exact type will occur."},
-  {type:"r",fr:"try/except sert pour une erreur <b>prévisible</b> qu'on sait gérer (une saisie invalide, une division par zéro) — pas pour cacher n'importe quel bug. Un programme qui avale silencieusement toutes les erreurs est plus difficile à corriger qu'un programme qui plante clairement.",
-       en:"try/except is for a <b>foreseeable</b> error you know how to handle (bad input, division by zero) — not for hiding any bug. A program that silently swallows every error is harder to fix than one that crashes clearly."}
+  {type:"p",fr:"Dès que l'erreur survient dans le try, Python <b>abandonne immédiatement le reste du bloc try</b>, même les lignes qui n'ont rien à voir avec l'erreur, et saute directement au except correspondant, comme un trapéziste tombé dans le filet ne remonte pas finir son numéro. Les lignes placées <b>avant</b> l'erreur, elles, ont déjà été exécutées.",
+       en:"As soon as the error occurs in try, Python <b>immediately abandons the rest of the try block</b>, even lines unrelated to the error, and jumps straight to the matching except, just as a trapeze artist who fell into the net does not climb back up to finish the act. Lines placed <b>before</b> the error, however, have already run."},
+  {type:"c",code:'try:\n    x = 10 / 0\n    print("Cette ligne ne s\'affiche jamais")\nexcept ZeroDivisionError:\n    print("Erreur attrapée")',
+    out:'Erreur attrapée'},
+  {type:"p",fr:"Si deux erreurs différentes sont possibles, on tend deux filets l'un sous l'autre, un par nom. Chaque filet ne retient que <b>sa</b> sorte de chute : une autre erreur passe à travers et descend jusqu'au filet suivant. Un seul <code>except</code> s'exécute, celui qui porte le bon nom.",
+       en:"If two different errors are possible, you set up two nets one below the other, one per name. Each net only holds <b>its own</b> kind of fall: another error goes through and drops to the next net. Only one <code>except</code> runs, the one carrying the right name."},
+  {type:"c",code:'for texte in ["abc", "0"]:\n    try:\n        print(10 / int(texte))\n    except ValueError:\n        print("Pas un nombre")\n    except ZeroDivisionError:\n        print("Division par zéro")',
+    out:'Pas un nombre\nDivision par zéro'},
+  {type:"p",fr:"Au chapitre IX, tu évitais la <code>KeyError</code> en vérifiant <b>avant</b> de lire, avec <code>in</code> ou <code>.get</code>. <code>try</code> / <code>except</code>, c'est l'autre stratégie : on essaie, puis on rattrape <b>après</b>. Pour une saisie au clavier, c'est souvent la seule possible : on ne peut pas savoir d'avance si le texte tapé deviendra un nombre.",
+       en:"In chapter IX you avoided the <code>KeyError</code> by checking <b>before</b> reading, with <code>in</code> or <code>.get</code>. <code>try</code> / <code>except</code> is the other strategy: you try, then catch <b>afterwards</b>. For keyboard input it is often the only option: you cannot know in advance whether the typed text will become a number."},
+  {type:"p",fr:"<b>Le cas le plus utile : redemander tant que la saisie est ratée.</b> On combine try/except avec une boucle <code>while</code> et le <b>drapeau</b> du chapitre VIII : baissé au départ (<code>ok = False</code>), il se lève dès qu'une saisie a réussi. Nouveauté par rapport au chapitre VIII : ce n'est plus nous qui regardons le drapeau à la fin, c'est le <code>while</code> qui le regarde avant chaque tour. <code>while ok == False:</code> se lit « tant que le drapeau est baissé, recommence » ; dès qu'il est levé, la boucle s'arrête d'elle-même. Avec les réponses « abc » puis « 15 » :",
+       en:"<b>The most useful case: asking again while the input fails.</b> Combine try/except with a <code>while</code> loop and chapter VIII's <b>flag</b>: down at the start (<code>ok = False</code>), it goes up as soon as an input succeeds. New compared with chapter VIII: we no longer look at the flag at the end, the <code>while</code> looks at it before every pass. <code>while ok == False:</code> reads \"while the flag is down, start again\"; as soon as it is up, the loop stops by itself. With the answers \"abc\" then \"15\":"},
+  {type:"c",code:'ok = False\nwhile ok == False:\n    try:\n        age = int(input("age? "))\n        ok = True\n    except ValueError:\n        print("Tape un nombre entier")\nprint("Dans 10 ans :", age + 10)',
+    out:'age? abc\nTape un nombre entier\nage? 15\nDans 10 ans : 25'},
+  {type:"p",fr:"Tour par tour. <b>Tour 1</b> : le drapeau est baissé, on entre dans la boucle. On tape abc : <code>int(\"abc\")</code> plante, donc Python abandonne le reste du try, et la ligne <code>ok = True</code> n'est <b>jamais atteinte</b>. Le drapeau reste baissé ; le except affiche son message, et la boucle recommence. <b>Tour 2</b> : on tape 15. <code>int(\"15\")</code> réussit, puis <code>ok = True</code> lève le drapeau, et le except est sauté. La condition <code>ok == False</code> est maintenant fausse : on sort de la boucle. Tout repose sur la règle vue plus haut : une ligne placée <b>après</b> la conversion, dans le try, ne s'exécute que si la conversion a réussi.",
+       en:"Pass by pass. <b>Pass 1</b>: the flag is down, we enter the loop. We type abc: <code>int(\"abc\")</code> crashes, so Python abandons the rest of the try, and the line <code>ok = True</code> is <b>never reached</b>. The flag stays down; the except prints its message, and the loop starts again. <b>Pass 2</b>: we type 15. <code>int(\"15\")</code> succeeds, then <code>ok = True</code> raises the flag, and the except is skipped. The condition <code>ok == False</code> is now false: we leave the loop. Everything relies on the rule seen above: a line placed <b>after</b> the conversion, inside the try, only runs if the conversion succeeded."},
+  {type:"p",fr:"<b>Quand il n'y a rien à faire : <code>pass</code>.</b> Parfois, en cas d'erreur, on veut juste ignorer la valeur ratée et passer à la suivante. Mais Python refuse un bloc vide après <code>except ValueError:</code> : il faut au moins une ligne décalée. On écrit alors <code>pass</code>, qui veut dire « rien à faire ici, continue » : une ligne qui occupe la place sans rien faire.",
+       en:"<b>When there is nothing to do: <code>pass</code>.</b> Sometimes, on an error, you just want to ignore the failed value and move on to the next one. But Python refuses an empty block after <code>except ValueError:</code>: there must be at least one indented line. You then write <code>pass</code>, which means \"nothing to do here, carry on\": a line that takes up the place without doing anything."},
+  {type:"c",code:'for v in ["4", "abc", "7"]:\n    try:\n        print(int(v) * 2)\n    except ValueError:\n        pass',out:'8\n14'},
+  {type:"t",fr:"Le piège : le filet trop large. Tu verras parfois <code>except:</code> tout seul, sans nom d'erreur. Il rattrape <b>tout</b>, y compris tes propres fautes. Dans cet exemple, <code>bonus</code> n'existe pas, et on tape 15 :",
+       en:"The trap: the net that is too wide. You will sometimes see <code>except:</code> on its own, without an error name. It catches <b>everything</b>, including your own mistakes. In this example <code>bonus</code> does not exist, and we type 15:"},
+  {type:"c",code:'try:\n    note = int(input("note? "))\n    print(note + bonus)\nexcept:\n    print("Ce n\'est pas un nombre")',out:"note? 15\nCe n'est pas un nombre"},
+  {type:"p",fr:"Tu as tapé 15, un vrai nombre, et le programme répond « Ce n'est pas un nombre » : la vraie erreur (<code>NameError</code>, bonus inconnu) est cachée derrière un faux message, et tu chercheras longtemps. Avec <code>except ValueError:</code>, la NameError serait apparue en clair. C'est pourquoi cette appli refuse <code>except:</code> sans nom. Pour trouver le bon nom : provoque l'erreur une fois exprès, sans try, et lis le mot en <b>…Error</b> écrit tout en bas de la carte rouge, juste avant les deux-points.",
+       en:"You typed 15, a real number, and the program answers \"Ce n'est pas un nombre\": the real error (<code>NameError</code>, unknown bonus) is hidden behind a false message, and you will search for a long time. With <code>except ValueError:</code>, the NameError would have shown up clearly. That is why this app refuses <code>except:</code> without a name. To find the right name: trigger the error once on purpose, without try, and read the word ending in <b>…Error</b> written at the very bottom of the red card, just before the colon."},
+  {type:"r",fr:"1) <code>try:</code> essaie un bloc ; <code>except NomDeLErreur:</code> est le filet, qui ne sert qu'en cas de chute.<br>2) Le nom après except = le mot en …Error écrit tout en bas de la carte rouge : ValueError, ZeroDivisionError, IndexError, KeyError. Plusieurs erreurs possibles : plusieurs except empilés, un par nom.<br>3) Dès qu'une ligne plante, le reste du try est abandonné ; les lignes d'avant ont déjà été exécutées ; ensuite, le programme continue.<br>4) Redemander : un drapeau baissé, une boucle <code>while</code>, le drapeau levé dans le try juste après la conversion.<br>5) <code>pass</code> : un bloc qui ne fait rien.<br>6) Toujours nommer l'erreur attendue : un <code>except:</code> tout seul cache les vraies erreurs.",
+       en:"1) <code>try:</code> tries a block; <code>except ErrorName:</code> is the net, used only if something falls.<br>2) The name after except = the word ending in …Error at the very bottom of the red card: ValueError, ZeroDivisionError, IndexError, KeyError. Several possible errors: several stacked excepts, one per name.<br>3) As soon as a line crashes, the rest of the try is abandoned; earlier lines have already run; then the program carries on.<br>4) Asking again: a flag down, a <code>while</code> loop, the flag raised in the try right after the conversion.<br>5) <code>pass</code>: a block that does nothing.<br>6) Always name the expected error: an <code>except:</code> on its own hides the real errors."}
 ]};
 
 /* ==========================================================
@@ -1998,7 +2024,7 @@ const T = {
   revisionT:"Mode révision", revisionD:"Les exercices sur lesquels tu t'es trompée la dernière fois, regroupés par chapitre. Un exercice sort de cette liste dès que tu le réussis.",
   revisionEmpty:"Rien à réviser pour l'instant — bravo !",
   revisionRedo:"Refaire cet exercice",
-  exTrap:"Le piège classique", exKeep:"À retenir",
+  exTrap:"Le piège classique", exKeep:"À retenir", exFurther:"Pour aller plus loin",
   ok:"C'est exactement ça.", okAgain:"Toujours juste — déjà comptabilisé.",
   retestB:"Ton programme affiche la bonne réponse quand on tape {a}, mais pas quand on tape {b} : il faudrait alors afficher {w}. Ton programme doit marcher pour n'importe quelle réponse : utilise la boîte où tu as rangé ce qui a été tapé, au lieu d'écrire le résultat toi-même, et vérifie ce que ton programme affiche dans chaque cas possible.",
   thenLine:", puis à la ligne ",
@@ -2008,6 +2034,13 @@ const T = {
   err:"Python s'est arrêté sur une erreur.",
   timeout:"Ton programme tourne trop longtemps.",
   timeoutMsg:"C'est presque toujours une boucle qui ne s'arrête jamais. Vérifie que la variable testée par le <code>while</code> change bien à chaque tour.",
+  noInputT:"Ton programme pose une question de trop",
+  noInputB:"Il demande une réponse de plus que les {n} réponse(s) prévue(s) pour cet essai, alors on l'arrête. Le plus souvent, c'est une boucle qui redemande sans fin : vérifie que la condition du <code>while</code> devient fausse une fois la bonne réponse obtenue (le drapeau se lève-t-il bien dans le <code>try</code>, juste après la conversion ?). Sinon, c'est un <code>input()</code> en trop.",
+  noInputB1:"Il demande une réponse de plus que les {n} réponse(s) prévue(s) pour cet essai, alors on l'arrête. Le plus souvent, c'est une boucle qui redemande sans fin : vérifie que la condition du <code>while</code> devient fausse une fois la bonne réponse obtenue. Sinon, c'est un <code>input()</code> en trop.",
+  noInputB0:"Cet exercice ne prévoit aucune saisie au clavier, mais ton programme appelle <code>input()</code>. Écris directement les valeurs données dans l'énoncé.",
+  broadT:"Précise le type d'erreur",
+  broadB:"<code>except:</code> tout seul, ou <code>except Exception:</code>, rattrape <b>toutes</b> les erreurs, même tes propres fautes de frappe : la vraie erreur serait cachée derrière ton message. Dans cette appli, un <code>except</code> doit toujours nommer l'erreur attendue.",
+  broadD:"Provoque l'erreur une fois exprès, sans <code>try</code>, et lis le mot en …Error écrit tout en bas de la carte rouge, juste avant les deux-points : c'est lui qu'on écrit après <code>except</code>, par exemple <code>except ValueError:</code>.",
   empty:"Écris d'abord un peu de code.",
   loading:"Chargement de Python…", ready:"Python prêt", failed:"Python indisponible",
   failedMsg:"Le moteur Python n'a pas pu se charger. Vérifie ta connexion Internet, puis recharge la page.",
@@ -2072,7 +2105,7 @@ const T = {
   revisionT:"Review mode", revisionD:"The exercises you got wrong last time, grouped by chapter. An exercise leaves this list as soon as you get it right.",
   revisionEmpty:"Nothing to review right now — well done!",
   revisionRedo:"Redo this exercise",
-  exTrap:"The classic trap", exKeep:"Remember",
+  exTrap:"The classic trap", exKeep:"Remember", exFurther:"Going further",
   ok:"That's exactly it.", okAgain:"Still correct — already counted.",
   retestB:"Your program shows the right answer when {a} is typed, but not when {b} is typed: it should then show {w}. Your program must work for any answer: use the box where you stored what was typed, instead of writing the result yourself, and check what your program prints in every possible case.",
   thenLine:", then on the next line ",
@@ -2082,6 +2115,13 @@ const T = {
   err:"Python stopped on an error.",
   timeout:"Your program runs too long.",
   timeoutMsg:"This is almost always a loop that never ends. Check that the variable tested by the <code>while</code> really changes on each pass.",
+  noInputT:"Your program asks one question too many",
+  noInputB:"It asks for one more answer than the {n} answer(s) planned for this run, so it is stopped. Most often it is a loop that keeps asking: check that the <code>while</code> condition becomes false once a good answer is obtained (does the flag go up inside the <code>try</code>, right after the conversion?). Otherwise there is one <code>input()</code> too many.",
+  noInputB1:"It asks for one more answer than the {n} answer(s) planned for this run, so it is stopped. Most often it is a loop that keeps asking: check that the <code>while</code> condition becomes false once a good answer is obtained. Otherwise there is one <code>input()</code> too many.",
+  noInputB0:"This exercise plans no keyboard input, but your program calls <code>input()</code>. Write the values given in the instructions directly.",
+  broadT:"Name the type of error",
+  broadB:"<code>except:</code> on its own, or <code>except Exception:</code>, catches <b>every</b> error, even your own typos: the real error would be hidden behind your message. In this app, an <code>except</code> must always name the expected error.",
+  broadD:"Trigger the error once on purpose, without <code>try</code>, and read the word ending in …Error at the very bottom of the red card, just before the colon: that is what goes after <code>except</code>, for example <code>except ValueError:</code>.",
   empty:"Write some code first.",
   loading:"Loading Python…", ready:"Python ready", failed:"Python unavailable",
   failedMsg:"The Python engine could not load. Check your Internet connection, then reload the page.",
@@ -2138,10 +2178,10 @@ const ERRORS = [
 
 { re:/^SyntaxError: expected ':'/,
   fr:()=>({t:"Il manque les deux-points",
-    b:"Les lignes qui ouvrent un bloc — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code> — se terminent toujours par <code>:</code>.",
+    b:"Les lignes qui ouvrent un bloc — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code>, <code>try</code>, <code>except</code> — se terminent toujours par <code>:</code>.",
     d:"Ajoute <code>:</code> à la fin de cette ligne, puis décale la ligne suivante de 4 espaces."}),
   en:()=>({t:"Missing colon",
-    b:"Lines that open a block — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code> — always end with <code>:</code>.",
+    b:"Lines that open a block — <code>if</code>, <code>elif</code>, <code>else</code>, <code>for</code>, <code>while</code>, <code>def</code>, <code>try</code>, <code>except</code> — always end with <code>:</code>.",
     d:"Add <code>:</code> at the end of this line, then indent the next line by 4 spaces."})},
 
 { re:/^SyntaxError: '(.)' was never closed/,
@@ -2208,6 +2248,21 @@ const ERRORS = [
     b:"Some lines are indented with tabs, others with spaces. It looks the same, but not to Python.",
     d:"Clear the indentation and redo it with the editor's Tab key, which inserts 4 spaces."})},
 
+{ re:/^SyntaxError: expected 'except' or 'finally' block/,
+  fr:()=>({t:"Un try sans son filet",
+    b:"Un bloc <code>try:</code> doit toujours être suivi d'un <code>except</code>, le filet. Ici, Python a trouvé une ligne alignée avec <code>try</code> sans avoir vu de <code>except</code> avant.",
+    d:"Ajoute, aligné avec <code>try</code>, une ligne <code>except NomDeLErreur:</code> suivie d'une ligne décalée, par exemple <code>except ValueError:</code>."}),
+  en:()=>({t:"A try without its net",
+    b:"A <code>try:</code> block must always be followed by an <code>except</code>, the net. Here Python found a line lined up with <code>try</code> without seeing any <code>except</code> first.",
+    d:"Add, lined up with <code>try</code>, a line <code>except ErrorName:</code> followed by an indented line, for instance <code>except ValueError:</code>."})},
+
+{ re:/^SyntaxError: invalid syntax/, when:ctx=>/^\s*except\b/.test(ctx.src),
+  fr:()=>({t:"except doit être aligné avec son try",
+    b:"Cette ligne <code>except</code> est décalée comme si elle était à l'intérieur du try, ou bien il n'y a aucun <code>try:</code> au-dessus. <code>try</code> et <code>except</code> fonctionnent comme <code>if</code> et <code>else</code> : ils commencent exactement au même endroit, seul leur contenu est décalé.",
+    d:"Vérifie qu'il y a bien un <code>try:</code> au-dessus, puis retire le décalage de la ligne <code>except</code> pour qu'elle commence exactement au même endroit que <code>try</code>, en gardant son contenu décalé de 4 espaces."}),
+  en:()=>({t:"except must line up with its try",
+    b:"This <code>except</code> line is indented as if it were inside the try, or there is no <code>try:</code> above it. <code>try</code> and <code>except</code> work like <code>if</code> and <code>else</code>: they start exactly at the same place, only their content is indented.",
+    d:"Check there is a <code>try:</code> above, then remove the indentation of the <code>except</code> line so it starts exactly where <code>try</code> starts, keeping its content indented by 4 spaces."})},
 { re:/^SyntaxError/,
   fr:()=>({t:"Python n'arrive pas à lire cette ligne",
     b:"Il y a une faute de grammaire quelque part : un signe en trop, un signe manquant, ou un mot mal orthographié.",
@@ -2224,6 +2279,29 @@ const ERRORS = [
     b:`Inside a function, writing <code>${m[1]} = ...</code> creates a new box <code>${m[1]}</code> of the function's own (on its scrap paper), hiding the outer one. So <code>${m[1]} + ...</code> reads a local box that is still empty. A function can read an outer box, but not change it.`,
     d:`Pass the value as a parameter and return the result, then store it outside, for instance: <code>def ajoute(t, x): return t + x</code>, then <code>${m[1]} = ajoute(${m[1]}, 3)</code>.`})},
 
+{ re:/^NameError: name '(true|false|none|TRUE|FALSE|NONE)' is not defined/,
+  fr:m=>({t:`${m[1]} s'écrit avec une majuscule`,
+    b:`Python ne connaît pas <code>${m[1]}</code> : les valeurs spéciales s'écrivent <code>True</code>, <code>False</code> et <code>None</code>, avec une majuscule au début et le reste en minuscules.`,
+    d:`Écris <code>${m[1][0].toUpperCase()+m[1].slice(1).toLowerCase()}</code>.`}),
+  en:m=>({t:`${m[1]} is written with a capital`,
+    b:`Python does not know <code>${m[1]}</code>: the special values are written <code>True</code>, <code>False</code> and <code>None</code>, with a capital first letter and the rest in lower case.`,
+    d:`Write <code>${m[1][0].toUpperCase()+m[1].slice(1).toLowerCase()}</code>.`})},
+
+{ re:/^NameError: name '(\w+)' is not defined/, when:ctx=>new RegExp("^\\s*except\\s*\\(?[\\w\\s,]*\\b"+ctx.nameErr+"\\b").test(ctx.src),
+  fr:m=>({t:"Le nom de l'erreur est mal écrit",
+    b:`Après <code>except</code>, Python attend le nom exact d'une erreur, et <code>${m[1]}</code> n'en est pas un. Les noms d'erreurs s'écrivent avec des majuscules, sans guillemets : <code>ValueError</code>, <code>ZeroDivisionError</code>, <code>IndexError</code>, <code>KeyError</code>.`,
+    d:"Recopie exactement le mot en …Error écrit tout en bas de la carte rouge que donne l'erreur quand elle n'est pas rattrapée, majuscules comprises."}),
+  en:m=>({t:"The error name is misspelled",
+    b:`After <code>except</code>, Python expects the exact name of an error, and <code>${m[1]}</code> is not one. Error names are written with capitals, without quotes: <code>ValueError</code>, <code>ZeroDivisionError</code>, <code>IndexError</code>, <code>KeyError</code>.`,
+    d:"Copy exactly the word ending in …Error at the very bottom of the red card the error gives when it is not caught, capitals included."})},
+
+{ re:/^TypeError: catching classes that do not inherit from BaseException is not allowed/,
+  fr:()=>({t:"Pas de guillemets autour du nom de l'erreur",
+    b:"Après <code>except</code>, le nom de l'erreur s'écrit tel quel, sans guillemets : c'est un nom que Python connaît, pas un texte.",
+    d:"Écris par exemple <code>except ValueError:</code> et non <code>except \"ValueError\":</code>."}),
+  en:()=>({t:"No quotes around the error name",
+    b:"After <code>except</code>, the error name is written as is, without quotes: it is a name Python knows, not a text.",
+    d:"Write for instance <code>except ValueError:</code>, not <code>except \"ValueError\":</code>."})},
 { re:/^NameError: name '(\w+)' is not defined/, when:ctx=>ctx.defLater,
   fr:m=>({t:`${m[1]} est appelée avant d'être définie`,
     b:`Python lit ton programme de haut en bas : au moment de cette ligne, le bloc <code>def ${m[1]}(...)</code> n'a pas encore été lu, donc <code>${m[1]}</code> n'existe pas encore. Comme en maths, on écrit « Soit f… » avant de calculer f(3).`,
@@ -2356,13 +2434,15 @@ const ERRORS = [
     b:"Indexes start at 0. A list of 3 items has indexes 0, 1 and 2: index 3 does not exist, it is the floor that does not exist. You can neither read nor fill a page that does not exist.",
     d:"The last item is at index <code>len(list) - 1</code>. You can also write <code>list[-1]</code>. To add an item at the end, use <code>list.append(…)</code>."})},
 
-{ re:/^ValueError: invalid literal for int\(\) with base 10: '(.*)'/,
+{ re:/^ValueError: (?:invalid literal for (int)\(\) with base 10|could not convert string to (float)): '(.*)'/,
   fr:m=>({t:"Ce texte ne peut pas devenir un nombre",
-    b:`<code>int()</code> ne sait convertir que du texte qui contient uniquement des chiffres. Ici il a reçu <code>${m[1]}</code>.`,
-    d:"Vérifie la valeur avant de la convertir, notamment si elle vient de <code>input()</code>."}),
+    b:(m[1]?"<code>int()</code> ne sait convertir que du texte qui contient uniquement des chiffres (un nombre entier).":"<code>float()</code> ne sait convertir que du texte qui s'écrit comme un nombre, avec un point pour la virgule.")+
+      (m[3]===""?" Ici il a reçu un texte vide : rien n'a été tapé.":` Ici il a reçu <code>${esc(m[3])}</code>.`)+(m[1]&&/^-?\d+[.,]\d+$/.test(m[3])?" Un nombre à virgule n'est pas un entier : utilise <code>float()</code> si tu veux des décimales.":""),
+    d:"Vérifie la valeur avant de la convertir. Si elle vient de <code>input()</code>, tu peux aussi rattraper l'erreur avec <code>try</code> / <code>except ValueError:</code> et redemander (chapitre X)."}),
   en:m=>({t:"This text cannot become a number",
-    b:`<code>int()</code> only converts text made of digits. Here it received <code>${m[1]}</code>.`,
-    d:"Check the value before converting, especially if it comes from <code>input()</code>."})},
+    b:(m[1]?"<code>int()</code> only converts text made of digits (a whole number).":"<code>float()</code> only converts text written like a number, with a dot as decimal separator.")+
+      (m[3]===""?" Here it received an empty text: nothing was typed.":` Here it received <code>${esc(m[3])}</code>.`)+(m[1]&&/^-?\d+[.,]\d+$/.test(m[3])?" A decimal number is not a whole number: use <code>float()</code> if you want decimals.":""),
+    d:"Check the value before converting. If it comes from <code>input()</code>, you can also catch the error with <code>try</code> / <code>except ValueError:</code> and ask again (chapter X)."})},
 
 { re:/^AttributeError: 'NoneType' object has no attribute '(\w+)'/,
   fr:(m,ctx)=>ctx.listMethodStored?({t:"Ta liste a été remplacée par None",
@@ -2400,13 +2480,13 @@ const ERRORS = [
     d:"Affiche le dictionnaire avec <code>print</code> pour voir ses clés. Pour lire sans risque un nombre qui peut manquer : <code>d.get(n, 0)</code>."})
    :({t:"Cette clé n'existe pas dans le dictionnaire",
     b:`Tu cherches la clé <code>${esc(m[1])}</code>, mais aucune ligne du carnet ne commence par ce nom : c'est l'étage qui n'existe pas, version dictionnaire. Attention aux majuscules et aux accents : \"Age\" et \"age\" sont deux clés différentes.`+(ctx.quotedVar?` Mais <b>${ctx.quotedVar}</b> est aussi le nom d'une boîte de ton programme : si tu voulais utiliser ce qu'elle contient, écris-la <b>sans guillemets</b>, comme <code>d[${ctx.quotedVar}]</code>.`:""),
-    d:"Affiche le dictionnaire avec <code>print</code> pour voir ses clés. Pour lire sans risque : <code>d.get(clé, valeur_de_secours)</code>, ou vérifie d'abord avec <code>if clé in d:</code>."}),
+    d:"Affiche le dictionnaire avec <code>print</code> pour voir ses clés. Pour lire sans risque : <code>d.get(clé, valeur_de_secours)</code>, vérifie d'abord avec <code>if clé in d:</code>, ou rattrape l'erreur avec <code>try</code> / <code>except KeyError:</code> (chapitre X)."}),
   en:(m,ctx)=>/^-?[\d.]+$/.test(m[1])?({t:"This number is the key of no line",
     b:`You asked for <code>${esc(m[1])}</code> in brackets, but no line of the address book starts with that number. Two cases. If your dictionary's keys are words (<code>\"Karim\"</code>), you probably wrote an index out of list habit: an address book has no numbered lines. If the keys are numbers (frequency table, table of values), that number is simply not in the table: it is the floor that does not exist.`,
     d:"Print the dictionary to see its keys. To read a number that may be missing safely: <code>d.get(n, 0)</code>."})
    :({t:"This key does not exist in the dictionary",
     b:`You are looking for the key <code>${esc(m[1])}</code>, but no line of the address book starts with that name: it is the floor that does not exist, dictionary version. Watch capitals and accents: \"Age\" and \"age\" are two different keys.`+(ctx.quotedVar?` But <b>${ctx.quotedVar}</b> is also the name of a box in your program: if you meant what it holds, write it <b>without quotes</b>, as in <code>d[${ctx.quotedVar}]</code>.`:""),
-    d:"Print the dictionary to see its keys. To read safely: <code>d.get(key, fallback)</code>, or check first with <code>if key in d:</code>."})},
+    d:"Print the dictionary to see its keys. To read safely: <code>d.get(key, fallback)</code>, check first with <code>if key in d:</code>, or catch the error with <code>try</code> / <code>except KeyError:</code> (chapter X)."})},
 
 { re:/^AttributeError: 'dict' object has no attribute '(\w+)'/,
   fr:m=>/^(append|insert|extend)$/.test(m[1])?({t:"Un dictionnaire ne se remplit pas par la fin",
@@ -2459,13 +2539,21 @@ const ERRORS = [
     b:`You call <code>.${m[2]}()</code> on ${m[1]==="list"?"a list":"this object"}, but no such action exists under that name.`,
     d:m[1]==="list"?"To add an item to a list, use <code>.append()</code>.":"Check the spelling of the name after the dot."})},
 
+{ re:/^RecursionError/,
+  fr:()=>({t:"Une fonction s'appelle elle-même sans fin",
+    b:"Ta fonction s'appelle elle-même, qui s'appelle elle-même, et ainsi de suite, sans jamais s'arrêter : comme deux miroirs face à face. Python arrête tout au bout d'environ mille appels empilés.",
+    d:"Si tu ne voulais pas qu'elle s'appelle elle-même, vérifie le nom appelé à l'intérieur : tu as peut-être réutilisé son propre nom. Si c'était voulu, il faut un cas où elle <b>renvoie</b> une valeur sans se rappeler (par exemple <code>if n == 0: return 1</code>), et chaque appel doit se rapprocher de ce cas."}),
+  en:()=>({t:"A function calls itself endlessly",
+    b:"Your function calls itself, which calls itself, and so on, never stopping: like two mirrors facing each other. Python stops everything after about a thousand stacked calls.",
+    d:"If you did not mean it to call itself, check the name called inside: you may have reused its own name. If it was intended, it needs a case where it <b>returns</b> a value without calling itself again (for instance <code>if n == 0: return 1</code>), and each call must get closer to that case."})},
+
 { re:/^ZeroDivisionError/,
   fr:()=>({t:"Division par zéro",
     b:"Diviser par 0 n'a pas de résultat en mathématiques, Python s'arrête donc.",
-    d:"Vérifie la valeur du diviseur avant la division, par exemple avec un <code>if</code>."}),
+    d:"Vérifie la valeur du diviseur avant la division, par exemple avec un <code>if</code>, ou rattrape l'erreur avec <code>try</code> / <code>except ZeroDivisionError:</code> (chapitre X)."}),
   en:()=>({t:"Division by zero",
     b:"Dividing by 0 has no result in mathematics, so Python stops.",
-    d:"Check the divisor before dividing, for example with an <code>if</code>."})}
+    d:"Check the divisor before dividing, for example with an <code>if</code>, or catch the error with <code>try</code> / <code>except ZeroDivisionError:</code> (chapter X)."})}
 ];
 
 const FALLBACK_ERR = {
@@ -2498,9 +2586,11 @@ function lev(a,b){
 /* propose un nom proche parmi ceux écrits dans le code */
 function nearestName(bad,code){
   const names=new Set();
+  // Les mots écrits dans les textes et les commentaires ne sont pas des noms du programme.
+  const bare=code.replace(/"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'/g,'""').replace(/#.*$/gm,"");
   const re=/[A-Za-z_]\w*/g;let m;
-  while((m=re.exec(code))) if(m[0]!==bad) names.add(m[0]);
-  ["print","input","range","len","sum","str","int","float","type","append","def","for","while","if","else","elif","return","True","False","and","or","not","in","end"].forEach(k=>names.delete(k));
+  while((m=re.exec(bare))) if(m[0]!==bad) names.add(m[0]);
+  ["print","input","range","len","sum","str","int","float","type","append","def","for","while","if","else","elif","return","True","False","None","and","or","not","in","end","try","except","finally","pass","break","continue","import","from","as","is","global","lambda","raise","with"].forEach(k=>names.delete(k));
   let best=null,bd=99;
   names.forEach(n=>{const d=lev(bad.toLowerCase(),n.toLowerCase());if(d<bd&&d<=2&&Math.abs(n.length-bad.length)<=2){bd=d;best=n;}});
   return best;
@@ -2516,6 +2606,7 @@ function explainError(err,line,code,lang){
   const ke=/^KeyError: '(\w+)'$/.exec(err);
   if(ke&&new RegExp("^\\s*"+ke[1]+"\\s*=(?!=)","m").test(code)) ctx.quotedVar=ke[1];
   const nm=/^NameError: name '(\w+)' is not defined/.exec(err);
+  if(nm) ctx.nameErr=nm[1];
   if(nm){
     const n=nm[1], after=code.split("\n").slice(line||0).join("\n");
     // Fonction appelée avant sa définition (le def arrive plus bas).
@@ -2535,9 +2626,44 @@ function explainError(err,line,code,lang){
   }
   for(const e of ERRORS){
     const m=e.re.exec(err);
-    if(m&&(!e.when||e.when(ctx))) return Object.assign({line},e[lang](m,ctx));
+    if(m&&(!e.when||e.when(ctx))) return wrongNet(Object.assign({line},e[lang](m,ctx)),err,code,ctx,lang);
   }
-  return Object.assign({line},FALLBACK_ERR[lang]());
+  return wrongNet(Object.assign({line},FALLBACK_ERR[lang]()),err,code,ctx,lang);
+}
+/* Le programme contient un except, mais pour une autre erreur que celle qui
+   s'est produite : on le dit en tête de la carte, avant l'explication habituelle. */
+function wrongNet(r,err,code,ctx,lang){
+  const typ=(/^(\w+Error)\b/.exec(err)||[])[1];
+  if(!typ||/^(Syntax|Indentation)Error$/.test(typ)||/^\s*except\b/.test(ctx.src)||!r.line) return r;
+  // La ligne fautive est-elle dans un bloc try (et pas dans un except) ?
+  const L=code.split("\n"),ind=l=>l.match(/^\s*/)[0].length;
+  let cur=ind(L[r.line-1]||""),inTry=false;
+  for(let k=r.line-2;k>=0;k--){
+    const l=L[k]; if(!l.trim()) continue;
+    const i=ind(l); if(i>=cur) continue;
+    if(/^\s*try\s*:/.test(l)){inTry=true;break;}
+    if(/^\s*(except|finally|else)\b/.test(l)) break;
+    cur=i; if(i===0) break;
+  }
+  if(!inTry) return r;
+  const names=[],re=/^\s*except\s*\(?([\w\s,]+?)\)?\s*(?:as\s+\w+\s*)?:/gm;let m;
+  while((m=re.exec(code))) m[1].split(",").forEach(n=>{n=n.trim();if(n)names.push(n);});
+  if(!names.length||names.includes(typ)) return r;
+  const fr=lang==="fr";
+  if(names.some(n=>/\s(or|and)\s/.test(n))){
+    r.b=(fr?"<code>or</code> ne marche pas après <code>except</code> : Python ne garde que le premier nom, et les autres erreurs passent à travers le filet. Empile plutôt deux <code>except</code>, un par nom. "
+      :"<code>or</code> does not work after <code>except</code>: Python only keeps the first name, and the other errors go through the net. Stack two <code>except</code> instead, one per name. ")+r.b;
+    return r;
+  }
+  const has=names.map(n=>"<code>"+esc(n)+"</code>").join(", ");
+  if(/^(NameError|UnboundLocalError|AttributeError)$/.test(typ)){
+    r.b=(fr?`Ton filet <code>except</code> attend ${has}, mais l'erreur qui s'est produite est une <code>${typ}</code>. Celle-là vient d'une faute dans ton code, pas de la saisie : ne l'attrape pas, corrige-la (explication ci-dessous). `
+      :`Your <code>except</code> net expects ${has}, but the error that occurred is a <code>${typ}</code>. That one comes from a mistake in your code, not from the input: do not catch it, fix it (explanation below). `)+r.b;
+    return r;
+  }
+  r.b=(fr?`Ton filet <code>except</code> attend ${has}, mais l'erreur qui s'est produite est une <code>${typ}</code> : il ne l'attrape donc pas. Écris ce nom-là après except, ou ajoute un second except. `
+    :`Your <code>except</code> net expects ${has}, but the error that occurred is a <code>${typ}</code>: so it does not catch it. Write that name after except, or add a second except. `)+r.b;
+  return r;
 }
 
 /* ==========================================================
@@ -2636,13 +2762,27 @@ function load(){try{
 const RUNNER=[
 "import io, sys, builtins, time, json, traceback",
 "",
+"# Coupe-circuit : hérite de BaseException, donc aucun « except Exception »",
+"# de l'élève ne peut l'attraper ; et il se relève à chaque saut ou appel.",
+"class _PLStop(BaseException):",
+"    pass",
+"",
 "def _pl_run(src, inputs_json):",
 "    inputs = json.loads(inputs_json)",
 "    buf = io.StringIO()",
 "    o, e, oi = sys.stdout, sys.stderr, builtins.input",
 "    pos = [0]",
+"    stop = ['']",
+"    rec_line = [0]",
 "    def fake_input(prompt=''):",
-"        v = inputs[pos[0]] if pos[0] < len(inputs) else ''",
+"        if stop[0]:",
+"            raise _PLStop(stop[0])",
+"        if pos[0] >= len(inputs):",
+"            # Plus de réponse simulée : on arrête net au lieu de renvoyer '' sans fin.",
+"            print(str(prompt))",
+"            stop[0] = 'NOINPUT'",
+"            raise _PLStop('NOINPUT')",
+"        v = inputs[pos[0]]",
 "        pos[0] += 1",
 "        print(str(prompt) + str(v))",
 "        return v",
@@ -2650,17 +2790,54 @@ const RUNNER=[
 "    sys.stdout = buf",
 "    sys.stderr = buf",
 "    deadline = time.time() + 5.0",
+"    M = getattr(sys, 'monitoring', None)",
+"    TOOL = 4",
+"    # sys.monitoring (Python 3.12+) ne se désactive pas quand le rappel lève une",
+"    # erreur, contrairement à sys.settrace : même un « except: » nu dans une",
+"    # boucle ne peut pas éteindre la surveillance. Une boucle infinie passe",
+"    # forcément par un saut (JUMP), une récursion par une entrée de fonction",
+"    # (PY_START) : surveiller ces deux événements suffit, sans ralentir chaque ligne.",
+"    cnt = [0]",
+"    def watch(code, *args):",
+"        if code.co_filename != '<string>':",
+"            return M.DISABLE",
+"        if not stop[0]:",
+"            # L'heure n'est lue qu'une fois tous les 64 événements (moins de ralentissement).",
+"            cnt[0] += 1",
+"            if cnt[0] & 63 == 0 and time.time() > deadline:",
+"                stop[0] = 'TIMEOUT'",
+"        if stop[0]:",
+"            raise _PLStop(stop[0])",
+"    def on_raise(code, offset, exc):",
+"        # Une récursion infinie rattrapée par un except repartirait en arbre",
+"        # d'appels sans fin : on arrête dès la première RecursionError.",
+"        if code.co_filename == '<string>' and isinstance(exc, RecursionError) and not stop[0]:",
+"            stop[0] = 'RECURSION'",
+"            for a, z, ln in code.co_lines():",
+"                if a <= offset < z and ln:",
+"                    rec_line[0] = ln",
 "    def tracer(frame, event, arg):",
-"        if time.time() > deadline:",
-"            raise TimeoutError('pl_timeout')",
+"        if not stop[0] and time.time() > deadline:",
+"            stop[0] = 'TIMEOUT'",
+"        if stop[0]:",
+"            raise _PLStop(stop[0])",
 "        return tracer",
 "    err = ''",
 "    line = 0",
 "    try:",
-"        sys.settrace(tracer)",
+"        if M:",
+"            if M.get_tool(TOOL) is not None:",
+"                M.free_tool_id(TOOL)",
+"            M.use_tool_id(TOOL, 'pl_watchdog')",
+"            M.register_callback(TOOL, M.events.JUMP, watch)",
+"            M.register_callback(TOOL, M.events.PY_START, watch)",
+"            M.register_callback(TOOL, M.events.RAISE, on_raise)",
+"            M.set_events(TOOL, M.events.JUMP | M.events.PY_START | M.events.RAISE)",
+"        else:",
+"            sys.settrace(tracer)",
 "        exec(src, {'__name__': '__main__'})",
-"    except TimeoutError:",
-"        err = 'TIMEOUT'",
+"    except _PLStop:",
+"        pass",
 "    except SyntaxError as ex:",
 "        err = type(ex).__name__ + ': ' + str(ex.msg)",
 "        line = ex.lineno or 0",
@@ -2672,11 +2849,30 @@ const RUNNER=[
 "            if fr.f_code.co_filename == '<string>':",
 "                line = ln",
 "    finally:",
-"        sys.settrace(None)",
+"        # Rétablir d'abord les sorties et input, puis couper la surveillance",
+"        # sans jamais laisser une erreur de nettoyage remonter.",
 "        sys.stdout = o",
 "        sys.stderr = e",
 "        builtins.input = oi",
-"    return json.dumps({'out': buf.getvalue(), 'err': err, 'line': line})"
+"        try:",
+"            if M:",
+"                if M.get_tool(TOOL) is not None:",
+"                    M.set_events(TOOL, 0)",
+"                    M.register_callback(TOOL, M.events.JUMP, None)",
+"                    M.register_callback(TOOL, M.events.PY_START, None)",
+"                    M.register_callback(TOOL, M.events.RAISE, None)",
+"                    M.free_tool_id(TOOL)",
+"            else:",
+"                sys.settrace(None)",
+"        except Exception:",
+"            pass",
+"    if stop[0] == 'RECURSION':",
+"        err = 'RecursionError: maximum recursion depth exceeded'",
+"        line = rec_line[0]",
+"    elif stop[0]:",
+"        err = stop[0]",
+"        line = 0",
+"    return json.dumps({'out': buf.getvalue(), 'err': err, 'line': line, 'given': len(inputs)})"
 ].join("\n");
 
 function setStatus(k,m){document.getElementById("dot").className="dot "+k;document.getElementById("statusTxt").textContent=m;}
@@ -2768,7 +2964,19 @@ async function bootPython(){
   renderBlocker();
   if(!document.getElementById("ex").classList.contains("hidden")) render();
 }
+/* Ligne d'un « except » qui ne nomme pas l'erreur (except:, except Exception,
+   except BaseException), hors textes et commentaires ; 0 s'il n'y en a pas.
+   Un tel except rattrape tout, y compris les fautes de frappe : on le refuse. */
+function broadExcept(code){
+  const s=code.replace(/"""[\s\S]*?"""|'''[\s\S]*?'''|"(?:\\.|[^"\\\n])*"|'(?:\\.|[^'\\\n])*'/g,m=>'""'+"\n".repeat((m.match(/\n/g)||[]).length)).replace(/#.*$/gm,"");
+  const re=/^[ \t]*except\b([^:]*):/gm;let m;
+  while((m=re.exec(s)))
+    if(!m[1].trim()||/\b(?:Base)?Exception\b/.test(m[1])) return s.slice(0,m.index).split("\n").length;
+  return 0;
+}
 function runPy(src,inputs){
+  const b=broadExcept(src);
+  if(b) return {out:"",err:"BROADEXCEPT",line:b,given:(inputs||[]).length};
   return JSON.parse(pyodide.globals.get("_pl_run")(src,JSON.stringify(inputs||[])));
 }
 
@@ -2873,6 +3081,7 @@ function viewLesson(x){
     else if(b.type==="c") h+='<div class="duo"><div class="cd"><h4>'+t("exCode")+'</h4><pre>'+
       esc(b.code)+'</pre></div><div><h4>'+t("exOut")+'</h4><pre>'+esc(b.out)+'</pre></div></div>';
     else if(b.type==="t") h+=card("bad",t("exTrap"),b[lang]);
+    else if(b.type==="n") h+=card("warn",t("exFurther"),b[lang]);
     else if(b.type==="r") h+=card("ok",t("exKeep"),b[lang]);
   });
   return h+'<div class="actions" style="margin-top:26px"><button class="primary" id="goEx">'+t("lessonGo")+'</button></div>';
@@ -2983,13 +3192,23 @@ function markFailed(id){
 function failedCount(){return state.failed?COURSES.reduce((n,c)=>n+c.ex.filter(x=>x.id&&state.failed[x.id]).length,0):0;}
 function showOut(res){
   const p=document.getElementById("out");if(!p)return;
-  const txt=res.err==="TIMEOUT"?"⏱ "+t("timeout")
+  const tail=o=>{const L=o.replace(/\n$/,"").split("\n");return L.length>20?"…\n"+L.slice(-20).join("\n").slice(-3000):o.slice(-3000);};
+  const txt=res.err==="TIMEOUT"?(res.out?tail(res.out)+"\n":"")+"⏱ "+t("timeout")
+    :res.err==="BROADEXCEPT"?"✋ "+t("broadT")
+    :res.err==="NOINPUT"?(res.out+"⌨ "+t("noInputT"))
     :res.err?(res.out+(res.out?"\n":"")+res.err)
     :(res.out||t("nothing"));
   p.textContent=txt;p.className=(res.out||res.err)?"":"empty";
 }
 function errCard(res,code){
   if(res.err==="TIMEOUT") return card("bad",t("timeout"),t("timeoutMsg"));
+  if(res.err==="NOINPUT") return card("bad",t("noInputT"),!res.given?t("noInputB0"):fmt(t(/^\s*try\s*:/m.test(code)?"noInputB":"noInputB1"),{n:res.given}));
+  if(res.err==="BROADEXCEPT"){
+    drawGutter(res.line);
+    const src=(code.split("\n")[res.line-1]||"").replace(/^\s+/,"");
+    return card("bad",t("broadT"),t("broadB")+'<div class="errline">'+fmt(t("atLine"),{n:res.line})+"   "+esc(src)+'</div>',
+      "<b style='display:inline;font-size:inherit'>"+t("whatToDo")+" — </b>"+t("broadD"));
+  }
   const ex=explainError(res.err,res.line,code,lang);
   if(ex.line) drawGutter(ex.line);
   const src=(code.split("\n")[ex.line-1]||"").replace(/^\s+/,"");

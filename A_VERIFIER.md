@@ -517,6 +517,129 @@ Retouches de la relecture de confirmation :
   - EN : « address book » partout.
 - **Exercices :** 9-6 passe en difficulté moyenne.
 
+## Chapitre X — Gérer les erreurs (relecture du 2026-09-24)
+
+**Programme officiel :** try/except ne figure pas au programme de Première
+spé maths (BO spécial n°1 du 22/01/2019). La partie « Algorithmique et
+programmation » se limite aux variables, conditions, boucles, fonctions et
+listes. Le même texte exclut aussi les dictionnaires : « on se limite aux
+listes sans présenter d'autres types de collections ». Les chapitres IX et X
+sont donc marqués « (pour aller plus loin) » dans leur titre, et leur cours
+s'ouvre sur une carte « Pour aller plus loin » (nouveau type de bloc `n`,
+carte orange) qui cite le programme.
+
+**Moteur d'exécution (point 6, toute l'appli), corrigé le 2026-09-24 :**
+- Le coupe-circuit hérite de `BaseException` et s'appuie sur
+  `sys.monitoring` (événements JUMP et PY_START) au lieu de `sys.settrace`.
+  Il ne se désactive plus quand le code de l'élève le rattrape : `except:`
+  nu, `except Exception`, `except BaseException`, `finally: continue`, ne
+  gèlent plus l'onglet (testé dans le vrai Pyodide).
+- Une RecursionError arrête le programme dès la première occurrence : une
+  récursion rattrapée par un except faisait déborder la pile JavaScript et
+  tuait Pyodide.
+- Réponses simulées épuisées : arrêt immédiat avec la carte « Ton programme
+  pose une question de trop », au lieu de renvoyer "" sans fin.
+- `except:` sans nom, `except Exception` et `except BaseException` sont
+  refusés avant l'exécution (carte « Précise le type d'erreur »).
+- Plus rapide que l'ancien moteur : 0,28 s contre 0,5 s pour 300 000 tours
+  de boucle.
+- Constaté au passage : l'appli charge Pyodide 0.314 (Python 3.14.2), pas la
+  0.26.4 qui sert seulement de repli (`loadFallback`).
+
+**Appliqués (points 1 à 13) :**
+- **Schéma `tryflow` :** redessiné (Python ESSAIE → aucune erreur / une ligne
+  plante → plan B → la suite continue), plus de « undefined », libellés
+  permanents.
+- **Cours :**
+  - le pourquoi, avec la carte rouge `int("abc")` ;
+  - le filet du trapéziste (« attraper ») ;
+  - le nom après except = le premier mot du message rouge ;
+  - le lien avec le chapitre IX (vérifier avant / rattraper après) ;
+  - la boucle qui redemande avec le drapeau, expliquée tour par tour ;
+  - `pass` ;
+  - le piège du filet trop large, montré avec une NameError cachée, et la
+    méthode « provoque l'erreur une fois ».
+- **Exercices :**
+  - 10-1 : les lignes avant / après l'erreur ;
+  - 10-2 : KeyError sur le carnet, `in` et `.get` interdits ;
+  - 10-3 : ValueError sur une saisie ;
+  - 10-4 : deux filets empilés ;
+  - 10-5 : compteur avec `pass` ;
+  - 10-6 : remise en ordre de la boucle qui redemande (un seul ordre valide
+    sur 40 320) ;
+  - nouveau 10-7 : redemander tant que ce n'est pas un nombre entre 0 et 20.
+
+  Tous avec need, useVars et retest.
+- **Cartes :**
+  - ValueError : `int("")`, `int("2.5")`, `float("abc")`, et un renvoi au
+    chapitre X ;
+  - ZeroDivisionError et KeyError : renvoi à try/except ;
+  - try sans except, except décalé, `except valueerror`,
+    `except "ValueError"`, deux-points manquants après try/except ;
+  - « ton filet attend X, mais l'erreur est Y » ;
+  - nouvelle carte RecursionError.
+
+**Restent :**
+- [ ] **14. Annexes :**
+  - aide-mémoire : ajouter ValueError, ZeroDivisionError, KeyError dans
+    « Erreurs fréquentes », ainsi que `pass` et le motif « redemander » dans
+    « Gérer les erreurs » ;
+  - glossaire : ajouter try / except (« essayer un bloc ; si une erreur
+    précise survient, exécuter un bloc de secours au lieu d'arrêter ») ;
+  - renvois possibles : piège de Newton (ZeroDivisionError si f'(x) = 0),
+    mini-projet (protéger la saisie), chapitre VIII (« répondre faux est
+    plus dangereux que planter »).
+- [ ] **Limite connue du moteur, déjà présente avec l'ancien :** une boucle
+  qui tourne à l'intérieur d'une fonction toute faite de Python ne passe par
+  aucun saut du code de l'élève, donc le coupe-circuit ne peut pas
+  l'interrompre et l'onglet gèle. Exemples vérifiés : `sum(range(10**11))`,
+  `sum(iter(int, 1))`, `10 ** 10 ** 8`. Le premier est plausible en maths
+  (sommer un très grand nombre d'entiers). Même chose, en improbable, pour un
+  programme qui coupe lui-même la surveillance
+  (`sys.monitoring.set_events(4, 0)`) ou un `__del__` qui boucle. La seule
+  vraie garantie : exécuter Python dans un Web Worker, que la page peut
+  arrêter au bout de 5 s (changement d'architecture : chargement de
+  Pyodide dans le Worker, échanges par messages).
+- [ ] Une RecursionError rattrapée volontairement arrête quand même le
+  programme (choix délibéré : sinon la récursion rattrapée faisait déborder
+  la pile JavaScript et tuait Pyodide).
+- [ ] 10-5 : `compteur = 3` écrit dans le try, ou un `if v in [...]` avec un
+  try factice, passe encore (liste fixe, pas d'essai supplémentaire
+  possible). Jugé acceptable.
+
+Retouches après la relecture de confirmation :
+- **Méthode du chapitre :**
+  - « le premier mot du message rouge » devient « le mot en …Error écrit
+    tout en bas de la carte rouge » ; la carte commence par un titre en
+    français, donc son premier mot était « Ce ».
+- **Cours :**
+  - plusieurs except expliqués, avec un exemple ;
+  - `while ok == False` expliqué (le while regarde le drapeau avant
+    chaque tour) ;
+  - piège du filet trop large montré en code ;
+  - `pass` introduit avec `except ValueError:` ;
+  - trapéziste « qui ne remonte pas finir son numéro ».
+- **Exercice 10-7 :** l'indice explique pourquoi 25 n'est pas une erreur
+  pour Python, et un essai supplémentaire avec 0 teste la borne.
+- **Cartes :**
+  - « ton filet attend X » seulement si la ligne fautive est dans un try ;
+    pour une NameError dans un try : « ne l'attrape pas, corrige-la » ;
+  - `except A or B` → « or ne marche pas après except » ;
+  - carte `true` / `false` → majuscule ;
+  - suggestions de noms sans les mots des textes et sans les mots-clés
+    (plus de « corrige n en un ») ;
+  - carte « nom d'erreur mal écrit » seulement juste après except ;
+  - carte « except aligné » : mentionne l'absence de try ;
+  - carte « question de trop » : ne parle de try que si le code en
+    contient ;
+  - carte RecursionError : l'appel accidentel d'abord.
+- **Moteur :**
+  - nettoyage robuste : les sorties sont rétablies d'abord, et une erreur
+    de nettoyage ne remonte plus ;
+  - l'heure est lue une fois tous les 64 sauts ;
+  - un except en tuple sur deux lignes est détecté ;
+  - en cas de TIMEOUT, la sortie montre les 20 dernières lignes.
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
