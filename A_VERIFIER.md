@@ -351,6 +351,75 @@ méthode de liste appelée sur un texte. Restent :
   les phrases d'exercice restent en français dans la version EN (7-5 le
   signale ; « Alice a 16 ans » du cours ne le signale pas).
 
+## Chapitre VIII — Algorithmes classiques (relecture du 2026-09-24)
+
+Appliqués (points 1 à 8 et 11) : cinq motifs, chacun avec son image, sa
+question de maths et son piège. 1 : la tirelire en rappel (IV, VII), avec du
+neuf : deux tirelires combinées (moyenne des notes ≥ 10). 2 : le champion
+provisoire (concours de saut), le piège du 0 fantôme, le minimum et
+l'étendue. 3 : le drapeau (boîte aux lettres), le piège du `else`. 4 : le
+seuil en rappel du IV, avec un tableau d'état et la vérification par
+n(n + 1)/2. 5 : le balayage (mode TABLE), avec le rectangle d'aire
+x(10 − x) et l'encadrement de √2 par pas de 0,1, qui ouvre vers le
+chapitre XIV. Le cours ajoute aussi l'image du papier peint pour « motif »,
+x̄ et Sₙ, et un récapitulatif « quelle question → quel motif ».
+
+Côté exercices, tous ont de nouvelles données, avec need, ban, useVars et
+retest :
+- 8-2 : un effectif et une fréquence ;
+- 8-3 : `sum` interdit ;
+- 8-4 : des températures négatives, pour que `maxi = 0` soit refusé,
+  et `max`/`sorted` interdits ;
+- 8-1 : le piège du minimum, placé après 8-4 ;
+- 8-5 : une cible tapée, présente ou absente ;
+- 8-6 : un capital à 5 %, soit une suite géométrique ;
+- 8-7 : le minimum ;
+- 8-8 (nouveau) : le minimum de x² − m·x + 5 sur [−10 ; 10] (m plutôt
+  que a, pour ne pas le confondre avec le a de ax² + bx + c). Deux
+  retests : m = 2 refuse le 0 fantôme, m = 20 refuse `range(-10, 10)`.
+
+Après la relecture de confirmation :
+- 8-3 (easy) passe avant 8-2 (medium) ;
+- les indices de 8-5 et 8-6 ne dictent plus le code ;
+- côté cours, le 0 fantôme devient « sauteur fantôme à 0 m », et le minimum
+  passe au 100 m ;
+- le champion à deux boîtes est expliqué pas à pas (10 − x, f(0) n'est pas un
+  0 fantôme, `range(0, 11)`) ;
+- l'encadrement de √2 est justifié (0.1 + 0.2, k = 10, tableau d'état) ;
+- le récapitulatif distingue « combien d'éléments ? » (compteur) et « au bout
+  de combien de tours ? » (seuil) ;
+- l'indice de 13-4 précise que la tirelire démarre avec u₀.
+
+Les renvois du chapitre XIII (motifs renumérotés, « chapitre IV »
+pour la tirelire et la mise à jour d'une variable) et le guide ont été
+corrigés. Restent :
+
+- [ ] **9. Aide-mémoire** : créer une section « Algorithmes » avec les cinq
+  motifs (initialisation, boucle, question à laquelle chacun répond, piège).
+  La description de l'aide-mémoire dit « huit chapitres », alors que l'appli
+  en compte quinze.
+- [ ] **10. Glossaire** : les entrées Motif, Compteur, Accumulateur (tirelire),
+  Champion provisoire (maximum/minimum), Drapeau, Seuil, Balayage et Étendue
+  sont absentes.
+- [ ] **12. Détails** :
+  - le schéma `maxscan` : ses étiquettes chevauchent probablement les cases
+    (non vu à l'écran) ;
+  - 8-3 refuse `//` sans l'expliquer (la sortie 12.0 attend `/`) ;
+  - sur une liste vide, `L[0]` et la moyenne plantent. Le cours le signale en
+    une parenthèse (« cela suppose que la liste n'est pas vide ») ; à
+    approfondir éventuellement avec `if len(L) > 0`.
+- [ ] **Raccourcis encore acceptés** (relecteur-python, jugés acceptables) :
+  - 8-4 et 8-3 n'ont pas d'input, donc pas de retest. Un « fantôme −100 »
+    (`maxi = -100`), `.sort()` avec une boucle factice, ou `print(12.0)` après
+    une boucle factice passent ; on peut rendre la liste variable si
+    nécessaire.
+  - 8-5 : `trouve = cible in nombres` plus une boucle factice passe (`in` ne
+    peut pas être interdit, puisque `for … in` l'utilise).
+  - 8-8 : la formule du sommet plus un `for`/`if` factices passe.
+- [ ] **Image de la boîte aux lettres** : dans la réalité, aux États-Unis,
+  c'est l'habitant qui lève le drapeau pour le courrier sortant. Le cours
+  reste neutre (« comme dans les dessins animés américains »).
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
