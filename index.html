@@ -1191,15 +1191,17 @@ LESSONS[8]={ title:{fr:"Cours — les algorithmes classiques",en:"Lesson — cla
 /* ==========================================================
    SCHÉMAS SUPPLÉMENTAIRES 2
    ========================================================== */
-/* L = [dict littéral, clé1, valeur1, clé2, valeur2, clé3, valeur3, "on cherche par clé, jamais par position"] */
+/* L = [dict littéral, clé1, valeur1, clé2, valeur2, clé3, valeur3, légende, "clé", "valeur"] */
 DIAG.dictbox=L=>SVG("0 0 520 190",
   '<text class="mono" x="20" y="30" font-size="14">'+L[0]+'</text>'+
+  '<text class="soft" x="84" y="80" text-anchor="end">'+L[8]+'</text>'+
+  '<text class="soft" x="84" y="116" text-anchor="end">'+L[9]+'</text>'+
   [1,3,5].map((k,i)=>{
-    const x=40+i*160;
-    return '<rect class="box" x="'+x+'" y="52" width="140" height="70" rx="8"/>'+
-      '<text class="mono" x="'+(x+70)+'" y="76" text-anchor="middle" font-size="13" fill="var(--margin-rule)">'+L[k]+'</text>'+
-      '<line x1="'+(x+14)+'" y1="86" x2="'+(x+126)+'" y2="86" stroke="var(--line)" stroke-width="1"/>'+
-      '<text class="mono" x="'+(x+70)+'" y="112" text-anchor="middle" font-size="15">'+L[k+1]+'</text>';
+    const x=92+i*144;
+    return '<rect class="box" x="'+x+'" y="52" width="130" height="70" rx="8"/>'+
+      '<text class="mono" x="'+(x+65)+'" y="76" text-anchor="middle" font-size="13" fill="var(--margin-rule)">'+L[k]+'</text>'+
+      '<line x1="'+(x+14)+'" y1="86" x2="'+(x+116)+'" y2="86" stroke="var(--line)" stroke-width="1"/>'+
+      '<text class="mono" x="'+(x+65)+'" y="112" text-anchor="middle" font-size="15">'+L[k+1]+'</text>';
   }).join('')+
   '<text class="soft" x="260" y="160" text-anchor="middle">'+L[7]+'</text>');
 
@@ -1223,46 +1225,69 @@ DIAG.tryflow=L=>SVG("0 0 520 250",
    ========================================================== */
 COURSES.push(
 { id:9, num:"IX", title:{fr:"Les dictionnaires",en:"Dictionaries"},
-  desc:{fr:"Retrouver une valeur par son nom, pas par sa position",en:"Finding a value by its name, not its position"}, ex:[
+  desc:{fr:"Retrouver une valeur par son nom (sa clé), pas par son indice : le carnet d'adresses, le tableau de valeurs, le tableau d'effectifs",en:"Finding a value by its name (its key), not its index: the address book, the table of values, the frequency table"}, ex:[
 
  { id:"9-1", kind:"quiz", diff:"easy", title:{fr:"Que va afficher ce code ?",en:"What will this print?"},
-   desc:{fr:"Un dictionnaire se lit par clé, pas par position.",en:"A dictionary is read by key, not position."},
+   desc:{fr:"Un dictionnaire se lit par clé, pas par indice.",en:"A dictionary is read by key, not by index."},
    code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["age"])', answer:0,
    options:[
-    {txt:'16', why:{fr:'eleve["age"] va chercher la valeur rangée sous la clé age, qui vaut 16.',en:'eleve["age"] looks up the value stored under the key age, which is 16.'}},
+    {txt:'16', why:{fr:'eleve["age"] va chercher la valeur rangée sur la ligne de clé age, qui vaut 16.',en:'eleve["age"] looks up the value on the line whose key is age, which is 16.'}},
     {txt:'"age"', why:{fr:"« age » est la clé qu'on utilise pour chercher, pas ce qui est affiché.",en:"\"age\" is the key used to search, not what gets printed."}},
     {txt:'Alice', why:{fr:"C'est la valeur de la clé nom, pas de la clé age.",en:"That is the value of the key nom, not age."}},
     {txt:'Erreur', why:{fr:"La clé age existe bel et bien dans ce dictionnaire.",en:"The key age does exist in this dictionary."}}]},
 
- { id:"9-2", kind:"code", diff:"easy", title:{fr:"Créer un dictionnaire",en:"Create a dictionary"},
-   desc:{fr:'Crée un dictionnaire eleve avec les clés "nom" valant "Alice" et "age" valant 16, puis affiche-le en entier.',en:'Create a dictionary eleve with keys "nom" set to "Alice" and "age" set to 16, then print it whole.'},
-   hint:{fr:'Un dictionnaire s\'écrit entre accolades, avec des paires <code>clé: valeur</code> séparées par des virgules.',en:'A dictionary is written in curly braces, with <code>key: value</code> pairs separated by commas.'},
-   sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
+ { id:"9-2", kind:"code", diff:"easy", title:{fr:"Créer un carnet",en:"Create an address book"},
+   desc:{fr:'Crée un dictionnaire capitales qui associe la clé "France" à la valeur "Paris" et la clé "Italie" à la valeur "Rome", puis affiche la capitale de l\'Italie en la lisant dans le dictionnaire.',en:'Create a dictionary capitales pairing the key "France" with the value "Paris" and the key "Italie" with the value "Rome", then print the capital of Italy by reading it from the dictionary.'},
+   hint:{fr:"Un dictionnaire s'écrit entre accolades, avec des paires <code>clé: valeur</code> séparées par des virgules. Pour lire, la clé se met entre crochets.",en:"A dictionary is written in curly braces, with <code>key: value</code> pairs separated by commas. To read, put the key in square brackets."},
+   sol:'capitales = {"France": "Paris", "Italie": "Rome"}\nprint(capitales["Italie"])', out:'Rome', useVars:["capitales"] },
 
- { id:"9-3", kind:"code", diff:"easy", title:{fr:"Lire une valeur",en:"Read a value"},
-   desc:{fr:'Avec le même dictionnaire eleve, affiche seulement la valeur de "nom", puis seulement celle de "age".',en:'With the same eleve dictionary, print only the value of "nom", then only "age".'},
-   hint:{fr:'<code>eleve["nom"]</code> — la clé se met entre crochets, comme une position de liste, mais avec un mot.',en:'<code>eleve["nom"]</code> — the key goes in brackets, like a list position, but with a word.'},
-   sol:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve["nom"])\nprint(eleve["age"])', out:'Alice\n16' },
+ { id:"9-3", kind:"code", diff:"easy", title:{fr:"Lire la ligne demandée",en:"Read the requested line"},
+   desc:{fr:'Avec livre = {"titre": "Dune", "pages": 412}, demande une clé avec cle = input("clé? "), puis affiche la valeur rangée sous cette clé.',en:'With livre = {"titre": "Dune", "pages": 412}, ask for a key with cle = input("clé? "), then print the value stored under that key.'}, inputs:["titre"],
+   hint:{fr:"La clé se met entre crochets, comme un indice de liste. Ici, elle est déjà rangée dans la boîte <code>cle</code> : pas de guillemets autour d'un nom de variable.",en:"The key goes in square brackets, like a list index. Here it is already stored in the box <code>cle</code>: no quotes around a variable name."},
+   sol:'livre = {"titre": "Dune", "pages": 412}\ncle = input("clé? ")\nprint(livre[cle])', out:'clé? titre\nDune', retest:{inputs:["pages"],out:'clé? pages\n412'}, useVars:["livre","cle"] },
 
- { id:"9-4", kind:"code", diff:"medium", title:{fr:"Ajouter une clé",en:"Add a key"},
-   desc:{fr:'Crée eleve = {"nom": "Alice"}, ajoute une clé "age" valant 16, puis affiche le dictionnaire.',en:'Create eleve = {"nom": "Alice"}, add a key "age" set to 16, then print the dictionary.'},
-   hint:{fr:'<code>eleve["age"] = 16</code> ajoute la clé si elle n\'existe pas encore.',en:'<code>eleve["age"] = 16</code> adds the key if it does not exist yet.'},
-   sol:'eleve = {"nom": "Alice"}\neleve["age"] = 16\nprint(eleve)', out:"{'nom': 'Alice', 'age': 16}" },
+ { id:"9-4", kind:"code", diff:"medium", title:{fr:"Ajouter une ligne",en:"Add a line"},
+   desc:{fr:'Avec eleve = {"nom": "Alice"}, demande l\'âge avec int(input("age? ")) et ajoute-le au dictionnaire sous la clé "age", puis affiche le dictionnaire.',en:'With eleve = {"nom": "Alice"}, ask for the age with int(input("age? ")) and add it to the dictionary under the key "age", then print the dictionary.'}, inputs:["16"],
+   hint:{fr:"Pour ajouter une ligne au carnet, on écrit comme pour la lire, mais à gauche d'un =.",en:"To add a line to the address book, write it as if reading it, but on the left of an =."},
+   sol:'eleve = {"nom": "Alice"}\neleve["age"] = int(input("age? "))\nprint(eleve)', out:"age? 16\n{'nom': 'Alice', 'age': 16}", retest:{inputs:["17"],out:"age? 17\n{'nom': 'Alice', 'age': 17}"}, useVars:["eleve"] },
 
- { id:"9-5", kind:"code", diff:"medium", title:{fr:"Modifier une valeur",en:"Change a value"},
-   desc:{fr:'Avec score = {"Alice": 12}, change la valeur de "Alice" pour 15, puis affiche le dictionnaire.',en:'With score = {"Alice": 12}, change the value of "Alice" to 15, then print the dictionary.'},
-   hint:{fr:'La même écriture <code>score["Alice"] = 15</code> sert à ajouter ET à modifier : si la clé existe déjà, sa valeur est remplacée.',en:'The same <code>score["Alice"] = 15</code> both adds and changes: if the key already exists, its value is replaced.'},
-   sol:'score = {"Alice": 12}\nscore["Alice"] = 15\nprint(score)', out:"{'Alice': 15}" },
+ { id:"9-9", kind:"quiz", diff:"medium", title:{fr:"Ajouter ou remplacer ?",en:"Add or replace?"},
+   desc:{fr:"La clé a existe déjà. Que va afficher ce code ?",en:"The key a already exists. What will this print?"},
+   code:'d = {"a": 1}\nd["a"] = 5\nprint(d)', answer:2,
+   options:[
+    {txt:"{'a': 1, 'a': 5}", why:{fr:"Impossible : dans un carnet, chaque nom n'a qu'une ligne. Une clé apparaît une seule fois dans un dictionnaire.",en:"Impossible: in an address book each name has only one line. A key appears only once in a dictionary."}},
+    {txt:"{'a': 1}", why:{fr:"La ligne d[\"a\"] = 5 n'est pas ignorée : elle écrit 5 sur la ligne a, à la place du 1.",en:"The line d[\"a\"] = 5 is not ignored: it writes 5 on line a, in place of the 1."}},
+    {txt:"{'a': 5}", why:{fr:"Exact. La clé a existe déjà : sa valeur est remplacée, et aucune ligne n'est ajoutée. La même écriture sert à ajouter une ligne quand la clé n'existe pas encore.",en:"Correct. The key a already exists: its value is replaced, and no line is added. The same writing adds a line when the key does not exist yet."}},
+    {txt:'Erreur', why:{fr:"Écrire sur une clé qui existe déjà est permis : c'est comme ça qu'on modifie une valeur.",en:"Writing to an existing key is allowed: that is how you change a value."}}]},
 
- { id:"9-6", kind:"code", diff:"hard", title:{fr:"Parcourir un dictionnaire",en:"Loop over a dictionary"},
-   desc:{fr:'Avec ages = {"Alice": 16, "Karim": 15}, affiche une ligne par personne au format : Alice a 16 ans',en:'With ages = {"Alice": 16, "Karim": 15}, print one line per person, formatted: Alice a 16 ans'},
-   hint:{fr:'<code>for nom, age in ages.items():</code> donne à la fois la clé et la valeur à chaque tour.',en:'<code>for nom, age in ages.items():</code> gives both the key and the value on each pass.'},
-   sol:'ages = {"Alice": 16, "Karim": 15}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")', out:'Alice a 16 ans\nKarim a 15 ans' },
+ { id:"9-5", kind:"code", diff:"medium", title:{fr:"Des points en plus",en:"Extra points"},
+   desc:{fr:'Avec score = {"Alice": 12, "Karim": 9}, Alice gagne des points : demande-les avec pts = int(input("points? ")), ajoute-les à son score dans le dictionnaire, puis affiche le dictionnaire.',en:'With score = {"Alice": 12, "Karim": 9}, Alice earns points: ask for them with pts = int(input("points? ")), add them to her score in the dictionary, then print the dictionary.'}, inputs:["3"],
+   hint:{fr:"C'est la tirelire du chapitre IV, rangée sous une clé : on lit ce qu'il y a sur la ligne d'Alice, on ajoute, et on range le résultat sur la même ligne. Regarde à gauche du =.",en:"It is chapter IV's piggy bank, kept under a key: read what is on Alice's line, add, and store the result on the same line. Look to the left of the =."},
+   sol:'score = {"Alice": 12, "Karim": 9}\npts = int(input("points? "))\nscore["Alice"] = score["Alice"] + pts\nprint(score)', out:"points? 3\n{'Alice': 15, 'Karim': 9}", retest:{inputs:["5"],out:"points? 5\n{'Alice': 17, 'Karim': 9}"}, useVars:["score","pts"] },
 
  { id:"9-7", kind:"order", diff:"medium", title:{fr:"Remets le programme dans l'ordre",en:"Put the program in order"},
-   desc:{fr:"Ce programme doit afficher : {'nom': 'Alice', 'age': 17}",en:"This program must print: {'nom': 'Alice', 'age': 17}"},
-   hint:{fr:"Le dictionnaire doit exister avant qu'on puisse y ajouter une clé.",en:"The dictionary must exist before a key can be added to it."},
-   lines:['eleve = {"nom": "Alice"}','eleve["age"] = 17','print(eleve)'], out:"{'nom': 'Alice', 'age': 17}" }
+   desc:{fr:"Ce programme doit afficher : {'pommes': 3, 'kiwis': 4}",en:"This program must print: {'pommes': 3, 'kiwis': 4}"},
+   hint:{fr:"Le dictionnaire doit exister avant qu'on y touche. Et le nombre de kiwis se calcule à partir du nombre de pommes : lequel, celui d'avant ou celui d'après la vente ?",en:"The dictionary must exist before you touch it. And the number of kiwis is computed from the number of apples: which one, before or after the sale?"},
+   lines:['stock = {"pommes": 5}','stock["pommes"] = stock["pommes"] - 2','stock["kiwis"] = stock["pommes"] + 1','print(stock)'], out:"{'pommes': 3, 'kiwis': 4}" },
+
+ { id:"9-10", kind:"quiz", diff:"medium", title:{fr:"Que regarde in ?",en:"What does in look at?"},
+   desc:{fr:"Que va afficher ce code ?",en:"What will this print?"},
+   code:'eleve = {"nom": "Alice"}\nprint("Alice" in eleve)', answer:3,
+   options:[
+    {txt:'True', why:{fr:"« Alice » est bien dans le carnet, mais comme valeur. <code>in</code> ne regarde que les clés, le début des lignes : ici, la seule clé est « nom ».",en:"\"Alice\" is in the address book, but as a value. <code>in</code> only looks at the keys, the start of each line: here the only key is \"nom\"."}},
+    {txt:'nom', why:{fr:"<code>in</code> ne renvoie jamais une clé : il répond à une question par oui ou non, donc True ou False.",en:"<code>in</code> never returns a key: it answers a yes-or-no question, so True or False."}},
+    {txt:'Erreur', why:{fr:"<code>in</code> ne plante jamais sur un dictionnaire, même quand la clé est absente : c'est justement l'outil pour vérifier avant de lire.",en:"<code>in</code> never crashes on a dictionary, even when the key is missing: it is precisely the tool for checking before reading."}},
+    {txt:'False', why:{fr:"Exact. <code>in</code> regarde les clés, pas les valeurs : on cherche dans un carnet par le nom écrit en début de ligne. <code>\"nom\" in eleve</code> vaudrait True.",en:"Correct. <code>in</code> looks at the keys, not the values: you search an address book by the name at the start of the line. <code>\"nom\" in eleve</code> would be True."}}]},
+
+ { id:"9-6", kind:"code", diff:"medium", title:{fr:"Parcourir un dictionnaire",en:"Loop over a dictionary"},
+   desc:{fr:'Avec prix = {"pomme": 2, "kiwi": 3, "orange": 4}, affiche avec une boucle for une ligne par fruit au format : pomme coûte 2 euros',en:'With prix = {"pomme": 2, "kiwi": 3, "orange": 4}, print with a for loop one line per fruit, formatted: pomme coûte 2 euros'},
+   hint:{fr:"À chaque tour, tu as besoin du nom du fruit ET de son prix. Quelle méthode donne les lignes du carnet une par une ? Il faut alors deux boîtes après <code>for</code>, séparées par une virgule.",en:"On each pass you need the fruit's name AND its price. Which method gives the address book's lines one by one? You then need two boxes after <code>for</code>, separated by a comma."},
+   sol:'prix = {"pomme": 2, "kiwi": 3, "orange": 4}\nfor fruit, p in prix.items():\n    print(fruit, "coûte", p, "euros")', out:'pomme coûte 2 euros\nkiwi coûte 3 euros\norange coûte 4 euros', useVars:["prix"], need:["for"] },
+
+ { id:"9-8", kind:"code", diff:"hard", title:{fr:"Le tableau d'effectifs",en:"The frequency table"},
+   desc:{fr:'Une série de notes : notes = [14, 11, 14, 8, 11, 14]. Demande d\'abord une valeur avec v = int(input("valeur? ")). Construis avec une boucle for le dictionnaire effectifs (clé = une note, valeur = son effectif) et affiche-le, puis affiche la fréquence de v dans la série (0.0 si v n\'y apparaît pas). Sans utiliser count().',en:'A series of marks: notes = [14, 11, 14, 8, 11, 14]. First ask for a value with v = int(input("valeur? ")). Build with a for loop the dictionary effectifs (key = a mark, value = its count) and print it, then print the frequency of v in the series (0.0 if v does not appear). Without using count().'}, inputs:["14"],
+   hint:{fr:"Une tirelire par note, qui commence à vide : <code>.get</code> avec une valeur de secours 0 te dit combien il y a déjà dedans. La fréquence, c'est l'effectif divisé par l'effectif total. Et pour une note absente, pense encore à la valeur de secours.",en:"One piggy bank per mark, starting empty: <code>.get</code> with a fallback of 0 tells you how much is already in it. The frequency is the count divided by the total count. And for a missing mark, think of the fallback value again."},
+   sol:'v = int(input("valeur? "))\nnotes = [14, 11, 14, 8, 11, 14]\neffectifs = {}\nfor n in notes:\n    effectifs[n] = effectifs.get(n, 0) + 1\nprint(effectifs)\nprint(effectifs.get(v, 0) / len(notes))', out:'valeur? 14\n{14: 3, 11: 2, 8: 1}\n0.5', retest:[{inputs:["8"],out:'valeur? 8\n{14: 3, 11: 2, 8: 1}\n0.16666666666666666'},{inputs:["20"],out:'valeur? 20\n{14: 3, 11: 2, 8: 1}\n0.0'}], useVars:["effectifs","notes"], need:["for"], ban:["count"] }
 ]},
 
 { id:10, num:"X", title:{fr:"Gérer les erreurs",en:"Handling errors"},
@@ -1514,28 +1539,44 @@ COURSES.push(
    COURS DES CHAPITRES IX ET X
    ========================================================== */
 LESSONS[9]={ title:{fr:"Cours — les dictionnaires",en:"Lesson — dictionaries"},
-  desc:{fr:"Une liste range par position ; un dictionnaire range par nom.",en:"A list stores by position; a dictionary stores by name."},
+  desc:{fr:"Une liste range par indice ; un dictionnaire range par nom, comme un carnet d'adresses.",en:"A list stores by index; a dictionary stores by name, like an address book."},
   blocks:[
-  {type:"p",fr:'Une liste retrouve un élément par sa <b>position</b> : <code>fruits[0]</code>. Un <b>dictionnaire</b> retrouve une valeur par son <b>nom</b>, appelé la clé : <code>eleve["nom"]</code>. C\'est un vrai dictionnaire de langue : on ne cherche pas le mot numéro 4218, on cherche le mot lui-même.',
-       en:'A list finds an item by its <b>position</b>: <code>fruits[0]</code>. A <b>dictionary</b> finds a value by its <b>name</b>, called the key: <code>eleve["nom"]</code>. Like a real dictionary: you don\'t look up word number 4218, you look up the word itself.'},
+  {type:"p",fr:"Pourquoi ce chapitre ? Au chapitre V, tu as rangé les notes d'une classe dans une liste : <code>notes = [12, 15, 9]</code>. Mais à qui est le 15 ? La liste ne le sait pas : elle ne connaît que des indices. Pour retrouver la note de Karim, il faut tenir à côté une deuxième liste de prénoms, parfaitement alignée, chercher à quel indice se trouve Karim, puis lire la note à cet indice. Et si un prénom est ajouté au milieu sans sa note, tout est décalé. Un <b>dictionnaire</b> règle ce problème : on demande directement la note de Karim.",
+       en:"Why this chapter? In chapter V you stored a class's marks in a list: <code>notes = [12, 15, 9]</code>. But whose is the 15? The list does not know: it only knows indexes. To find Karim's mark you must keep a second list of first names, perfectly aligned, look for the index where Karim is, then read the mark at that index. And if a name is inserted in the middle without its mark, everything is shifted. A <b>dictionary</b> solves this: you ask for Karim's mark directly."},
+  {type:"c",code:'prenoms = ["Alice", "Karim", "Lina"]\nnotes = [12, 15, 9]\nfor i in range(len(prenoms)):\n    if prenoms[i] == "Karim":\n        print(notes[i])\ncarnet = {"Alice": 12, "Karim": 15, "Lina": 9}\nprint(carnet["Karim"])',out:'15\n15'},
+  {type:"p",fr:"<b>L'image : un carnet d'adresses.</b> Reprends le classeur du chapitre V : une liste, ce sont des pages <b>numérotées</b> 0, 1, 2… ; pour lire une page, tu donnes son numéro, l'indice (<code>fruits[0]</code>). Un dictionnaire, c'est un carnet d'adresses : ses lignes ne sont pas numérotées, chacune commence par un <b>nom</b>. Personne ne cherche le numéro de Karim en se disant « c'est la 47ᵉ ligne » : on cherche la ligne « Karim ». Trois mots de vocabulaire :<br>• la <b>clé</b>, c'est le nom en début de ligne (<code>\"Karim\"</code>) ;<br>• la <b>valeur</b>, c'est ce qui est écrit à côté (<code>15</code>) ;<br>• une <b>paire</b>, c'est une ligne entière, clé et valeur ensemble (<code>\"Karim\": 15</code>).<br>Les crochets sont les mêmes que pour une liste ; seul ce que tu mets dedans change : un indice pour la liste, une clé pour le dictionnaire. Ne confonds pas deux noms : <code>carnet</code> est l'étiquette collée sur la couverture, le nom de la variable comme au chapitre V ; <code>\"Karim\"</code> est un nom écrit <b>à l'intérieur</b>, sur une ligne : c'est une clé.",
+       en:"<b>The picture: an address book.</b> Recall chapter V's binder: a list is a set of pages <b>numbered</b> 0, 1, 2…; to read a page you give its number, the index (<code>fruits[0]</code>). A dictionary is an address book: its lines are not numbered, each one starts with a <b>name</b>. Nobody looks up Karim's number thinking \"it's line 47\": you look for the line \"Karim\". Three words of vocabulary:<br>• the <b>key</b> is the name at the start of the line (<code>\"Karim\"</code>);<br>• the <b>value</b> is what is written next to it (<code>15</code>);<br>• a <b>pair</b> is a whole line, key and value together (<code>\"Karim\": 15</code>).<br>The brackets are the same as for a list; only what goes inside changes: an index for a list, a key for a dictionary. Don't mix up two names: <code>carnet</code> is the label stuck on the cover, the variable's name as in chapter V; <code>\"Karim\"</code> is a name written <b>inside</b>, on a line: it is a key."},
   {type:"d",id:"dictbox",
-    fr:['eleve = {"nom": "Alice", "age": 16, "ville": "Nice"}',"nom","Alice","age","16","ville","Nice","on cherche par clé, jamais par position"],
-    en:['eleve = {"nom": "Alice", "age": 16, "ville": "Nice"}',"nom","Alice","age","16","ville","Nice","you search by key, never by position"]},
-  {type:"p",fr:"Un dictionnaire s'écrit entre <b>accolades</b>, avec des paires <code>clé: valeur</code> séparées par des virgules. Une clé est presque toujours du texte, entre guillemets.",
-       en:"A dictionary is written in <b>curly braces</b>, with <code>key: value</code> pairs separated by commas. A key is almost always text, in quotes."},
-  {type:"c",code:'eleve = {"nom": "Alice", "age": 16}\nprint(eleve)\nprint(eleve["nom"])',out:"{'nom': 'Alice', 'age': 16}\nAlice"},
-  {type:"p",fr:'La même écriture <code>eleve["ville"] = "Nice"</code> sert à <b>deux choses</b> : si la clé n\'existe pas encore, elle est créée ; si elle existe déjà, sa valeur est remplacée.',
-       en:'The same <code>eleve["ville"] = "Nice"</code> does <b>two things</b>: if the key does not exist yet, it is created; if it already exists, its value is replaced.'},
-  {type:"c",code:'eleve = {"nom": "Alice"}\neleve["age"] = 16\neleve["age"] = 17\nprint(eleve)',out:"{'nom': 'Alice', 'age': 17}"},
-  {type:"p",fr:"Pour parcourir un dictionnaire en récupérant à la fois la clé et la valeur, on utilise <code>.items()</code>.",
-       en:"To loop over a dictionary while getting both the key and the value, use <code>.items()</code>."},
-  {type:"c",code:'ages = {"Alice": 16, "Karim": 15}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")',
-    out:'Alice a 16 ans\nKarim a 15 ans'},
-  {type:"t",fr:'Chercher une clé qui n\'existe pas provoque une erreur <code>KeyError</code>. Pour lire une clé sans risque, <code>eleve.get("ville")</code> renvoie <code>None</code> au lieu de planter si la clé est absente — et on peut même choisir une valeur de secours.',
-       en:'Looking up a missing key raises a <code>KeyError</code>. To read a key without risk, <code>eleve.get("ville")</code> returns <code>None</code> instead of crashing when the key is absent — and you can even choose a fallback value.'},
-  {type:"c",code:'eleve = {"nom": "Alice"}\nprint(eleve.get("ville"))\nprint(eleve.get("ville", "inconnue"))',out:'None\ninconnue'},
-  {type:"r",fr:"Une liste garde un <b>ordre de positions</b> ; un dictionnaire garde des <b>noms</b>. Choisis une liste quand la place compte (le premier, le dernier), un dictionnaire quand le nom compte (le score d'Alice, l'âge de Karim).",
-       en:"A list keeps an <b>order of positions</b>; a dictionary keeps <b>names</b>. Choose a list when position matters (the first, the last), a dictionary when the name matters (Alice's score, Karim's age)."}
+    fr:['ages = {"Alice": 16, "Karim": 17, "Lina": 18}',"\"Alice\"","16","\"Karim\"","17","\"Lina\"","18","Comme un carnet d'adresses : on cherche par nom, jamais par numéro de ligne.","clé","valeur"],
+    en:['ages = {"Alice": 16, "Karim": 17, "Lina": 18}',"\"Alice\"","16","\"Karim\"","17","\"Lina\"","18","Like an address book: you search by name, never by line number.","key","value"]},
+  {type:"p",fr:"Un dictionnaire s'écrit entre <b>accolades</b>, les signes <code>{</code> et <code>}</code>, avec des paires <code>clé: valeur</code> séparées par des virgules. Une clé est le plus souvent du texte, parfois un nombre (tu le verras plus bas). Les guillemets comptent : <code>ages[\"Karim\"]</code> cherche la ligne Karim, mais <code>ages[Karim]</code> sans guillemets fait chercher à Python une <b>boîte</b> appelée Karim (le piège des guillemets du chapitre I) ; comme cette boîte n'existe pas, c'est la <code>NameError</code> vue au chapitre VI. Dans un carnet, chaque nom n'a qu'<b>une</b> ligne : une clé apparaît une seule fois. <code>print</code> affiche les paires dans l'ordre où tu les as rangées (avec des guillemets simples, c'est la même chose), mais cet ordre ne sert jamais à chercher : on cherche toujours par la clé.",
+       en:"A dictionary is written in <b>curly braces</b>, the signs <code>{</code> and <code>}</code>, with <code>key: value</code> pairs separated by commas. A key is most often text, sometimes a number (you will see this below). The quotes matter: <code>ages[\"Karim\"]</code> looks for the line Karim, but <code>ages[Karim]</code> without quotes makes Python look for a <b>box</b> called Karim (the quotes trap of chapter I); since that box does not exist, you get the <code>NameError</code> seen in chapter VI. In an address book each name has only <b>one</b> line: a key appears only once. <code>print</code> shows the pairs in the order you stored them (with single quotes, it means the same), but that order is never used for searching: you always search by key."},
+  {type:"c",code:'ages = {"Alice": 16, "Karim": 17}\nprint(ages)\nprint(ages["Karim"])',out:"{'Alice': 16, 'Karim': 17}\n17"},
+  {type:"p",fr:"<b>Écrire dans le carnet.</b> Regarde à gauche du = : des crochets, donc on touche au <b>contenu</b> du carnet, comme <code>notes[1] = 10</code> au chapitre V. La même écriture <code>ages[\"Karim\"] = 17</code> sert à deux choses : si la clé n'existe pas encore, une ligne est ajoutée à la fin ; si elle existe déjà, sa valeur est remplacée, et la ligne garde sa place. Différence avec la liste : sur une liste de 3 pages, <code>notes[5] = 3</code> provoque une <code>IndexError</code>, car on ne remplit pas une page qui n'existe pas ; dans un carnet, on peut toujours écrire une nouvelle ligne.",
+       en:"<b>Writing in the address book.</b> Look to the left of the =: brackets, so you touch the address book's <b>content</b>, like <code>notes[1] = 10</code> in chapter V. The same <code>ages[\"Karim\"] = 17</code> does two things: if the key does not exist yet, a line is added at the end; if it already exists, its value is replaced, and the line keeps its place. Difference with a list: on a 3-page list, <code>notes[5] = 3</code> raises an <code>IndexError</code>, since you cannot fill a page that does not exist; in an address book you can always write a new line."},
+  {type:"c",code:'ages = {"Alice": 16}\nages["Karim"] = 17\nages["Alice"] = 18\nprint(ages)',out:"{'Alice': 18, 'Karim': 17}"},
+  {type:"t",fr:"Chercher une clé absente arrête le programme : <code>print(ages[\"Zoe\"])</code> affiche <code>KeyError: 'Zoe'</code> (« clé inconnue »), et le message te dit même quel nom manque. C'est l'<code>IndexError</code> du dictionnaire : pour la liste, c'était l'étage qui n'existe pas ; pour le carnet, c'est un nom écrit sur aucune ligne. Même piège si tu écris <code>ages[0]</code> par habitude des listes : <code>KeyError: 0</code>, car ce carnet n'a pas de lignes numérotées.",
+       en:"Looking up a missing key stops the program: <code>print(ages[\"Zoe\"])</code> shows <code>KeyError: 'Zoe'</code> (\"unknown key\"), and the message even tells you which name is missing. It is the dictionary's <code>IndexError</code>: for a list, it was the floor that does not exist; for the address book, it is a name written on no line. Same trap if you write <code>ages[0]</code> out of list habit: <code>KeyError: 0</code>, since this address book has no numbered lines."},
+  {type:"p",fr:"<b>Lire sans risque : <code>.get</code>.</b> <code>.get</code> est une machine à jus : elle te <b>rend</b> la valeur si la ligne existe, et sinon <code>None</code>, le « rien » des chapitres V et VI. Tu peux aussi lui donner une <b>valeur de secours</b> en second : <code>ages.get(\"Zoe\", 0)</code> veut dire « l'âge de Zoé, ou 0 s'il n'y en a pas ». Attention : avec <code>.get</code>, la clé va entre <b>parenthèses</b>, comme pour toute méthode, pas entre crochets. Cette valeur de secours va servir pour compter.",
+       en:"<b>Reading safely: <code>.get</code>.</b> <code>.get</code> is a juice machine: it <b>hands back</b> the value if the line exists, otherwise <code>None</code>, the \"nothing\" from chapters V and VI. You can also give it a <b>fallback value</b> as second argument: <code>ages.get(\"Zoe\", 0)</code> means \"Zoe's age, or 0 if there is none\". Careful: with <code>.get</code>, the key goes in <b>parentheses</b>, as for any method, not in square brackets. This fallback value will be used for counting."},
+  {type:"c",code:'ages = {"Alice": 16}\nprint(ages.get("Zoe"))\nprint(ages.get("Zoe", 0))',out:'None\n0'},
+  {type:"p",fr:"<b>Vérifier avant de lire : <code>in</code>.</b> <code>\"Karim\" in ages</code> répond True ou False, sans planter quand la clé est absente. Attention : <code>in</code> regarde les <b>clés</b>, pas les valeurs. On cherche dans un carnet par le nom écrit en début de ligne, pas par ce qui est écrit à côté.",
+       en:"<b>Checking before reading: <code>in</code>.</b> <code>\"Karim\" in ages</code> answers True or False, without crashing when the key is missing. Careful: <code>in</code> looks at the <b>keys</b>, not the values. You search an address book by the name at the start of the line, not by what is written next to it."},
+  {type:"c",code:'ages = {"Alice": 16, "Karim": 17}\nprint("Karim" in ages)\nprint(16 in ages)',out:'True\nFalse'},
+  {type:"p",fr:"<b>Parcourir le carnet : <code>.items()</code>.</b> Chaque ligne du carnet est une paire (clé, valeur). <code>.items()</code> est une <b>méthode</b>, une action écrite après un point comme <code>append</code> (« items » veut dire à peu près « les éléments », ici les lignes) : elle donne les lignes une par une. <code>for nom, age in ages.items():</code> remplit <b>deux boîtes à chaque tour</b> : Python coupe la ligne au niveau des deux-points, ce qui est à gauche (la clé) tombe dans la première boîte, <code>nom</code>, et ce qui est à droite (la valeur) dans la seconde, <code>age</code>. Tour 1 : nom = \"Alice\", age = 16. Tour 2 : nom = \"Karim\", age = 17. Les noms des deux boîtes, c'est toi qui les choisis ; seul l'ordre compte : la clé d'abord, la valeur ensuite. Si tu écris seulement <code>for nom in ages:</code>, tu obtiens les clés seules.",
+       en:"<b>Looping over the address book: <code>.items()</code>.</b> Each line of the address book is a (key, value) pair. <code>.items()</code> is a <b>method</b>, an action written after a dot like <code>append</code> (\"items\" roughly means \"the elements\", here the lines): it gives the lines one by one. <code>for nom, age in ages.items():</code> fills <b>two boxes on each pass</b>: Python cuts the line at the colon; what is on the left (the key) drops into the first box, <code>nom</code>, and what is on the right (the value) into the second, <code>age</code>. Pass 1: nom = \"Alice\", age = 16. Pass 2: nom = \"Karim\", age = 17. You choose the names of the two boxes; only the order matters: key first, value second. If you only write <code>for nom in ages:</code>, you get the keys alone."},
+  {type:"c",code:'ages = {"Alice": 16, "Karim": 17}\nfor nom, age in ages.items():\n    print(nom, "a", age, "ans")',out:'Alice a 16 ans\nKarim a 17 ans'},
+  {type:"p",fr:"<b>Lien maths n°1 : un dictionnaire, c'est un tableau de valeurs.</b> En maths, un tableau de valeurs associe à chaque x <b>une seule</b> image f(x). Un dictionnaire, c'est exactement ce tableau : la clé est x, la valeur est f(x), et <code>f[-1]</code> se lit « f de −1 ». Ici les clés sont des nombres. Comme pour une fonction, une clé n'a qu'une image, mais deux clés peuvent avoir la même valeur : f(−2) = f(2) = 4, deux antécédents de 4. Différence avec la fonction <code>def</code> du chapitre VI : <code>def</code> <b>calcule</b> l'image de n'importe quel x, alors que le dictionnaire ne <b>connaît</b> que les x écrits dans son tableau. Son ensemble de définition est fini : <code>f[1.5]</code> provoque une <code>KeyError</code>.",
+       en:"<b>Maths link 1: a dictionary is a table of values.</b> In maths, a table of values gives each x <b>a single</b> image f(x). A dictionary is exactly that table: the key is x, the value is f(x), and <code>f[-1]</code> reads \"f of −1\". Here the keys are numbers. As for a function, a key has only one image, but two keys can share a value: f(−2) = f(2) = 4, two preimages of 4. Difference with chapter VI's <code>def</code> function: <code>def</code> <b>computes</b> the image of any x, whereas the dictionary only <b>knows</b> the x written in its table. Its domain is finite: <code>f[1.5]</code> raises a <code>KeyError</code>."},
+  {type:"c",code:'f = {}\nfor x in range(-2, 3):\n    f[x] = x * x\nprint(f)\nprint(f[-1], f[-2] == f[2])',out:'{-2: 4, -1: 1, 0: 0, 1: 1, 2: 4}\n1 True'},
+  {type:"p",fr:"<b>Lien maths n°2 : le tableau d'effectifs.</b> Aux chapitres IV et VIII, tu comptais <b>une</b> chose avec <b>une</b> tirelire. Pour le tableau d'effectifs d'une série (combien de 12, combien de 15, combien de 9…), il faudrait une tirelire par valeur, sans savoir d'avance quelles valeurs vont apparaître. Le dictionnaire règle ça : c'est une rangée de tirelires, chacune avec un nom écrit dessus. Clé = la valeur observée, valeur = son effectif. La ligne <code>effectifs[n] = effectifs.get(n, 0) + 1</code>, c'est la tirelire <code>total = total + 1</code>, où <code>total</code> devient la tirelire de n. Lis-la de droite à gauche. À droite du =, on <b>lit</b> ce qu'il y a dedans : on ne peut pas écrire <code>effectifs[n]</code>, car au premier 12 la tirelire n'existe pas encore (KeyError) ; <code>.get(n, 0)</code> répond 0 à la place. À gauche du =, des crochets : on <b>range</b> le nouveau total dans la tirelire de n. Tour par tour : 12 → get répond 0, 0 + 1 = 1 → {12: 1} ; 15 → get répond 0 → {12: 1, 15: 1} ; 12 → get répond 1, 1 + 1 = 2 → {12: 2, 15: 1}… La fréquence, c'est l'effectif divisé par l'effectif total, comme en statistiques : 3 / 6 = 0,5.",
+       en:"<b>Maths link 2: the frequency table.</b> In chapters IV and VIII you counted <b>one</b> thing with <b>one</b> piggy bank. For a series' frequency table (how many 12s, how many 15s, how many 9s…) you would need one piggy bank per value, without knowing in advance which values will appear. The dictionary solves this: it is a row of piggy banks, each with a name written on it. Key = the observed value, value = its count. The line <code>effectifs[n] = effectifs.get(n, 0) + 1</code> is the piggy bank <code>total = total + 1</code>, where <code>total</code> becomes n's piggy bank. Read it right to left. On the right of the =, you <b>read</b> what is inside: you cannot write <code>effectifs[n]</code>, since at the first 12 the piggy bank does not exist yet (KeyError); <code>.get(n, 0)</code> answers 0 instead. On the left of the =, brackets: you <b>store</b> the new total in n's piggy bank. Pass by pass: 12 → get answers 0, 0 + 1 = 1 → {12: 1}; 15 → get answers 0 → {12: 1, 15: 1}; 12 → get answers 1, 1 + 1 = 2 → {12: 2, 15: 1}… The frequency is the count divided by the total count, as in statistics: 3 / 6 = 0.5."},
+  {type:"c",code:'notes = [12, 15, 12, 9, 15, 12]\neffectifs = {}\nfor n in notes:\n    effectifs[n] = effectifs.get(n, 0) + 1\nprint(effectifs)\nprint(effectifs[12] / len(notes))',out:'{12: 3, 15: 2, 9: 1}\n0.5'},
+  {type:"p",fr:"On peut aussi l'écrire avec <code>in</code>, plus long mais plus parlant : si la tirelire de n existe déjà, on y ajoute 1 ; sinon, on la crée avec 1 dedans. Vérification : la somme des effectifs vaut <code>len(notes)</code>, et la somme des fréquences vaut 1.",
+       en:"You can also write it with <code>in</code>, longer but clearer: if n's piggy bank already exists, add 1 to it; otherwise create it with 1 inside. Check: the counts add up to <code>len(notes)</code>, and the frequencies add up to 1."},
+  {type:"c",code:'notes = [12, 15, 12, 9, 15, 12]\neffectifs = {}\nfor n in notes:\n    if n in effectifs:\n        effectifs[n] = effectifs[n] + 1\n    else:\n        effectifs[n] = 1\nprint(effectifs)',out:'{12: 3, 15: 2, 9: 1}'},
+  {type:"r",fr:"1) Liste ou dictionnaire ? « Je cherche le 3ᵉ, le premier, le dernier » → liste (par indice). « Je cherche celui de Karim » → dictionnaire (par clé).<br>2) <code>{\"Karim\": 15}</code> : la <b>clé</b> en début de ligne, la <b>valeur</b> à côté ; une clé n'apparaît qu'une fois.<br>3) <code>d[clé]</code> lit ; <code>d[clé] = valeur</code> ajoute une ligne ou remplace sa valeur.<br>4) Clé absente → <code>KeyError</code>. Pour lire sans risque : <code>d.get(clé, secours)</code>, ou vérifier avant avec <code>clé in d</code> (<code>in</code> regarde les clés).<br>5) <code>for cle, valeur in d.items():</code> donne les lignes une par une, deux boîtes par tour (noms au choix, la clé d'abord).<br>6) En maths : un tableau de valeurs x → f(x) sur un ensemble fini, et le tableau d'effectifs <code>d[n] = d.get(n, 0) + 1</code>.",
+       en:"1) List or dictionary? \"I want the 3rd, the first, the last\" → list (by index). \"I want Karim's\" → dictionary (by key).<br>2) <code>{\"Karim\": 15}</code>: the <b>key</b> at the start of the line, the <b>value</b> next to it; a key appears only once.<br>3) <code>d[key]</code> reads; <code>d[key] = value</code> adds a line or replaces its value.<br>4) Missing key → <code>KeyError</code>. To read safely: <code>d.get(key, fallback)</code>, or check first with <code>key in d</code> (<code>in</code> looks at the keys).<br>5) <code>for cle, valeur in d.items():</code> gives the lines one by one, two boxes per pass (names of your choice, key first).<br>6) In maths: a table of values x → f(x) on a finite set, and the frequency table <code>d[n] = d.get(n, 0) + 1</code>."}
 ]};
 
 LESSONS[10]={ title:{fr:"Cours — gérer les erreurs",en:"Lesson — handling errors"},
@@ -2269,10 +2310,10 @@ const ERRORS = [
 
 { re:/^TypeError: '(\w+)' object is not callable/,
   fr:m=>({t:"Ce nom n'est pas une fonction",
-    b:`Tu écris des parenthèses après un nom qui contient un ${m[1]==="int"?"nombre":m[1]}, pas une fonction.`,
+    b:`Tu écris des parenthèses après un nom qui contient ${({int:"un nombre",float:"un nombre",str:"un texte",list:"une liste",dict:"un dictionnaire"})[m[1]]||"un "+m[1]}, pas une fonction.`+(m[1]==="dict"?` Pour lire une valeur, on met la clé entre <b>crochets</b> : <code>d[\"clé\"]</code>, pas <code>d(\"clé\")</code>.`:""),
     d:"Retire les parenthèses, ou vérifie que tu n'as pas donné à une variable le même nom qu'une fonction."}),
   en:m=>({t:"This name is not a function",
-    b:`You put parentheses after a name holding a ${m[1]}, not a function.`,
+    b:`You put parentheses after a name holding a ${({int:"number",float:"number",str:"text",list:"list",dict:"dictionary"})[m[1]]||m[1]}, not a function.`+(m[1]==="dict"?` To read a value, put the key in <b>square brackets</b>: <code>d[\"key\"]</code>, not <code>d(\"key\")</code>.`:""),
     d:"Remove the parentheses, or check you didn't give a variable the same name as a function."})},
 
 { re:/^TypeError: '(\w+)' object cannot be interpreted as an integer/,
@@ -2307,13 +2348,13 @@ const ERRORS = [
     b:"Inside a text's brackets, Python expects a whole number, like 0 or -1. Here it got something else: often a letter (in <code>for lettre in mot</code>, the variable already holds the character, not its number), or text from <code>input()</code>.",
     d:"In a <code>for lettre in mot</code> loop, compare directly <code>lettre == \"o\"</code>, without brackets. If the index comes from <code>input()</code>, convert it with <code>int()</code>: <code>mot[int(i)]</code>."})},
 
-{ re:/^IndexError: list index out of range/,
-  fr:()=>({t:"Cette position n'existe pas dans la liste",
-    b:"Les positions commencent à 0. Une liste de 3 éléments a donc les positions 0, 1 et 2 — la position 3 n'existe pas.",
-    d:"Le dernier élément est à la position <code>len(liste) - 1</code>. Tu peux aussi écrire <code>liste[-1]</code>."}),
-  en:()=>({t:"That position does not exist in the list",
-    b:"Positions start at 0. A list of 3 items has positions 0, 1 and 2 — position 3 does not exist.",
-    d:"The last item is at <code>len(list) - 1</code>. You can also write <code>list[-1]</code>."})},
+{ re:/^IndexError: list (?:assignment )?index out of range/,
+  fr:()=>({t:"Cet indice n'existe pas dans la liste",
+    b:"Les indices commencent à 0. Une liste de 3 éléments a donc les indices 0, 1 et 2 : l'indice 3 n'existe pas, c'est l'étage qui n'existe pas. On ne peut ni lire ni remplir une page qui n'existe pas.",
+    d:"Le dernier élément est à l'indice <code>len(liste) - 1</code>. Tu peux aussi écrire <code>liste[-1]</code>. Pour ajouter un élément à la fin, c'est <code>liste.append(…)</code>."}),
+  en:()=>({t:"That index does not exist in the list",
+    b:"Indexes start at 0. A list of 3 items has indexes 0, 1 and 2: index 3 does not exist, it is the floor that does not exist. You can neither read nor fill a page that does not exist.",
+    d:"The last item is at index <code>len(list) - 1</code>. You can also write <code>list[-1]</code>. To add an item at the end, use <code>list.append(…)</code>."})},
 
 { re:/^ValueError: invalid literal for int\(\) with base 10: '(.*)'/,
   fr:m=>({t:"Ce texte ne peut pas devenir un nombre",
@@ -2353,6 +2394,63 @@ const ERRORS = [
     b:`<code>.${m[1]}</code> does not exist for text.`+(/^(append|insert|extend|pop|remove|sort|reverse)$/.test(m[1])?` It is a <b>list</b> method: a text is a sealed binder, it can neither grow nor change.`:` Check the method's spelling.`),
     d:/^(append|insert|extend)$/.test(m[1])?`To add text, build a new text with <code>+</code> and store it: <code>mot = mot + \"s\"</code>.`:`The text methods seen in the lesson are <code>upper</code>, <code>lower</code> and <code>replace</code>.`})},
 
+{ re:/^KeyError: (.*)/,
+  fr:(m,ctx)=>/^-?[\d.]+$/.test(m[1])?({t:"Ce nombre n'est la clé d'aucune ligne",
+    b:`Tu as demandé <code>${esc(m[1])}</code> entre crochets, mais aucune ligne du carnet ne commence par ce nombre. Deux cas. Si les clés de ton dictionnaire sont des mots (<code>\"Karim\"</code>), tu as sans doute écrit un indice par habitude des listes : un carnet n'a pas de lignes numérotées. Si les clés sont des nombres (tableau d'effectifs, tableau de valeurs), ce nombre n'est tout simplement pas dans le tableau : c'est l'étage qui n'existe pas.`,
+    d:"Affiche le dictionnaire avec <code>print</code> pour voir ses clés. Pour lire sans risque un nombre qui peut manquer : <code>d.get(n, 0)</code>."})
+   :({t:"Cette clé n'existe pas dans le dictionnaire",
+    b:`Tu cherches la clé <code>${esc(m[1])}</code>, mais aucune ligne du carnet ne commence par ce nom : c'est l'étage qui n'existe pas, version dictionnaire. Attention aux majuscules et aux accents : \"Age\" et \"age\" sont deux clés différentes.`+(ctx.quotedVar?` Mais <b>${ctx.quotedVar}</b> est aussi le nom d'une boîte de ton programme : si tu voulais utiliser ce qu'elle contient, écris-la <b>sans guillemets</b>, comme <code>d[${ctx.quotedVar}]</code>.`:""),
+    d:"Affiche le dictionnaire avec <code>print</code> pour voir ses clés. Pour lire sans risque : <code>d.get(clé, valeur_de_secours)</code>, ou vérifie d'abord avec <code>if clé in d:</code>."}),
+  en:(m,ctx)=>/^-?[\d.]+$/.test(m[1])?({t:"This number is the key of no line",
+    b:`You asked for <code>${esc(m[1])}</code> in brackets, but no line of the address book starts with that number. Two cases. If your dictionary's keys are words (<code>\"Karim\"</code>), you probably wrote an index out of list habit: an address book has no numbered lines. If the keys are numbers (frequency table, table of values), that number is simply not in the table: it is the floor that does not exist.`,
+    d:"Print the dictionary to see its keys. To read a number that may be missing safely: <code>d.get(n, 0)</code>."})
+   :({t:"This key does not exist in the dictionary",
+    b:`You are looking for the key <code>${esc(m[1])}</code>, but no line of the address book starts with that name: it is the floor that does not exist, dictionary version. Watch capitals and accents: \"Age\" and \"age\" are two different keys.`+(ctx.quotedVar?` But <b>${ctx.quotedVar}</b> is also the name of a box in your program: if you meant what it holds, write it <b>without quotes</b>, as in <code>d[${ctx.quotedVar}]</code>.`:""),
+    d:"Print the dictionary to see its keys. To read safely: <code>d.get(key, fallback)</code>, or check first with <code>if key in d:</code>."})},
+
+{ re:/^AttributeError: 'dict' object has no attribute '(\w+)'/,
+  fr:m=>/^(append|insert|extend)$/.test(m[1])?({t:"Un dictionnaire ne se remplit pas par la fin",
+    b:`<code>.${m[1]}()</code> est une méthode de <b>liste</b>. Un dictionnaire n'a pas de « fin » ni de pages numérotées : c'est un carnet dont chaque ligne commence par une clé.`,
+    d:"Pour ajouter une ligne, choisis sa clé et écris à gauche du = : <code>d[\"nouvelle_clé\"] = valeur</code>."})
+   :["get","items","keys","values"].some(w=>lev(m[1],w)<=2)?({t:`Un dictionnaire n'a pas de méthode ${m[1]}`,
+    b:`<code>.${m[1]}</code> ressemble beaucoup à une méthode de dictionnaire, mal orthographiée.`,
+    d:`Vérifie l'orthographe : tu voulais sans doute <code>.${["get","items","keys","values"].find(w=>lev(m[1],w)<=2)}()</code>. Les méthodes de dictionnaire vues dans le cours sont <code>get</code> et <code>items</code>.`})
+   :({t:`Un dictionnaire n'a pas de méthode ${m[1]}`,
+    b:`Tu écris <code>.${m[1]}</code> après un dictionnaire. Si ${m[1]} est une clé, on ne la lit pas avec un point.`,
+    d:`Pour lire la valeur de la clé ${m[1]}, écris-la entre crochets et entre guillemets : <code>d[\"${m[1]}\"]</code>. Les méthodes de dictionnaire vues dans le cours sont <code>get</code> et <code>items</code>.`}),
+  en:m=>/^(append|insert|extend)$/.test(m[1])?({t:"A dictionary is not filled from the end",
+    b:`<code>.${m[1]}()</code> is a <b>list</b> method. A dictionary has no \"end\" and no numbered pages: it is an address book whose lines each start with a key.`,
+    d:"To add a line, choose its key and write on the left of the =: <code>d[\"new_key\"] = value</code>."})
+   :["get","items","keys","values"].some(w=>lev(m[1],w)<=2)?({t:`A dictionary has no ${m[1]} method`,
+    b:`<code>.${m[1]}</code> looks a lot like a misspelt dictionary method.`,
+    d:`Check the spelling: you probably meant <code>.${["get","items","keys","values"].find(w=>lev(m[1],w)<=2)}()</code>. The dictionary methods seen in the lesson are <code>get</code> and <code>items</code>.`})
+   :({t:`A dictionary has no ${m[1]} method`,
+    b:`You write <code>.${m[1]}</code> after a dictionary. If ${m[1]} is a key, you don't read it with a dot.`,
+    d:`To read the value of the key ${m[1]}, put it in brackets and quotes: <code>d[\"${m[1]}\"]</code>. The dictionary methods seen in the lesson are <code>get</code> and <code>items</code>.`})},
+
+{ re:/^(?:ValueError: (?:too many|not enough) values to unpack|TypeError: cannot unpack non-iterable)/,
+  fr:()=>({t:"Pas le bon nombre de valeurs pour tes boîtes",
+    b:"Tu remplis plusieurs boîtes à la fois (par exemple <code>for nom, age in …</code>), mais Python ne reçoit pas exactement une valeur par boîte. Souvent, c'est un dictionnaire parcouru sans <code>.items()</code> : <code>for nom, age in ages:</code> ne donne que les clés, une à la fois. Python essaie alors de découper la clé \"Alice\" dans tes deux boîtes, lettre par lettre : 5 lettres pour 2 boîtes, ça ne rentre pas (et un nombre ne se découpe pas du tout).",
+    d:"Pour avoir la clé ET la valeur à chaque tour, écris <code>for nom, age in ages.items():</code>. Pour les clés seules : <code>for nom in ages:</code>."}),
+  en:()=>({t:"Wrong number of values for your boxes",
+    b:"You fill several boxes at once (for instance <code>for nom, age in …</code>), but Python does not get exactly one value per box. Often it is a dictionary looped over without <code>.items()</code>: <code>for nom, age in ages:</code> gives only the keys, one at a time. Python then tries to split the key \"Alice\" into your two boxes, letter by letter: 5 letters for 2 boxes does not fit (and a number cannot be split at all).",
+    d:"To get the key AND the value on each pass, write <code>for nom, age in ages.items():</code>. For the keys alone: <code>for nom in ages:</code>."})},
+
+{ re:/^TypeError: 'builtin_function_or_method' object is not iterable/,
+  fr:()=>({t:"Il manque les parenthèses de la méthode",
+    b:"Tu parcours une méthode sans l'appeler, par exemple <code>ages.items</code> au lieu de <code>ages.items()</code>. Sans parenthèses, la machine n'est pas mise en marche : Python reçoit la machine elle-même, pas les lignes du carnet.",
+    d:"Ajoute les parenthèses : <code>for nom, age in ages.items():</code>."}),
+  en:()=>({t:"The method's parentheses are missing",
+    b:"You loop over a method without calling it, for instance <code>ages.items</code> instead of <code>ages.items()</code>. Without parentheses the machine is not switched on: Python gets the machine itself, not the address book's lines.",
+    d:"Add the parentheses: <code>for nom, age in ages.items():</code>."})},
+
+{ re:/^TypeError: list indices must be integers or slices, not str/,
+  fr:()=>({t:"Une liste se lit par indice, pas par nom",
+    b:"Tu as mis du texte entre les crochets d'une <b>liste</b>. Une liste, ce sont des pages numérotées 0, 1, 2… : elle ne connaît que des indices, des nombres entiers.",
+    d:"Pour chercher par nom (<code>notes[\"Karim\"]</code>), il faut un <b>dictionnaire</b> : <code>notes = {\"Karim\": 15}</code>. Si le texte vient de <code>input()</code>, convertis-le avec <code>int()</code>."}),
+  en:()=>({t:"A list is read by index, not by name",
+    b:"You put text inside the brackets of a <b>list</b>. A list is a set of pages numbered 0, 1, 2…: it only knows indexes, whole numbers.",
+    d:"To search by name (<code>notes[\"Karim\"]</code>), you need a <b>dictionary</b>: <code>notes = {\"Karim\": 15}</code>. If the text comes from <code>input()</code>, convert it with <code>int()</code>."})},
 { re:/^AttributeError: '(\w+)' object has no attribute '(\w+)'/,
   fr:m=>({t:`${m[2]} n'existe pas pour ce type`,
     b:`Tu appelles <code>.${m[2]}()</code> sur ${m[1]==="list"?"une liste":"cet objet"}, mais cette action n'existe pas sous ce nom.`,
@@ -2414,6 +2512,9 @@ function nearestName(bad,code){
 function explainError(err,line,code,lang){
   const ctx={near:null,src:(code.split("\n")[(line||0)-1]||""),
     listMethodStored:/=\s*\w+\.(append|sort|extend|insert|remove|reverse)\(/.test(code)};
+  // KeyError: 'cle' alors que cle est une boîte du programme : guillemets en trop.
+  const ke=/^KeyError: '(\w+)'$/.exec(err);
+  if(ke&&new RegExp("^\\s*"+ke[1]+"\\s*=(?!=)","m").test(code)) ctx.quotedVar=ke[1];
   const nm=/^NameError: name '(\w+)' is not defined/.exec(err);
   if(nm){
     const n=nm[1], after=code.split("\n").slice(line||0).join("\n");

@@ -420,6 +420,103 @@ corrigés. Restent :
   c'est l'habitant qui lève le drapeau pour le courrier sortant. Le cours
   reste neutre (« comme dans les dessins animés américains »).
 
+## Chapitre IX — Les dictionnaires (relecture du 2026-09-24)
+
+Appliqués (points 1 à 13) :
+- **Pourquoi en tête :** la note de Karim cherchée par indice avec deux
+  listes, puis directement avec `carnet["Karim"]`.
+- **Le carnet d'adresses,** qui prolonge le classeur du V : des cases
+  numérotées d'un côté, des lignes qui commencent par un nom de l'autre.
+  Clé, valeur et paire sont définies. L'étiquette sur la couverture est
+  distinguée de la clé écrite à l'intérieur.
+- **Syntaxe :** les guillemets (NameError sans eux), l'unicité des clés,
+  l'ordre d'affichage (ordre de rangement, jamais utilisé pour chercher).
+- **Écriture :** `d[k] = v` avec « regarde à gauche du = », et le contraste
+  avec l'IndexError d'une liste.
+- **Lecture sûre :** carte piège KeyError (étage qui n'existe pas,
+  `ages[0]`), `.get` (machine à jus, None, valeur de secours), `in`
+  (regarde les clés), `.items()` (deux boîtes par tour, tour par tour).
+- **Deux liens maths :** le tableau de valeurs, c'est-à-dire une fonction
+  sur un ensemble fini (f[-1] se lit « f de −1 », f(−2) = f(2),
+  f[1.5] → KeyError), et le tableau d'effectifs (une rangée de tirelires,
+  `.get(n, 0) + 1`, fréquence 0,5).
+- **Résumé en 6 points.** Le schéma `dictbox` porte maintenant des libellés
+  permanents « clé » et « valeur ».
+
+Exercices : nouvelles données partout, useVars, need, ban et retest.
+- 9-2 : `capitales`, avec une lecture au lieu de l'affichage complet, pour
+  ne plus dépendre de l'ordre des clés.
+- 9-3 : clé tapée au clavier.
+- 9-4 : âge tapé au clavier.
+- 9-5 : `score["Alice"] = score["Alice"] + pts`.
+- 9-6 : prix des fruits.
+- 9-7 : stock, avec un seul ordre valide sur 24.
+- Nouveaux : 9-8 (tableau d'effectifs, `count` interdit, retest avec une
+  valeur absente), quiz 9-9 (ajouter ou remplacer ?) et quiz 9-10 (`in`
+  regarde les clés).
+
+Cartes d'erreur ajoutées : KeyError (clé absente / indice numérique),
+`.append` ou `.clé` sur un dictionnaire, ValueError « values to unpack »
+(`.items()` oublié), `.items` sans parenthèses, et « un dictionnaire » au
+lieu de « un dict » dans la carte « pas une fonction ». Restent :
+
+- [ ] **14. Annexes :**
+  - aide-mémoire : ajouter `KeyError` (« clé absente du dictionnaire »),
+    `"a" in d` (« True si la clé a existe »), `d[x] = d.get(x, 0) + 1`
+    (« compte une apparition de x ») ; écrire
+    `for cle, valeur in d.items():` au lieu de k, v ;
+  - glossaire : « Dictionnaire » → « un carnet d'adresses : chaque ligne
+    associe une clé à une valeur ; on cherche par la clé, jamais par
+    position » ; nouvelles entrées Clé, Valeur, KeyError.
+- [ ] **15. Renvois vers le IX :** aucun autre chapitre n'utilise de
+  dictionnaire. Pistes :
+  - chapitre X : `try` / `except KeyError`, avec un renvoi à `.get` ;
+  - chapitre XI (random) : compter des lancers de dé dans un dictionnaire
+    et comparer les fréquences à 1/6 (sortie aléatoire : `random.seed`, ou
+    une vérification déterministe comme `sum(effectifs.values())`).
+- [ ] **Raccourcis encore acceptés** (jugés acceptables) :
+  - 9-4 : `eleve = {"nom": "Alice", "age": int(input(...))}`, le
+    dictionnaire écrit d'un coup ;
+  - 9-5 : `score = {"Alice": 12 + pts, "Karim": 9}`, le dictionnaire
+    reconstruit.
+
+  Dans les deux cas, la saisie est bien utilisée, mais pas l'écriture
+  `d[k] = …`.
+- [ ] **9-8 :** un dictionnaire écrit en dur (`effectifs = {14: 3, 11: 2, 8: 1}`),
+  plus un compteur `for`/`if` pour la fréquence, passe tous les contrôles.
+  Il faudrait une vérification du type « commence vide » (un champ `needRe`,
+  par exemple). Autres trous mineurs : en 9-2, un dictionnaire sans la France
+  passe ; en 9-3, un `if cle == "titre"` qui aiguille vers deux lectures
+  écrites en dur passe aussi.
+- [x] La carte IndexError dit maintenant « indice » (et non plus
+  « position ») ; elle couvre aussi l'écriture (`list assignment index out
+  of range`). Fait le 2026-09-24.
+
+Retouches de la relecture de confirmation :
+- **Cartes d'erreur :**
+  - la carte KeyError sur un nombre envisage les deux cas (clés texte
+    confondues avec un indice, ou nombre absent d'un tableau d'effectifs →
+    `d.get(n, 0)`) ;
+  - elle signale une variable mise entre guillemets (`livre["cle"]`) ;
+  - une faute de frappe sur une méthode (`d.item()`) est détectée ;
+  - « cannot unpack non-iterable » est couvert ;
+  - nouvelle carte pour `notes["Karim"]` sur une liste ;
+  - phrase propre au dictionnaire ajoutée en anglais dans la carte « pas une
+    fonction ».
+- **Cours :**
+  - `.get` sort de la carte piège pour un paragraphe à part (clé entre
+    parenthèses) ;
+  - la ligne `get(n, 0) + 1` est lue de droite à gauche, avec un tour par
+    tour détaillé ;
+  - la variante `in` est donnée en code ;
+  - `.items()` : découpage de la ligne aux deux-points, noms des boîtes au
+    choix ;
+  - « pages » du classeur (V), NameError (VI), tirelire (IV et VIII) ;
+    accolades montrées ;
+  - Karim a 17 ans (et non plus 15, qui était aussi sa note) ;
+  - EN : « address book » partout.
+- **Exercices :** 9-6 passe en difficulté moyenne.
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
