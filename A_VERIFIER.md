@@ -640,6 +640,124 @@ Retouches après la relecture de confirmation :
   - un except en tuple sur deux lignes est détecté ;
   - en cas de TIMEOUT, la sortie montre les 20 dernières lignes.
 
+## Chapitre XI — Le hasard et les modules (relecture du 2026-09-24)
+
+**Au programme** de Première spé : partie « Variables aléatoires »,
+rubrique « Expérimentations ». Il faut savoir simuler une variable
+aléatoire, écrire une fonction qui renvoie la moyenne d'un échantillon,
+mesurer l'écart à l'espérance, et calculer la proportion d'échantillons à
+≤ 2σ/√n. Monte-Carlo figure en exemple d'algorithme. Le chapitre n'emploie
+pas « loi des grands nombres » (Terminale) ; il rappelle « fluctuation »
+(Seconde).
+
+Appliqués (points 1 à 16) :
+- **Cours** (28 blocs) :
+  - au programme ; pourquoi simuler (le gobelet de dés infatigable) ;
+  - caisses à outils au garage (`import`, le point se lit « de la caisse ») ;
+  - la caisse math : `sqrt` (float), `pi`, `round` ;
+  - `randint` (bornes comprises) et son piège face à `range` ;
+  - la graine (un livre de nombres : `seed` dit à quelle page commencer)
+    et ses deux pièges ;
+  - `random.random()` dans [0 ; 1[ (la goutte d'eau) ;
+  - compter avec une tirelire ou avec le tableau d'effectifs du IX ;
+  - la fréquence du 6 quand n grandit (10 → 10 000) ;
+  - l'espérance 3,5 calculée à la main, puis `moyenne_echantillon` ;
+  - la proportion à ≤ 2σ/√n (0,96) ;
+  - Monte-Carlo pour π (3,1352).
+- **Vérification du hasard** (méthode A + C) : la graine est demandée au
+  clavier, et le second essai la change, ce qui refuse les réponses en
+  dur. Le programme affiche aussi sa propriété (`abs(f - 0.3) < 0.05`,
+  `sum(effectifs.values()) == 1000`…), qui doit valoir True. Les propriétés
+  ont été testées sur 300 à 2 000 graines, sans aucun échec. Toutes les
+  sorties sont identiques en Python 3.12 et 3.14.
+- **Exercices :**
+  - 11-1 : `sqrt(25) + 1` ;
+  - 11-2 : racine d'un nombre tapé ;
+  - 11-3 : aire d'un disque, avec `round` ;
+  - 11-7 : un seul ordre valide ;
+  - 11-6 : l'import placé trop tard ;
+  - nouveau 11-8 : quiz sur les bornes de `randint` ;
+  - 11-4 : graine tapée ;
+  - 11-5 : fréquence de « pierre » ;
+  - nouveaux 11-9 à 11-13 : pièce truquée à 0,3 ; somme de deux dés
+    (tableau d'effectifs) ; espérance d'un jeu (−0,5 €) ; proportion
+    d'échantillons proches (pièce) ; Monte-Carlo, aire sous la parabole
+    (1/3).
+- **Cartes :**
+  - `math` ou `random` sans import (elle disait « écris-le entre
+    guillemets ») ;
+  - `sqrt` ou `randint` sans le nom de la caisse ;
+  - `import Random` ou `maths`, `math.sqr` (suggestion d'orthographe) ;
+  - `math.sqrt(-1)` (messages 3.12 et 3.14) ;
+  - `randint(6, 1)`, `randint(1)`, `randint(1, 6.5)` ;
+  - `from random import *`.
+
+Restent :
+- [ ] **17. Annexes et renvois :**
+  - aide-mémoire : ajouter une section « Hasard et calculs » (`import`,
+    `randint` bornes comprises, `random()` dans [0 ; 1[,
+    `random() < p`, `choice`, `seed`, `math.sqrt`, `math.pi`, `round`) ;
+    `memoD` dit encore « huit chapitres » ;
+  - glossaire : ajouter Module, Simulation, Graine, Échantillon, Espérance ;
+  - `math.exp`, `math.cos` et `math.sin` (au programme de Première) ne sont
+    pas montrés ;
+  - chapitres XIV et XV : comparer la dichotomie ou Newton à
+    `math.sqrt(2)`.
+- [ ] **18. Chapitre XII, exercice 12-6 :** 11 ordres donnent
+  « Trop petit ». Certains placent `random.seed(3)` après le tirage :
+  ils passent environ 3 fois sur 4, au hasard. Pistes : afficher
+  `secret`, ou fusionner les lignes de tirage. À traiter à la relecture du
+  XII.
+- [ ] Limite de la méthode A : une solution juste qui tire autrement que
+  la consigne (par exemple `int(random.random() * 6) + 1` au lieu de
+  `randint`) donne d'autres nombres et est refusée. Les consignes précisent
+  l'outil à utiliser (« un random.randint(1, 6) par partie »).
+- [ ] `random.seed("0")` (graine laissée en texte, `int()` oublié) ne
+  provoque aucune erreur mais donne d'autres tirages : l'élève voit
+  seulement « Pas encore ». L'indice de 11-4 le signale ; un diagnostic
+  dédié serait possible (code contenant `seed(` sans `int(input`).
+- [ ] 11-7 (remise en ordre de 3 lignes) reste très simple ; un ordre plus
+  riche (import, graine, compteur, boucle) aurait plusieurs ordres valides.
+- [ ] Quiz 11-6 : l'option juste cite `NameError: name 'math' is not
+  defined`. Python 3.12+ ajoute « Did you forget to import 'math'? » dans
+  le traceback, mais l'appli n'affiche que `str(ex)`, sans cette suite.
+
+Retouches après la relecture de confirmation :
+- **Cours :**
+  - « 6 lancers → presque jamais un 6 » était faux : c'est (5/6)⁵ ≈ 40 % ;
+  - « le programme officiel » au lieu de « le programme », ambigu avec le
+    programme Python ;
+  - `abs` (valeur absolue), `.values()` et `sorted` sont expliqués ;
+  - pourquoi la sortie change sans graine, pourquoi « graine », pourquoi
+    la graine est tapée au clavier ;
+  - distinction boîte / caisse ; exemple de `choice` ;
+  - boucles imbriquées expliquées ; marge 0,05 justifiée ;
+  - un bloc « Pause » ;
+  - échantillon en deux blocs, avec l'espérance en somme pondérée ;
+  - σ justifié (V(X) = 91/6 − 49/4 = 35/12, σ/√n, environ 95 %) ;
+  - Monte-Carlo détaillé (aires, uniformité, Pythagore, « deux gouttes ») ;
+  - la somme des effectifs est affichée comme propriété (`== 600` → True).
+- **Exercices :**
+  - l'indice de 11-3 renvoyait à « la puissance du chapitre I »,
+    inexistante ;
+  - 11-12 refusait une solution juste (`useVars` « seuil ») : retiré, et
+    la consigne est découpée en 5 étapes ;
+  - `abs` est exigé là où la propriété l'utilise : un `print(True)` écrit
+    en dur est refusé ;
+  - marges élargies (0,12 pour 11-5, 0,06 pour 11-9 et 11-10) : 0 échec
+    sur 2 000 graines ;
+  - 11-10 vérifie maintenant la fréquence de 7 (la somme des effectifs
+    était toujours vraie).
+- **Cartes :**
+  - `random()` (« on appelle un outil ») ;
+  - `random.random < 0.5` ;
+  - `math.sqrt("4")` ;
+  - `choice([])` ;
+  - `randint(1, n)` avec n resté en texte (3.12 et 3.14) ;
+  - variable nommée `random` ;
+  - `random.choice(choice)` → suggestion `choix` ;
+  - la liste des outils « vus dans le cours » est limitée à ceux du cours.
+
 ## Constaté ailleurs dans l'appli
 
 - [x] **`str()` n'est enseigné dans aucune leçon** → enseigné au chapitre II
