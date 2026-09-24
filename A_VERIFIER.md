@@ -343,12 +343,10 @@ méthode de liste appelée sur un texte. Restent :
   depuis la fin » commencent probablement sous les premiers chiffres (0 / −6)
   et les chevauchent (estimé par calcul, pas vu à l'écran). Piste : élargir la
   zone et décaler les cases, ou raccourcir en « indice » / « depuis la fin ».
-- [ ] **« L'indice est le rang, il commence à 0 »** (chapitres V et VII) :
-  prof-pedagogue note qu'en français courant le rang commence à 1 (« 1er
-  rang »). Proposition : « l'indice donne la place, comptée à partir de 0 : la
-  1re lettre est à l'indice 0, comme le rez-de-chaussée est l'étage 0 ». À
-  décider pour les deux chapitres ensemble (le mot « rang » y est utilisé
-  partout, en lien avec uₙ).
+- [x] **« L'indice est le rang »** (chapitres V et VII) → uniformisé le
+  2026-09-24 : « indice » pour Python (indice 0, indice 1), « rang » réservé
+  aux suites (u₀ = terme de rang 0), avec le pont « l'élément d'indice i
+  correspond au terme de rang i ».
 - [ ] **19. EN** : le FR dit maintenant « tranche », l'EN « slice » (cohérent) ;
   les phrases d'exercice restent en français dans la version EN (7-5 le
   signale ; « Alice a 16 ans » du cours ne le signale pas).
